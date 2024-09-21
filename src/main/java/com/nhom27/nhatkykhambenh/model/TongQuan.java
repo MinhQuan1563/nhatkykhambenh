@@ -5,13 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "TongQuan")
 public class TongQuan {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MaTongQuan")
@@ -46,4 +47,11 @@ public class TongQuan {
 
     @Column(name = "TrangThai")
     private Boolean trangThai;
+
+    @OneToOne
+    @JoinColumn(name = "MaNguoiDung", unique = true)
+    private NguoiDung nguoiDung;
+
+    @OneToMany(mappedBy = "TongQuan",cascade = CascadeType.ALL)
+    private List<ChiTietBenh> chiTietBenhList;
 }

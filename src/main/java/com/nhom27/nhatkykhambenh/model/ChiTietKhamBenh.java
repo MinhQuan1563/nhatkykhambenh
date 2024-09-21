@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -38,4 +40,13 @@ public class ChiTietKhamBenh {
     @ManyToOne
     @JoinColumn(name = "MaKhamBenh", nullable = true)
     private KhamBenh khamBenh;
+
+    @OneToMany(mappedBy = "ChiTietKhamBenh",cascade = CascadeType.ALL)
+    private List<DonThuoc> donThuocList;
+
+    @OneToMany(mappedBy = "ChiTietKhamBenh",cascade = CascadeType.ALL)
+    private List<HinhAnh> hinhAnhList;
+
+    @OneToMany(mappedBy = "ChiTietKhamBenh",cascade = CascadeType.ALL)
+    private List<XetNghiem> xetNghiemList;
 }

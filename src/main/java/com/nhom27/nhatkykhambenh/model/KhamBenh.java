@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -31,4 +32,10 @@ public class KhamBenh {
     @ManyToOne
     @JoinColumn(name = "MaNguoiDung", nullable = true)
     private NguoiDung nguoiDung;
+
+    @OneToMany(mappedBy = "KhamBenh",cascade = CascadeType.ALL)
+    private List<ChiTietKhamBenh> chiTietKhamBenhList;
+
+    @OneToMany(mappedBy = "KhamBenh",cascade = CascadeType.ALL)
+    private List<LichHenKham> lichHenKhamList;
 }

@@ -32,7 +32,6 @@ public class ThongTinKhac {
     private String tonGiao;
 
     @OneToOne
-    @MapsId
     @JoinColumn(name = "MaNguoiDung")
     private NguoiDung nguoiDung;
 }

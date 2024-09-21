@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -12,7 +13,6 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "TiemChung")
 public class TiemChung {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MaTiemChung")
@@ -32,4 +32,7 @@ public class TiemChung {
 
     @Column(name = "TrangThai")
     private Boolean trangThai;
+
+    @OneToMany(mappedBy = "TiemChung",cascade = CascadeType.ALL)
+    private List<ChiTietTiemChung> chiTietTiemChungList;
 }

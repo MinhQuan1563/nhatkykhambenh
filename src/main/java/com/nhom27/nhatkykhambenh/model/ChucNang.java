@@ -5,13 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "ChucNang")
 public class ChucNang {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MaChucNang")
@@ -22,4 +23,7 @@ public class ChucNang {
 
     @Column(name = "TrangThai")
     private Boolean trangThai;
+
+    @OneToMany(mappedBy = "ChucNang",cascade = CascadeType.ALL)
+    private List<ChucNangNhomQuyen> chucNangNhomQuyenList;
 }

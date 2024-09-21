@@ -40,9 +40,6 @@ public class NguoiDung {
     @Column(name = "Email")
     private String email;
 
-    @Column(name = "TaiKhoan")
-    private String taiKhoan;
-
     @Column(name = "MatKhau")
     private String matKhau;
 
@@ -55,4 +52,20 @@ public class NguoiDung {
 
     @OneToMany(mappedBy = "NguoiDung",cascade = CascadeType.ALL)
     private List<KhamBenh> khamBenhs;
+
+    @OneToMany(mappedBy = "NguoiDung",cascade = CascadeType.ALL)
+    private List<NguoiDungTiemChung> nguoiDungTiemChungList;
+
+    @OneToMany(mappedBy = "NguoiDung",cascade = CascadeType.ALL)
+    private List<ChiTietTiemChung> chiTietTiemChungList;
+
+    @OneToOne(mappedBy = "NguoiDung", cascade = CascadeType.ALL)
+    private TongQuan tongQuan;
+
+    @OneToOne
+    @JoinColumn(name = "MaTheBHYT", unique = true)
+    private ThongTinKhac thongTinKhac;
+
+    @OneToOne(mappedBy = "TaiKhoan", cascade = CascadeType.ALL)
+    private TaiKhoan taiKhoan;
 }

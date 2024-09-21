@@ -25,12 +25,10 @@ public class TaiKhoan {
     @Column(name = "TrangThai")
     private Boolean trangThai;
 
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "MaNguoiDung")
-    private NguoiDung nguoiDung;
-
     @ManyToOne
     @JoinColumn(name = "MaNhomQuyen", insertable = false, updatable = false)
     private NhomQuyen nhomQuyen;
+
+    @OneToOne(mappedBy = "NguoiDung", cascade = CascadeType.ALL)
+    private NguoiDung nguoiDung;
 }
