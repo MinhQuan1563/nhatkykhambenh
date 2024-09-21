@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -24,6 +26,6 @@ public class ChucNang {
     @Column(name = "TrangThai")
     private Boolean trangThai;
 
-    @OneToMany(mappedBy = "chucNang",cascade = CascadeType.ALL)
-    private List<ChucNangNhomQuyen> chucNangNhomQuyenList;
+     @ManyToMany(mappedBy = "danhSachChucNang", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Set<NhomQuyen> danhSachNhomQuyen = new HashSet<>();
 }

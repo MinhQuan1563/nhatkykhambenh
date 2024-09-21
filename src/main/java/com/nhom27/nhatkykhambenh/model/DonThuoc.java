@@ -26,6 +26,6 @@ public class DonThuoc {
     private Boolean trangThai;
 
     @ManyToOne
-    @JoinColumn(name = "maChiTietKhamBenh", insertable = false, updatable = false)
+    @JoinColumn(name = "MaChiTietKhamBenh", referencedColumnName = "MaChiTietKhamBenh", insertable = false, updatable = false)
     private ChiTietKhamBenh chiTietKhamBenh;
 }

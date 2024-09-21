@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -34,5 +36,5 @@ public class TiemChung {
     private Boolean trangThai;
 
     @OneToMany(mappedBy = "tiemChung",cascade = CascadeType.ALL)
-    private List<ChiTietTiemChung> chiTietTiemChungList;
+    private Set<ChiTietTiemChung> danhSachChiTietTiemChung = new HashSet<>();
 }

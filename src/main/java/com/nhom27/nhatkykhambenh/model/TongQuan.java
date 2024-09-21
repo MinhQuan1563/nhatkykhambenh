@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -17,9 +19,6 @@ public class TongQuan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MaTongQuan")
     private Integer maTongQuan;
-
-    @Column(name = "MaNguoiDung")
-    private Integer maNguoiDung;
 
     @Column(name = "DuongHuyet", length = 250)
     private String duongHuyet;
@@ -48,10 +47,11 @@ public class TongQuan {
     @Column(name = "TrangThai")
     private Boolean trangThai;
 
-    @OneToOne
-    @JoinColumn(name = "MaNguoiDung", unique = true)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MaNguoiDung", referencedColumnName = "MaNguoiDung")
     private NguoiDung nguoiDung;
 
-    @OneToMany(mappedBy = "tongQuan",cascade = CascadeType.ALL)
-    private List<ChiTietBenh> chiTietBenhList;
+    @OneToMany(mappedBy = "tongQuan", fetch = FetchType.LAZY)
+    private Set<ChiTietBenh> danhSachChiTietBenh = new HashSet<>();
+
 }

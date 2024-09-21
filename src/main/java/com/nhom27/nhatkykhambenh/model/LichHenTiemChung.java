@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -25,5 +27,5 @@ public class LichHenTiemChung {
     private Timestamp ngayHenTiem;
 
     @OneToMany(mappedBy = "lichHenTiemChung",cascade = CascadeType.ALL)
-    private List<NguoiDungTiemChung> nguoiDungTiemChungList;
+    private Set<NguoiDungTiemChung> nguoiDungTiemChungList = new HashSet<>();
 }

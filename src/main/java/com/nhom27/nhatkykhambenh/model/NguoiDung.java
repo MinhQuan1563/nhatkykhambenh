@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -46,26 +48,23 @@ public class NguoiDung {
     @Column(name = "TrangThai")
     private Boolean trangThai;
 
-    @ManyToOne
-    @JoinColumn(name = "MaGiaDinh", nullable = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MaGiaDinh")
     private GiaDinh giaDinh;
 
-    @OneToMany(mappedBy = "nguoiDung",cascade = CascadeType.ALL)
-    private List<KhamBenh> khamBenhs;
-
-    @OneToMany(mappedBy = "nguoiDung",cascade = CascadeType.ALL)
-    private List<NguoiDungTiemChung> nguoiDungTiemChungList;
-
-    @OneToMany(mappedBy = "nguoiDung",cascade = CascadeType.ALL)
-    private List<ChiTietTiemChung> chiTietTiemChungList;
-
-    @OneToOne(mappedBy = "tongQuan", cascade = CascadeType.ALL)
-    private TongQuan tongQuan;
-
-    @OneToOne
-    @JoinColumn(name = "MaTheBHYT", unique = true)
+    @OneToOne(mappedBy = "nguoiDung", fetch = FetchType.LAZY)
     private ThongTinKhac thongTinKhac;
 
-//    @OneToOne(mappedBy = "taiKhoan", cascade = CascadeType.ALL)
-//    private TaiKhoan taiKhoan;
+    @OneToOne(mappedBy = "nguoiDung")
+    private TongQuan tongQuan;
+
+    @OneToMany(mappedBy = "nguoiDung", fetch = FetchType.LAZY)
+    private Set<NguoiDungTiemChung> danhSachNguoiDungTiemChung = new HashSet<>();
+
+    @OneToMany(mappedBy = "nguoiDung", fetch = FetchType.LAZY)
+    private Set<ChiTietTiemChung> danhSachChiTietTiemChung = new HashSet<>();
+
+
+    @OneToMany(mappedBy = "nguoiDung", fetch = FetchType.LAZY)
+    private Set<ChiTietTiemChung> danhSachKhamBenh = new HashSet<>();
 }

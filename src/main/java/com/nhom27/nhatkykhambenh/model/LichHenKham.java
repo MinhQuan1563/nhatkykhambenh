@@ -26,6 +26,7 @@ public class LichHenKham {
     @Column(name = "TrangThai")
     private Boolean trangThai;
 
-    @OneToMany(mappedBy = "maKhamBenh",cascade = CascadeType.ALL)
-    private List<KhamBenh> khamBenhList;
+    @ManyToOne()
+    @JoinColumn(name = "MaKhamBenh",referencedColumnName = "MaKhamBenh")
+    private KhamBenh khamBenh;
 }

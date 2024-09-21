@@ -5,7 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -24,6 +25,10 @@ public class GiaDinh {
     @Column(name = "TrangThai")
     private Boolean trangThai;
 
-    @OneToMany(mappedBy = "giaDinh",cascade = CascadeType.ALL)
-    private List<NguoiDung> nguoiDungs;
+    @OneToOne(mappedBy = "giaDinh", fetch = FetchType.LAZY)
+    private TaiKhoan taiKhoan;
+
+    @OneToMany(mappedBy = "giaDinh", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<TaiKhoan> danhSachNguoiDung = new HashSet<>();
+
 }

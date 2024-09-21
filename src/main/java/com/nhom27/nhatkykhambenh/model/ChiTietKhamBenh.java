@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -41,11 +43,11 @@ public class ChiTietKhamBenh {
     private KhamBenh khamBenh;
 
     @OneToMany(mappedBy = "chiTietKhamBenh",cascade = CascadeType.ALL)
-    private List<DonThuoc> donThuocList;
+    private Set<DonThuoc> danhSachDonThuoc = new HashSet<>();
 
     @OneToMany(mappedBy = "chiTietKhamBenh",cascade = CascadeType.ALL)
-    private List<HinhAnh> hinhAnhList;
+    private Set<HinhAnh> danhSachHinhAnh = new HashSet<>();
 
     @OneToMany(mappedBy = "chiTietKhamBenh",cascade = CascadeType.ALL)
-    private List<XetNghiem> xetNghiemList;
+    private Set<XetNghiem> danhSachXetNghiem = new HashSet<>();
 }

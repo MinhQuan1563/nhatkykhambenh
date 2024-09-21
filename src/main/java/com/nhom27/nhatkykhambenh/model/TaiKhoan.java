@@ -24,10 +24,11 @@ public class TaiKhoan {
     @Column(name = "TrangThai")
     private Boolean trangThai;
 
-    @ManyToOne
-    @JoinColumn(name = "MaNhomQuyen", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MaQuyen")
     private NhomQuyen nhomQuyen;
 
-//    @OneToOne(mappedBy = "nguoiDung", cascade = CascadeType.ALL)
-//    private NguoiDung nguoiDung;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "MaGiaDinh", referencedColumnName = "MaGiaDinh")
+    private GiaDinh giaDinh;
 }

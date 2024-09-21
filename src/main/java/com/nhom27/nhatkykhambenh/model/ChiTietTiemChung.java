@@ -13,31 +13,31 @@ import java.io.Serializable;
 @Entity
 @Table(name = "ChiTietTiemChung")
 public class ChiTietTiemChung {
+    @EmbeddedId
+    private ChiTietTiemChungId id;
+
     @Column(name = "TenVacXin", length = 250)
     private String tenVacXin;
 
     @Column(name = "TrangThai")
     private Boolean trangThai;
 
-    @EmbeddedId
-    private ChiTietTiemChungId id;
-
     @ManyToOne
-    @MapsId("MaTiemChung")
-    @JoinColumn(name = "MaTiemChung")
+    @MapsId("maTiemChung")
+    @JoinColumn(name = "MaTiemChung", referencedColumnName = "MaTiemChung")
     private TiemChung tiemChung;
 
     @ManyToOne
-    @MapsId("MaNguoiDung")
-    @JoinColumn(name = "MaNguoiDung")
+    @MapsId("maNguoiDung")
+    @JoinColumn(name = "MaNguoiDung", referencedColumnName = "MaNguoiDung")
     private NguoiDung nguoiDung;
-}
 
-@Embeddable
-class ChiTietTiemChungId implements Serializable {
-    @Column(name = "MaTiemChung")
-    private Integer MaTiemChung;
-
-    @Column(name = "MaNguoiDung")
-    private Integer MaNguoiDung;
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Embeddable
+    public class ChiTietTiemChungId implements Serializable {
+        private Integer maTiemChung;
+        private Integer maNguoiDung;
+    }
 }

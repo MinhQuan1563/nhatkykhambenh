@@ -1,11 +1,14 @@
 package com.nhom27.nhatkykhambenh.model;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -24,9 +27,16 @@ public class NhomQuyen {
     @Column(name = "TrangThai")
     private Boolean trangThai;
 
-    @OneToMany(mappedBy = "nhomQuyen",cascade = CascadeType.ALL)
-    private List<TaiKhoan> taiKhoanList;
+    // Cấu hình quan hệ Many-to-Many với ChucNang
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+        name = "NhomQuyen_ChucNang", // Tên bảng trung gian
+        joinColumns = @JoinColumn(name = "MaQuyen"), // Khoá ngoại tham chiếu từ NhomQuyen
+        inverseJoinColumns = @JoinColumn(name = "MaChucNang") // Khoá ngoại tham chiếu từ ChucNang
+    )
+    private Set<ChucNang> danhSachChucNang = new HashSet<>();
 
-    @OneToMany(mappedBy = "nhomQuyen",cascade = CascadeType.ALL)
-    private List<ChucNangNhomQuyen> chucNangNhomQuyenList;
+    @OneToMany(mappedBy = "nhomQuyen", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<TaiKhoan> danhSachTaiKhoan = new HashSet<>();
+
 }

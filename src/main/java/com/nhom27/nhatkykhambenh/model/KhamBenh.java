@@ -6,7 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -30,13 +32,14 @@ public class KhamBenh {
     private Boolean trangThai;
 
     @ManyToOne
-    @JoinColumn(name = "MaNguoiDung", nullable = true)
+    @JoinColumn(name = "MaNguoiDung", referencedColumnName = "MaNguoiDung", nullable = true)
     private NguoiDung nguoiDung;
 
     @OneToMany(mappedBy = "khamBenh",cascade = CascadeType.ALL)
-    private List<ChiTietKhamBenh> chiTietKhamBenhList;
+    private Set<ChiTietKhamBenh> danhSachChiTietKhamBenh = new HashSet<>();
 
-    @ManyToOne
-    @JoinColumn(name = "MaHenKham", nullable = true)
-    private LichHenKham lichHenKham;
+    @OneToMany(mappedBy = "khamBenh", fetch = FetchType.LAZY)
+    private Set<LichHenKham> danhSachLichHenKham = new HashSet<>() ;
+
+
 }
