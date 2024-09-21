@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "TaiKhoan")
 public class TaiKhoan {
-
     @Id
     @Column(name = "MaNguoiDung")
     private Integer maNguoiDung;
@@ -29,6 +28,6 @@ public class TaiKhoan {
     @JoinColumn(name = "MaNhomQuyen", insertable = false, updatable = false)
     private NhomQuyen nhomQuyen;
 
-    @OneToOne(mappedBy = "NguoiDung", cascade = CascadeType.ALL)
-    private NguoiDung nguoiDung;
+//    @OneToOne(mappedBy = "nguoiDung", cascade = CascadeType.ALL)
+//    private NguoiDung nguoiDung;
 }

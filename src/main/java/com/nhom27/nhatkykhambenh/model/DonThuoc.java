@@ -16,16 +16,16 @@ public class DonThuoc {
     @Column(name = "MaDonThuoc")
     private Integer maDonThuoc;
 
-    @Column(name = "BacSiKham", length = 250)
+    @Column(name = "BacSiKham")
     private String bacSiKham;
 
-    @Column(name = "TenThuoc", length = 250)
+    @Column(name = "TenThuoc")
     private String tenThuoc;
 
     @Column(name = "TrangThai")
     private Boolean trangThai;
 
     @ManyToOne
-    @JoinColumn(name = "MaChiTietKhamBenh", insertable = false, updatable = false)
+    @JoinColumn(name = "maChiTietKhamBenh", insertable = false, updatable = false)
     private ChiTietKhamBenh chiTietKhamBenh;
 }

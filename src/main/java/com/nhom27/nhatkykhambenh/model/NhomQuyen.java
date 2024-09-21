@@ -24,9 +24,9 @@ public class NhomQuyen {
     @Column(name = "TrangThai")
     private Boolean trangThai;
 
-    @OneToMany(mappedBy = "NhomQuyen",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "nhomQuyen",cascade = CascadeType.ALL)
     private List<TaiKhoan> taiKhoanList;
 
-    @OneToMany(mappedBy = "NhomQuyen",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "nhomQuyen",cascade = CascadeType.ALL)
     private List<ChucNangNhomQuyen> chucNangNhomQuyenList;
 }

@@ -26,6 +26,6 @@ public class ChiTietBenh {
     private Boolean trangThai;
 
     @ManyToOne
-    @JoinColumn(name = "MaTongQuan", insertable = false, updatable = false)
+    @JoinColumn(name = "maTongQuan", insertable = false, updatable = false)
     private TongQuan tongQuan;
 }

@@ -24,6 +24,6 @@ public class LichHenTiemChung {
     @Column(name = "NgayHenTiem")
     private Timestamp ngayHenTiem;
 
-    @OneToMany(mappedBy = "LichHenTiemChung",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "lichHenTiemChung",cascade = CascadeType.ALL)
     private List<NguoiDungTiemChung> nguoiDungTiemChungList;
 }

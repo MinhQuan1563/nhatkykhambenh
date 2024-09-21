@@ -52,6 +52,6 @@ public class TongQuan {
     @JoinColumn(name = "MaNguoiDung", unique = true)
     private NguoiDung nguoiDung;
 
-    @OneToMany(mappedBy = "TongQuan",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "tongQuan",cascade = CascadeType.ALL)
     private List<ChiTietBenh> chiTietBenhList;
 }

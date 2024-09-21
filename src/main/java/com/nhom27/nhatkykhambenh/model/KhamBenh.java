@@ -33,9 +33,10 @@ public class KhamBenh {
     @JoinColumn(name = "MaNguoiDung", nullable = true)
     private NguoiDung nguoiDung;
 
-    @OneToMany(mappedBy = "KhamBenh",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "khamBenh",cascade = CascadeType.ALL)
     private List<ChiTietKhamBenh> chiTietKhamBenhList;
 
-    @OneToMany(mappedBy = "KhamBenh",cascade = CascadeType.ALL)
-    private List<LichHenKham> lichHenKhamList;
+    @ManyToOne
+    @JoinColumn(name = "MaHenKham", nullable = true)
+    private LichHenKham lichHenKham;
 }

@@ -33,6 +33,6 @@ public class TiemChung {
     @Column(name = "TrangThai")
     private Boolean trangThai;
 
-    @OneToMany(mappedBy = "TiemChung",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "tiemChung",cascade = CascadeType.ALL)
     private List<ChiTietTiemChung> chiTietTiemChungList;
 }

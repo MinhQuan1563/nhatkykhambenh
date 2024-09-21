@@ -50,22 +50,22 @@ public class NguoiDung {
     @JoinColumn(name = "MaGiaDinh", nullable = true)
     private GiaDinh giaDinh;
 
-    @OneToMany(mappedBy = "NguoiDung",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "nguoiDung",cascade = CascadeType.ALL)
     private List<KhamBenh> khamBenhs;
 
-    @OneToMany(mappedBy = "NguoiDung",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "nguoiDung",cascade = CascadeType.ALL)
     private List<NguoiDungTiemChung> nguoiDungTiemChungList;
 
-    @OneToMany(mappedBy = "NguoiDung",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "nguoiDung",cascade = CascadeType.ALL)
     private List<ChiTietTiemChung> chiTietTiemChungList;
 
-    @OneToOne(mappedBy = "NguoiDung", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "tongQuan", cascade = CascadeType.ALL)
     private TongQuan tongQuan;
 
     @OneToOne
     @JoinColumn(name = "MaTheBHYT", unique = true)
     private ThongTinKhac thongTinKhac;
 
-    @OneToOne(mappedBy = "TaiKhoan", cascade = CascadeType.ALL)
-    private TaiKhoan taiKhoan;
+//    @OneToOne(mappedBy = "taiKhoan", cascade = CascadeType.ALL)
+//    private TaiKhoan taiKhoan;
 }

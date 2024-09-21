@@ -13,7 +13,6 @@ import java.util.List;
 @Entity
 @Table(name = "ChiTietKhamBenh")
 public class ChiTietKhamBenh {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MaChiTietKhamBenh")
@@ -41,12 +40,12 @@ public class ChiTietKhamBenh {
     @JoinColumn(name = "MaKhamBenh", nullable = true)
     private KhamBenh khamBenh;
 
-    @OneToMany(mappedBy = "ChiTietKhamBenh",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "chiTietKhamBenh",cascade = CascadeType.ALL)
     private List<DonThuoc> donThuocList;
 
-    @OneToMany(mappedBy = "ChiTietKhamBenh",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "chiTietKhamBenh",cascade = CascadeType.ALL)
     private List<HinhAnh> hinhAnhList;
 
-    @OneToMany(mappedBy = "ChiTietKhamBenh",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "chiTietKhamBenh",cascade = CascadeType.ALL)
     private List<XetNghiem> xetNghiemList;
 }
