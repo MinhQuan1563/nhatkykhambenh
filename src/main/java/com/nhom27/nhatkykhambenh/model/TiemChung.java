@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.sql.Timestamp;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -15,13 +14,15 @@ import java.util.Set;
 @Entity
 @Table(name = "TiemChung")
 public class TiemChung {
+    public static final String OBJ_NAME = "TiemChung";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MaTiemChung")
     private Integer maTiemChung;
 
     @Column(name = "NoTiemChung")
-    private Integer noTiemChung;
+    private String noiTiemChung;
 
     @Column(name = "NgayTiem")
     private Timestamp ngayTiem;
@@ -37,4 +38,5 @@ public class TiemChung {
 
     @OneToMany(mappedBy = "tiemChung",cascade = CascadeType.ALL)
     private Set<ChiTietTiemChung> danhSachChiTietTiemChung = new HashSet<>();
+
 }
