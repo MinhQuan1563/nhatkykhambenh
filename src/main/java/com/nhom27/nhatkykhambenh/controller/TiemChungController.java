@@ -33,7 +33,6 @@ public class TiemChungController {
                                   @RequestParam(defaultValue = "0") int page,
                                   @RequestParam(defaultValue = "5") int size) {
         Pageable pageable = PageRequest.of(page, size);
-
         Page<TiemChungDTO> tiemChungPage = tiemChungService.getDSTiemChung(pageable);
 
         model.addAttribute("dsTiemChung", tiemChungPage.getContent());
@@ -47,6 +46,7 @@ public class TiemChungController {
 
     @GetMapping("/admin/tiemchung/add")
     public String addTiemChungForm(Model model) {
+
         model.addAttribute("tiemchung", new TiemChungDTO());
         return "admin/tiemchung/addTiemChung";
     }
@@ -60,10 +60,8 @@ public class TiemChungController {
             return "admin/tiemchung/addTiemChung";  // Trả về form với thông báo lỗi
         }
         try {
-            LocalDate ngayTiem = LocalDate.parse(ngayTiemStr);
-            tiemchung.setNgayTiem(Timestamp.valueOf(ngayTiem.atStartOfDay()));
             tiemChungService.saveTiemChung(tiemchung);
-            return "admin/tiemchung/listTiemChung";  // Chuyển hướng sau khi lưu thành công
+            return "redirect:/admin/tiemchung";  // Chuyển hướng sau khi lưu thành côngd
         } catch (SaveDataException e) {
             model.addAttribute("error", e.getMessage());
             return "admin/tiemchung/addTiemChung";  // Trả về form với thông báo lỗi

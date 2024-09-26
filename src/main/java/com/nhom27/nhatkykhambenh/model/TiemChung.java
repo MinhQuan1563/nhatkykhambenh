@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,7 +26,7 @@ public class TiemChung {
     private String noiTiemChung;
 
     @Column(name = "NgayTiem")
-    private Timestamp ngayTiem;
+    private LocalDate ngayTiem;
 
     @Column(name = "NguoiTiem", length = 250)
     private String nguoiTiem;
