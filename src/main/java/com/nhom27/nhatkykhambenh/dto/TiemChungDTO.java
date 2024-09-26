@@ -3,8 +3,10 @@ package com.nhom27.nhatkykhambenh.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nhom27.nhatkykhambenh.model.ChiTietTiemChung;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Getter
@@ -17,8 +19,8 @@ public class TiemChungDTO {
     private Integer maTiemChung;
 
     private String noiTiemChung;
-
-    private Timestamp ngayTiem;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate ngayTiem;
 
     private String nguoiTiem;
 
