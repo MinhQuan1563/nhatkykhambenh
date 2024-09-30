@@ -64,7 +64,6 @@ public class NguoiDung {
     @OneToMany(mappedBy = "nguoiDung", fetch = FetchType.LAZY)
     private Set<ChiTietTiemChung> danhSachChiTietTiemChung = new HashSet<>();
 
-
     @OneToMany(mappedBy = "nguoiDung", fetch = FetchType.LAZY)
     private Set<ChiTietTiemChung> danhSachKhamBenh = new HashSet<>();
 }

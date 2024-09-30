@@ -25,7 +25,7 @@ public class DonThuoc {
     @Column(name = "TrangThai")
     private Boolean trangThai;
 
-    @ManyToOne
-    @JoinColumn(name = "MaChiTietKhamBenh", referencedColumnName = "MaChiTietKhamBenh", insertable = false, updatable = false)
-    private ChiTietKhamBenh chiTietKhamBenh;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MaKhamBenh", referencedColumnName = "MaKhamBenh")
+    private KhamBenh khamBenh;
 }
