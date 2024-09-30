@@ -29,6 +29,6 @@ public class GiaDinh {
     private TaiKhoan taiKhoan;
 
     @OneToMany(mappedBy = "giaDinh", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<TaiKhoan> danhSachNguoiDung = new HashSet<>();
+    private Set<NguoiDung> danhSachNguoiDung = new HashSet<>();
 
 }
