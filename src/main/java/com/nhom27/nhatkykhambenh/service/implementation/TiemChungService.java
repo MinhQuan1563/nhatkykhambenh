@@ -25,7 +25,7 @@ public class TiemChungService implements ITiemChungService {
 
     @Override
     public Page<TiemChungDTO> getDSTiemChung(Pageable pageable) {
-        Page<TiemChung> tiemChungPage = tiemChungRepo.findAll(pageable);
+        Page<TiemChung> tiemChungPage = tiemChungRepo.findByTrangThai(true, pageable);
 
         List<TiemChungDTO> tiemChungDTOList = tiemChungMapper.toTiemChungDtoList(tiemChungPage.getContent());
 
@@ -35,6 +35,7 @@ public class TiemChungService implements ITiemChungService {
     @Override
     public void saveTiemChung(TiemChungDTO tiemChungDTO) {
         TiemChung tiemChung = tiemChungMapper.toTiemChung(tiemChungDTO);
+        tiemChung.setTrangThai(true);
         try {
             tiemChungRepo.save(tiemChung);
         } catch (Exception e) {
@@ -44,12 +45,14 @@ public class TiemChungService implements ITiemChungService {
 
     @Override
     public TiemChungDTO findById(Integer id) {
-        TiemChung tiemChung = tiemChungRepo.findById(String.valueOf(id)).get();
+        TiemChung tiemChung = tiemChungRepo.findById(id).get();
         return tiemChungMapper.toTiemChungDTO(tiemChung);
     }
 
     @Override
     public void deleteById(Integer id) {
-        tiemChungRepo.deleteById(String.valueOf(id));
+        TiemChung tiemChung = tiemChungRepo.findById(id).orElseThrow(() -> new SaveDataException(TiemChung.OBJ_NAME));
+        tiemChung.setTrangThai(false);
+        tiemChungRepo.save(tiemChung);
     }
 }

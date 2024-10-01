@@ -43,9 +43,6 @@ public class ChiTietKhamBenh {
     private KhamBenh khamBenh;
 
     @OneToMany(mappedBy = "chiTietKhamBenh",cascade = CascadeType.ALL)
-    private Set<DonThuoc> danhSachDonThuoc = new HashSet<>();
-
-    @OneToMany(mappedBy = "chiTietKhamBenh",cascade = CascadeType.ALL)
     private Set<HinhAnh> danhSachHinhAnh = new HashSet<>();
 
     @OneToMany(mappedBy = "chiTietKhamBenh",cascade = CascadeType.ALL)

@@ -10,11 +10,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
@@ -24,7 +22,7 @@ public class TiemChungController {
     private TiemChungService tiemChungService;
 
     @GetMapping("/admin/tiemchung")
-    public String GetAllTiemChung(Model model,
+    public String GetListTiemChung(Model model,
                                   @RequestParam(defaultValue = "0") int page,
                                   @RequestParam(defaultValue = "5") int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -41,8 +39,15 @@ public class TiemChungController {
 
     @GetMapping("/admin/tiemchung/add")
     public String addTiemChungForm(Model model) {
+        TiemChungDTO tiemChungDTO = new TiemChungDTO();
+        model.addAttribute("tiemchung", tiemChungDTO);
+        return "admin/tiemchung/addTiemChung";
+    }
 
-        model.addAttribute("tiemchung", new TiemChungDTO());
+    @GetMapping("/admin/tiemchung/update")
+    public String updateTiemChungForm(@RequestParam("id") Integer id, Model model) {
+        TiemChungDTO tiemChungDTO = tiemChungService.findById(id);
+        model.addAttribute("tiemchung", tiemChungDTO);
         return "admin/tiemchung/addTiemChung";
     }
 
@@ -52,20 +57,25 @@ public class TiemChungController {
                                 BindingResult bindingResult,
                                 Model model) {
         if (bindingResult.hasErrors()) {
-            return "admin/tiemchung/addTiemChung";  // Trả về form với thông báo lỗi
+            return "admin/tiemchung/addTiemChung";
         }
         try {
             tiemChungService.saveTiemChung(tiemchung);
-            return "redirect:/admin/tiemchung";  // Chuyển hướng sau khi lưu thành côngd
+            return "redirect:/admin/tiemchung";
         } catch (SaveDataException e) {
             model.addAttribute("error", e.getMessage());
-            return "admin/tiemchung/addTiemChung";  // Trả về form với thông báo lỗi
+            return "admin/tiemchung/addTiemChung";
         }
     }
 
     @PostMapping("/admin/tiemchung/delete")
-    public String deleteMember(@RequestParam("id") Integer id) {
-        tiemChungService.deleteById(id);
+    public String deleteTiemChung(@RequestParam("maTiemChung") Integer maTiemChung, RedirectAttributes redirectAttributes) {
+        try {
+            tiemChungService.deleteById(maTiemChung);
+            redirectAttributes.addFlashAttribute("success", "Xóa thành công");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Lỗi!! Xóa thông tin tiêm chủng thất bại");
+        }
         return "redirect:/admin/tiemchung";
     }
 
