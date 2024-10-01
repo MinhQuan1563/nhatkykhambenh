@@ -1,10 +1,8 @@
 package com.nhom27.nhatkykhambenh.controller;
 
-import com.nhom27.nhatkykhambenh.dto.PaginationResponse;
 import com.nhom27.nhatkykhambenh.dto.TiemChungDTO;
 import com.nhom27.nhatkykhambenh.exception.SaveDataException;
 import com.nhom27.nhatkykhambenh.service.implementation.TiemChungService;
-import com.nhom27.nhatkykhambenh.utils.OneBasedPageRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,9 +15,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.data.domain.Pageable;
-
-import java.sql.Timestamp;
-import java.time.LocalDate;
 
 @Controller
 @RequiredArgsConstructor
@@ -71,12 +66,20 @@ public class TiemChungController {
     @PostMapping("/admin/tiemchung/delete")
     public String deleteMember(@RequestParam("id") Integer id) {
         tiemChungService.deleteById(id);
-        return "admin/tiemchung/listTiemChung";
+        return "redirect:/admin/tiemchung";
     }
 
     @GetMapping("/admin/tongquan")
     public String GetAllTongQuan() {
         return "admin/listTongQuan";
+    }
+    @PostMapping("/admin/tiemchung/deleteMutil")
+    public String deleteMutil(@RequestParam("test") Integer[] str) {
+
+        for (Integer s : str) {
+            tiemChungService.deleteById(s);
+        }
+        return "redirect:/admin/tiemchung";
     }
 
 
