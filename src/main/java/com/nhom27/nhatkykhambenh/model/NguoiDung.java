@@ -66,4 +66,7 @@ public class NguoiDung {
 
     @OneToMany(mappedBy = "nguoiDung", fetch = FetchType.LAZY)
     private Set<ChiTietTiemChung> danhSachKhamBenh = new HashSet<>();
+
+    @OneToOne(mappedBy = "nguoiDung", fetch = FetchType.LAZY)
+    private TaiKhoan taiKhoan;
 }

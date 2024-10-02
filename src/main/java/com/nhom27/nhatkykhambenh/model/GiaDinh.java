@@ -25,9 +25,6 @@ public class GiaDinh {
     @Column(name = "TrangThai")
     private Boolean trangThai;
 
-    @OneToOne(mappedBy = "giaDinh", fetch = FetchType.LAZY)
-    private TaiKhoan taiKhoan;
-
     @OneToMany(mappedBy = "giaDinh", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<NguoiDung> danhSachNguoiDung = new HashSet<>();
 
