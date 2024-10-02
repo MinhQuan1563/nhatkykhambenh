@@ -29,6 +29,6 @@ public class TaiKhoan {
     private NhomQuyen nhomQuyen;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "MaGiaDinh", referencedColumnName = "MaGiaDinh")
-    private GiaDinh giaDinh;
+    @JoinColumn(name = "MaNguoiDung", referencedColumnName = "MaNguoiDung")
+    private NguoiDung nguoiDung;
 }
