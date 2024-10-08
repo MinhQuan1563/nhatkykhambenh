@@ -20,4 +20,14 @@ public class AuthController {
     public String register(Model model) {
         return "register";
     }
+
+    @GetMapping("/users/thongtinkhac")
+    public String getThongTinKhac(Model model) {
+        return "users/thongtinkhac";
+    }
+
+    @GetMapping("/users/themnguoithan")
+    public String formThemNguoiThan(Model model) {
+        return "users/themnguoithan";
+    }
 }

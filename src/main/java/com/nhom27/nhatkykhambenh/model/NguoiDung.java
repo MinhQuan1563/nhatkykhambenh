@@ -1,5 +1,6 @@
 package com.nhom27.nhatkykhambenh.model;
 
+import com.nhom27.nhatkykhambenh.enums.MoiQuanHe;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -44,6 +45,9 @@ public class NguoiDung {
 
     @Column(name = "MatKhau")
     private String matKhau;
+
+    @Column(name = "MoiQuanHe")
+    private MoiQuanHe moiQuanHe;
 
     @Column(name = "TrangThai")
     private Boolean trangThai;
