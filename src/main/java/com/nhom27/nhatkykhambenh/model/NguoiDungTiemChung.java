@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.io.Serializable;
 
@@ -33,12 +35,5 @@ public class NguoiDungTiemChung {
     @JoinColumn(name = "maLichHenTiemChung")
     private LichHenTiemChung lichHenTiemChung;
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Embeddable
-    public class NguoiDungTiemChungId implements Serializable {
-        private Integer maNguoiDung;
-        private Integer maLichHenTiemChung;
-    }
+
 }
