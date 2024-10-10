@@ -16,6 +16,8 @@ import java.util.Set;
 @Entity
 @Table(name = "KhamBenh")
 public class KhamBenh {
+    public static final String OBJ_NAME = "KhamBenh";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MaKhamBenh")
@@ -43,4 +45,5 @@ public class KhamBenh {
 
     @OneToOne(mappedBy = "khamBenh")
     private DonThuoc donThuoc;
+
 }
