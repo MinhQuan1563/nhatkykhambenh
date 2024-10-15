@@ -5,7 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface ITiemChungService {
-    Page<TiemChungDTO> getDSTiemChung(Pageable pageable);
+
+    Page<TiemChungDTO> getDSTiemChung(Pageable pageable, String query);
 
     void saveTiemChung(TiemChungDTO tiemChungDTO);
 

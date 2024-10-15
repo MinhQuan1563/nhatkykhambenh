@@ -22,7 +22,7 @@ public class TiemChung {
     @Column(name = "MaTiemChung")
     private Integer maTiemChung;
 
-    @Column(name = "NoTiemChung")
+    @Column(name = "NoiTiemChung")
     private String noiTiemChung;
 
     @Column(name = "NgayTiem")

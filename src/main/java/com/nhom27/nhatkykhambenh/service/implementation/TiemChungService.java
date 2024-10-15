@@ -1,12 +1,14 @@
 package com.nhom27.nhatkykhambenh.service.implementation;
 
-import com.nhom27.nhatkykhambenh.dto.PaginationResponse;
 import com.nhom27.nhatkykhambenh.dto.TiemChungDTO;
 import com.nhom27.nhatkykhambenh.exception.SaveDataException;
 import com.nhom27.nhatkykhambenh.mapper.TiemChungMapper;
 import com.nhom27.nhatkykhambenh.model.TiemChung;
 import com.nhom27.nhatkykhambenh.repository.ITiemChungRepo;
 import com.nhom27.nhatkykhambenh.service.interfaces.ITiemChungService;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -20,16 +22,54 @@ public class TiemChungService implements ITiemChungService {
 
     @Autowired
     private ITiemChungRepo tiemChungRepo;
+
     @Autowired
     private TiemChungMapper tiemChungMapper;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
+//    @Override
+//    public Page<TiemChungDTO> getDSTiemChung(Pageable pageable, String query) {
+//        String searchTerm = "%" + query + "%";
+//
+//        String columnQuery = "SELECT GROUP_CONCAT(COLUMN_NAME) FROM INFORMATION_SCHEMA.COLUMNS " +
+//                "WHERE TABLE_NAME = 'tiem_chung' AND TABLE_SCHEMA = 'nhatkykhambenh'";
+//        Query columnNativeQuery = entityManager.createNativeQuery(columnQuery);
+//        String columns = (String) columnNativeQuery.getSingleResult();
+//
+//        // Tạo truy vấn động với LIMIT và OFFSET
+//        String sql = "SELECT * FROM tiem_chung WHERE CONCAT(" + columns + ") LIKE :searchTerm " +
+//                "LIMIT :limit OFFSET :offset";
+//        Query nativeQuery = entityManager.createNativeQuery(sql, TiemChung.class);
+//        nativeQuery.setParameter("searchTerm", searchTerm);
+//        nativeQuery.setParameter("limit", pageable.getPageSize());
+//        nativeQuery.setParameter("offset", pageable.getPageNumber() * pageable.getPageSize());
+//
+//        List<TiemChung> results = nativeQuery.getResultList();
+//
+//        long totalElements = results.size(); // Tổng số phần tử
+//        return new PageImpl<>(tiemChungMapper.toTiemChungDtoList(results), pageable, totalElements);
+//    }
+
     @Override
-    public Page<TiemChungDTO> getDSTiemChung(Pageable pageable) {
-        Page<TiemChung> tiemChungPage = tiemChungRepo.findByTrangThai(true, pageable);
+    public Page<TiemChungDTO> getDSTiemChung(Pageable pageable, String query) {
+        String searchTerm = "%" + query + "%";
 
-        List<TiemChungDTO> tiemChungDTOList = tiemChungMapper.toTiemChungDtoList(tiemChungPage.getContent());
+        String columnQuery = "SELECT GROUP_CONCAT(COLUMN_NAME) FROM INFORMATION_SCHEMA.COLUMNS " +
+                "WHERE TABLE_NAME = 'tiem_chung' AND TABLE_SCHEMA = 'nhatkykhambenh'";
+        Query columnNativeQuery = entityManager.createNativeQuery(columnQuery);
+        String columns = (String) columnNativeQuery.getSingleResult();
 
-        return new PageImpl<>(tiemChungDTOList, pageable, tiemChungPage.getTotalElements());
+        // Tạo truy vấn động với LIMIT và OFFSET
+        String sql = "SELECT * FROM tiem_chung WHERE CONCAT(" + columns + ") LIKE :searchTerm ";
+        Query nativeQuery = entityManager.createNativeQuery(sql, TiemChung.class);
+        nativeQuery.setParameter("searchTerm", searchTerm);
+
+        List<TiemChung> results = nativeQuery.getResultList();
+
+        long totalElements = results.size(); // Tổng số phần tử
+        return new PageImpl<>(tiemChungMapper.toTiemChungDtoList(results), pageable, totalElements);
     }
 
     @Override
@@ -54,5 +94,13 @@ public class TiemChungService implements ITiemChungService {
         TiemChung tiemChung = tiemChungRepo.findById(id).orElseThrow(() -> new SaveDataException(TiemChung.OBJ_NAME));
         tiemChung.setTrangThai(false);
         tiemChungRepo.save(tiemChung);
+    }
+
+    public void deleteAllByIds(List<Integer> ids) {
+        List<TiemChung> tiemChungList = tiemChungRepo.findAllById(ids);
+        for (TiemChung tiemChung : tiemChungList) {
+            tiemChung.setTrangThai(false);
+        }
+        tiemChungRepo.saveAll(tiemChungList);
     }
 }
