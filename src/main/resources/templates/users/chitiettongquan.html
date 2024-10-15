@@ -7,6 +7,7 @@
 <body>
 <div th:fragment="contentUser" class="container">
     <link rel="stylesheet" th:href="@{../../css/user/chitiettongquan.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <div class="merged-container">
         <h4 class="mb-4">Chi tiết nhóm máu</h4>
@@ -22,26 +23,38 @@
             </div>
 
             <div class="card mt-4">
-                <div class="card-header">
+                <div class="card-header card-header-with-button">
                     <h5>Lịch sử đo (3 lần)</h5>
+                    <button class="add-btn" title="thêm"><i class="fas fa-plus"></i> Thêm</button>
                 </div>
                 <div class="card-body">
                     <div class="history-item">
-                        <span><i class="fas fa-tint blood-icon"></i>10.0 mg/DL</span>
-                        <span>28/09/2024 17:56 <i class="fas fa-times delete-icon"></i></span>
+                        <div class="history-info">
+                            <span><i class="fas fa-tint blood-icon"></i>10.0 mg/DL</span>
+                            <span class="history-date">28/09/2024 17:56</span>
+                        </div>
+                        <button class="delete-btn" title="Xóa"><i class="fas fa-trash-alt"></i> Xóa</button>
                     </div>
                     <div class="history-item">
-                        <span><i class="fas fa-tint blood-icon"></i>100.0 mg/DL</span>
-                        <span>28/09/2024 17:56 <i class="fas fa-times delete-icon"></i></span>
+                        <div class="history-info">
+                            <span><i class="fas fa-tint blood-icon"></i>100.0 mg/DL</span>
+                            <span class="history-date">28/09/2024 17:56</span>
+                        </div>
+                        <button class="delete-btn" title="Xóa"><i class="fas fa-trash-alt"></i> Xóa</button>
                     </div>
                     <div class="history-item">
-                        <span><i class="fas fa-tint blood-icon"></i>30.0 mg/DL</span>
-                        <span>21/09/2024 08:46 <i class="fas fa-times delete-icon"></i></span>
+                        <div class="history-info">
+                            <span><i class="fas fa-tint blood-icon"></i>30.0 mg/DL</span>
+                            <span class="history-date">21/09/2024 08:46</span>
+                        </div>
+                        <button class="delete-btn" title="Xóa"><i class="fas fa-trash-alt"></i> Xóa</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+
 
     <script th:src="@{https://cdn.jsdelivr.net/npm/chart.js}"></script>
     <script th:src="@{../../js/user/chitiettongquan.js}"></script>
