@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.List;
@@ -17,7 +19,7 @@ import java.util.Set;
 @Table(name = "NguoiDung")
 public class NguoiDung {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MaNguoiDung")
     private Integer maNguoiDung;
 
@@ -42,6 +44,8 @@ public class NguoiDung {
 
     @Column(name = "DiaChi")
     private String diaChi;
+    @Column(name="TenNguoiDung")
+    private String tenNguoiDung;
 
     @Column(name = "Email")
     private String email;
@@ -53,7 +57,7 @@ public class NguoiDung {
     private MoiQuanHe moiQuanHe;
 
     @Column(name = "TrangThai")
-    private Boolean trangThai;
+    private Boolean trangThai=true;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MaGiaDinh")
@@ -75,5 +79,6 @@ public class NguoiDung {
     private Set<ChiTietTiemChung> danhSachKhamBenh = new HashSet<>();
 
     @OneToOne(mappedBy = "nguoiDung", fetch = FetchType.LAZY)
+    @ToString.Exclude
     private TaiKhoan taiKhoan;
 }

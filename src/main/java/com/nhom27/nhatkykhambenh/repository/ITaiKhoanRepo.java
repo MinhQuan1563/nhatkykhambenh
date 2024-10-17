@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ITaiKhoanRepo extends JpaRepository<TaiKhoan, Integer> {
     TaiKhoan findByTaiKhoan(String taiKhoan);
+    TaiKhoan findBySoDienThoaiAndMatKhau(String soDienThoai, String matKhau);
 }
