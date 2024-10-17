@@ -9,7 +9,6 @@
 <body>
 <div th:fragment="contentUser" class="container">
     <link rel="stylesheet" th:href="@{../../css/user/themnguoithan.css}">
-
     <div class="form-container">
         <div class="profile-pic-wrapper">
             <div class="profile-pic">
@@ -20,77 +19,82 @@
             </label>
             <input type="file" id="imageUpload" accept="image/*">
         </div>
-        <form>
+        <form action="#" th:action="@{/users/themnguoithan}" th:object="${nguoiDung}">
             <div class="row">
                 <div class="mb-3">
                     <label for="fullName" class="form-label">Họ tên *</label>
-                    <input type="text" class="form-control" id="fullName" placeholder="Nhập nội dung" required>
+                    <input type="text" class="form-control" id="fullName" th:field="*{tenNguoiDung}" placeholder="Nhập nội dung" required>
                 </div>
                 <div class="mb-3">
                     <label for="dob" class="form-label">Ngày tháng năm sinh *</label>
-                    <input type="date" class="form-control" id="dob" required>
+                    <input type="date" class="form-control" th:field="*{ngayThangNamSinh}" id="dob" required>
                 </div>
             </div>
             <div class="mb-3">
                 <label class="form-label">Giới tính *</label>
                 <div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="gender" id="male" value="male" checked>
+                        <input class="form-check-input" type="radio" name="gender" id="male" value="male" th:field="*{gioiTinh}" checked>
                         <label class="form-check-label" for="male">Nam</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="gender" id="female" value="female">
+                        <input class="form-check-input" type="radio" name="gender" id="female" th:field="*{gioiTinh}" value="female">
                         <label class="form-check-label" for="female">Nữ</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="gender" id="other" value="other">
+                        <input class="form-check-input" type="radio" name="gender" id="other" th:field="*{gioiTinh}" value="other">
                         <label class="form-check-label" for="other">Khác</label>
                     </div>
                 </div>
             </div>
             <div class="mb-3">
                 <label for="relationship" class="form-label">Mối quan hệ (với tôi) *</label>
-                <select class="form-select" id="relationship" required>
+                <select class="form-select" id="relationship" th:field="*{moiQuanHe}" required>
                     <option value="" selected disabled>-Chọn-</option>
-                    <option value="1">Gia đình</option>
-                    <option value="2">Bạn bè</option>
-                    <option value="3">Đồng nghiệp</option>
+                    <option value="Gia đình">Gia đình</option>
+                    <option value="Bạn bè">Bạn bè</option>
+                    <option value="Cha">Cha</option>
+                    <option value="Mẹ">Mẹ</option>
+                    <option value="Con">Con</option>
+                    <option value="Vợ">Vợ</option>
+                    <option value="Ông">Ông</option>
+                    <option value="Bà">Bà</option>
                 </select>
             </div>
             <div class="mb-3">
                 <label for="phone" class="form-label">Số điện thoại *</label>
-                <input type="tel" class="form-control" id="phone" placeholder="Nhập nội dung" required>
+                <input type="tel" class="form-control" id="phone" th:field="*{soDienThoai}" placeholder="Nhập nội dung" required>
             </div>
             <div class="mb-3">
                 <label for="idNumber" class="form-label">Số hộ chiếu/CMND/CCCD *</label>
-                <input type="text" class="form-control" id="idNumber" placeholder="Nhập nội dung" required>
+                <input type="text" class="form-control" id="idNumber" th:field="*{cccd}" placeholder="Nhập nội dung" required>
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" placeholder="Nhập nội dung">
+                <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="Nhập nội dung">
             </div>
-            <div class="mb-3">
-                <label for="city" class="form-label">Tỉnh/Thành phố *</label>
-                <select class="form-select" id="city" required>
-                    <option value="" selected disabled>-Chọn-</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="district" class="form-label">Quận/Huyện *</label>
-                <select class="form-select" id="district" required>
-                    <option value="" selected disabled>-Chọn-</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="ward" class="form-label">Phường/Xã *</label>
-                <select class="form-select" id="ward" required>
-                    <option value="" selected disabled>-Chọn-</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="address" class="form-label">Thôn/Xóm/Số nhà</label>
-                <input type="text" class="form-control" id="address" placeholder="Nhập nội dung">
-            </div>
+<!--            <div class="mb-3">-->
+<!--                <label for="city" class="form-label">Tỉnh/Thành phố *</label>-->
+<!--                <select class="form-select" id="city" required>-->
+<!--                    <option value="" selected disabled>-Chọn-</option>-->
+<!--                </select>-->
+<!--            </div>-->
+<!--            <div class="mb-3">-->
+<!--                <label for="district" class="form-label">Quận/Huyện *</label>-->
+<!--                <select class="form-select" id="district" required>-->
+<!--                    <option value="" selected disabled>-Chọn-</option>-->
+<!--                </select>-->
+<!--            </div>-->
+<!--            <div class="mb-3">-->
+<!--                <label for="ward" class="form-label">Phường/Xã *</label>-->
+<!--                <select class="form-select" id="ward" required>-->
+<!--                    <option value="" selected disabled>-Chọn-</option>-->
+<!--                </select>-->
+<!--            </div>-->
+<!--            <div class="mb-3">-->
+<!--                <label for="address" class="form-label">Thôn/Xóm/Số nhà</label>-->
+<!--                <input type="text" class="form-control" id="address" placeholder="Nhập nội dung">-->
+<!--            </div>-->
             <button type="submit" class="btn btn-primary w-100">Lưu thông tin</button>
         </form>
     </div>
