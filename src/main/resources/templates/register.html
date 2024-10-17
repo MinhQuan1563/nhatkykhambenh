@@ -68,5 +68,16 @@
     </div>
 </div>
 </body>
+<script>
+    function validatePassword() {
+        var password = document.getElementById("passwordForm").value;
+        var confirmPassword = document.getElementById("rePasswordForm").value;
 
+        if (password !== confirmPassword) {
+            alert("Mật khẩu nhập lại không khớp!");
+            return false;
+        }
+        return true;
+    }
+</script>
 </html>

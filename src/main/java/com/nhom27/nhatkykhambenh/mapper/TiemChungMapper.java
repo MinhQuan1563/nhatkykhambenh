@@ -12,9 +12,7 @@ import java.util.List;
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface TiemChungMapper {
     public TiemChung toTiemChung(TiemChungDTO tiemChungDTO);
-
     public TiemChungDTO toTiemChungDTO(TiemChung tiemChung);
-
     public List<TiemChungDTO> toTiemChungDtoList(List<TiemChung> tiemChungList);
 
     @Mapping(target = "maTiemChung", ignore = true)
