@@ -21,12 +21,12 @@ public class TaiKhoan {
     @Column(name = "MatKhau")
     private String matKhau;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MaQuyen", nullable = true)
+    private NhomQuyen nhomQuyen;
+
     @Column(name = "TrangThai")
     private Boolean trangThai;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MaQuyen")
-    private NhomQuyen nhomQuyen;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "MaNguoiDung", referencedColumnName = "MaNguoiDung")

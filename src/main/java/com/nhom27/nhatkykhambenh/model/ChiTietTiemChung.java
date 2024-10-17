@@ -36,7 +36,7 @@ public class ChiTietTiemChung {
     @NoArgsConstructor
     @AllArgsConstructor
     @Embeddable
-    public class ChiTietTiemChungId implements Serializable {
+    public static class ChiTietTiemChungId implements Serializable {
         private Integer maTiemChung;
         private Integer maNguoiDung;
     }

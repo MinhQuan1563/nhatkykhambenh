@@ -21,6 +21,9 @@ public class NguoiDung {
     @Column(name = "MaNguoiDung")
     private Integer maNguoiDung;
 
+    @Column(name = "HoTen")
+    private String hoTen;
+
     @Column(name = "HinhAnh")
     private String hinhAnh;
 

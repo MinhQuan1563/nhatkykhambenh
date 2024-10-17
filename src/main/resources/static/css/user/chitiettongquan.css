@@ -28,3 +28,11 @@
     color: #dc3545;
     cursor: pointer;
 }
+
+#add-detail {
+    bottom: 20px;
+    right: 20px;
+    width: 100px;
+    height: 100px;
+    z-index: 100;
+}

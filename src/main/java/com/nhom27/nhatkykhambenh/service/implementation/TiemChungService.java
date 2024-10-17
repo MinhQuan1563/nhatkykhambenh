@@ -62,7 +62,7 @@ public class TiemChungService implements ITiemChungService {
         String columns = (String) columnNativeQuery.getSingleResult();
 
         // Tạo truy vấn động với LIMIT và OFFSET
-        String sql = "SELECT * FROM tiem_chung WHERE CONCAT(" + columns + ") LIKE :searchTerm ";
+        String sql = "SELECT * FROM tiem_chung WHERE trang_thai=1 AND CONCAT(" + columns + ") LIKE :searchTerm ";
         Query nativeQuery = entityManager.createNativeQuery(sql, TiemChung.class);
         nativeQuery.setParameter("searchTerm", searchTerm);
 
