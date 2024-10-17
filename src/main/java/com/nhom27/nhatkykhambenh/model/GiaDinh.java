@@ -20,14 +20,12 @@ public class GiaDinh {
     private Integer maGiaDinh;
 
     @Column(name = "SoLuong")
-    private Integer soLuong;
+    private Integer soLuong=0;
 
     @Column(name = "TrangThai")
-    private Boolean trangThai;
-
-    @OneToOne(mappedBy = "giaDinh", fetch = FetchType.LAZY)
+    private Boolean trangThai=true;
+    @OneToOne(mappedBy = "giaDinh", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private TaiKhoan taiKhoan;
-
     @OneToMany(mappedBy = "giaDinh", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<NguoiDung> danhSachNguoiDung = new HashSet<>();
 
