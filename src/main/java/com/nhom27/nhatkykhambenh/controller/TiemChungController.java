@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 public class TiemChungController {
@@ -23,16 +26,39 @@ public class TiemChungController {
 
     @GetMapping("/admin/tiemchung")
     public String GetListTiemChung(Model model,
-                                  @RequestParam(defaultValue = "0") int page,
-                                  @RequestParam(defaultValue = "5") int size) {
+                                   @RequestParam(defaultValue = "0") int page,
+                                   @RequestParam(defaultValue = "5") int size,
+                                   @RequestParam(defaultValue = "") String query) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<TiemChungDTO> tiemChungPage = tiemChungService.getDSTiemChung(pageable);
+        Page<TiemChungDTO> tiemChungPage = tiemChungService.getDSTiemChung(pageable, query);
+
+        int count = 0;
+        System.out.println("Lan " + count++);
+
+        for(TiemChungDTO tiemChungDTO : tiemChungPage.getContent()){
+            System.out.println("Lan " + count++);
+            System.out.println(tiemChungDTO.getMaTiemChung());
+        }
 
         model.addAttribute("dsTiemChung", tiemChungPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("pageSize", size);
         model.addAttribute("totalPages", tiemChungPage.getTotalPages());
         model.addAttribute("totalItems", tiemChungPage.getTotalElements());
+        model.addAttribute("query", query);
+
+        int startItem = page * size + 1;
+        int endItem = Math.min(startItem + size - 1, (int) tiemChungPage.getTotalElements());
+
+        model.addAttribute("startItem", startItem);
+        model.addAttribute("endItem", endItem);
+        model.addAttribute("currentCount", endItem - startItem + 1);
+
+        System.out.println("currentPage: " + page);
+        System.out.println("currentPage: " + size);
+        System.out.println("currentPage: " + tiemChungPage.getTotalPages());
+        System.out.println("currentPage: " + tiemChungPage.getTotalElements());
+        System.out.println("currentPage: " + query);
 
         return "admin/tiemchung/listTiemChung";
     }
@@ -53,7 +79,6 @@ public class TiemChungController {
 
     @PostMapping("/admin/tiemchung/save")
     public String saveTiemChung(@ModelAttribute("tiemchung") TiemChungDTO tiemchung,
-                                @RequestParam("ngayTiem") String ngayTiemStr,
                                 BindingResult bindingResult,
                                 Model model) {
         if (bindingResult.hasErrors()) {
@@ -79,9 +104,15 @@ public class TiemChungController {
         return "redirect:/admin/tiemchung";
     }
 
-    @GetMapping("/admin/tongquan")
-    public String GetAllTongQuan() {
-        return "admin/listTongQuan";
+    @PostMapping("/admin/tiemchung/deleteall")
+    public String deleteAllByIds(@RequestParam("selectedIds") List<Integer> ids, RedirectAttributes redirectAttributes) {
+        try {
+            tiemChungService.deleteAllByIds(ids);
+            redirectAttributes.addFlashAttribute("success", "Xóa thành công các mục đã chọn.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Có lỗi xảy ra khi xóa.");
+        }
+        return "redirect:/admin/tiemchung";
     }
     @PostMapping("/admin/tiemchung/deleteMutil")
     public String deleteMutil(@RequestParam("test") Integer[] str) {

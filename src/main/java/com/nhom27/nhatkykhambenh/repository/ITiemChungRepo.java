@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.domain.Pageable;
 
 public interface ITiemChungRepo extends JpaRepository<TiemChung, Integer> {
-    Page<TiemChung> findByTrangThai(Boolean trangThai, Pageable pageable);
+//    Page<TiemChung> findByQuery(Boolean trangThai, String query, Pageable pageable);
 }

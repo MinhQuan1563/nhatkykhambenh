@@ -26,7 +26,7 @@
         <!-------------------- ------ Right Box ---------------------------->
 
         <div class="col-md-6 right-box">
-            <form th:action="@{/login}" method="POST" class="row align-items-center">
+            <form th:action="@{/login}" method="POST" th:object="${taiKhoan}" class="row align-items-center">
                 <div class="header-text mb-4 w-100 d-flex flex-column justify-content-center">
                     <h2 class="text-center fw-bold">Đăng nhập</h2>
                 </div>
@@ -44,12 +44,12 @@
                     <div class="alert alert-success">Đăng ký tài khoản thành công</div>
                 </div>
                 <div class="mb-3">
-                    <label for="accountForm" class="form-label">Tài khoản</label>
-                    <input type="text" id="accountForm" pattern="[0-9]*" class="form-control form-control-lg bg-light fs-6" placeholder="Nhập tên tài khoản" maxlength="100" />
+                    <label for="accountForm" class="form-label">Số điện thoại</label>
+                    <input type="text" id="accountForm" pattern="[0-9]*" class="form-control form-control-lg bg-light fs-6" th:field="*{soDienThoai}" placeholder="Nhập số điện thoại" maxlength="100" />
                 </div>
                 <div class="position-relative">
                     <label for="passwordForm" class="form-label">Mật khẩu</label>
-                    <input type="password" id="passwordForm" class="form-control form-control-lg bg-light fs-6" placeholder="Nhập mật khẩu"/>
+                    <input type="password" id="passwordForm" class="form-control form-control-lg bg-light fs-6" th:field="*{matKhau}" placeholder="Nhập mật khẩu"/>
                     <span class="position-absolute d-flex justify-content-center align-items-center" style="width: 30px;height: 30px; z-index: 10000; top: 50%;right: 20px;">
                                 <i class="fa fa-eye" id="togglePassword"
                                    style="cursor: pointer"></i>
