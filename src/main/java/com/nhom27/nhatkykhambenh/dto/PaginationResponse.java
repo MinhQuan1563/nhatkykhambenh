@@ -19,7 +19,7 @@ public class PaginationResponse<T> {
     private List<T> items;
 
     private PaginationResponse() {
-
+    
     }
 
     public static <T, E> PaginationResponse<T> create(Page<E> page) {

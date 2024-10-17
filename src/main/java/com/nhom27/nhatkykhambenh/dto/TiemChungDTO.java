@@ -19,6 +19,7 @@ public class TiemChungDTO {
     private Integer maTiemChung;
 
     private String noiTiemChung;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate ngayTiem;
 

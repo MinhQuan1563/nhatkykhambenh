@@ -11,8 +11,13 @@ public class IndexController {
         return "home";
     }
 
-    @GetMapping("base")
-    public String base(Model theModel) {
-        return "base";
+    @GetMapping("admin")
+    public String home() {
+        return "admin/dashboard";
     }
+
+//    @GetMapping("base")
+//    public String base(Model theModel) {
+//        return "base";
+//    }
 }

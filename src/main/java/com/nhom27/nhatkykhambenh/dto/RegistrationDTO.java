@@ -11,12 +11,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TaiKhoanDTO {
-    private Integer maNguoiDung;
-
-    private String taiKhoan;
-
-    private String matKhau;
-
-    private Boolean trangThai;
+public class RegistrationDTO {
+    private TaiKhoanDTO taikhoan;
+    private NguoiDungDTO nguoidung;
+    private String rePassword;
 }

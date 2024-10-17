@@ -121,9 +121,14 @@
                                 <td th:text="${tiemchung.soMuiTiem}"></td>
                                 <td>
                                     <a th:href="@{/admin/tiemchung/update(id=${tiemchung.maTiemChung})}" class="edit">
-                                        <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                        <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
+                                    </a>
                                     <a href="#" class="delete" data-toggle="modal" th:data-id="${tiemchung.maTiemChung}">
-                                        <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                        <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+                                    </a>
+<!--                                    <a th:href="@{/admin/tiemchung/detail(id=${tiemchung.maTiemChung})}" class="info" data-toggle="modal" th:data-id="${tiemchung.maTiemChung}">-->
+<!--                                        <i class="material-icons" data-toggle="tooltip" title="Info">&#xE872;</i>-->
+<!--                                    </a>-->
                                 </td>
                             </tr>
                             </tbody>

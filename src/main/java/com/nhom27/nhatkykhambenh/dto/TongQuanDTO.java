@@ -11,12 +11,24 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TaiKhoanDTO {
-    private Integer maNguoiDung;
+public class TongQuanDTO {
+    private Integer maTongQuan;
 
-    private String taiKhoan;
+    private String duongHuyet;
 
-    private String matKhau;
+    private String nhipTim;
+
+    private String huyetAp;
+
+    private String nhietDo;
+
+    private String chieuCao;
+
+    private String canNang;
+
+    private String chiSoBMI;
+
+    private String nhomMau;
 
     private Boolean trangThai;
 }

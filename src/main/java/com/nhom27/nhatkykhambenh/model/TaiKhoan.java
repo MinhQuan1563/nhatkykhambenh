@@ -22,17 +22,24 @@ public class TaiKhoan {
 
     @Column(name = "MatKhau")
     private String matKhau;
+  
     @Column(name = "SoDienThoai")
     private String soDienThoai;
+  
     @Column(name = "TrangThai")
     private Boolean trangThai=true;
+  
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "MaGiaDinh", referencedColumnName = "MaGiaDinh")
     @ToString.Exclude
     private GiaDinh giaDinh;
+  
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MaQuyen",nullable = true)
     private NhomQuyen nhomQuyen;
+
+    @Column(name = "TrangThai")
+    private Boolean trangThai;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "MaNguoiDung", referencedColumnName = "MaNguoiDung")
