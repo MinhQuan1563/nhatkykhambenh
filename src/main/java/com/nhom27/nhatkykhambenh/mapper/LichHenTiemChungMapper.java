@@ -10,11 +10,13 @@ import org.mapstruct.Mapping;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import java.util.List;
+import java.util.Set;
 
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface LichHenTiemChungMapper {
     public NguoiDungTiemChung toNguoiDungTiemChung(NguoiDungTiemChungDTO nguoiDungTiemChungDTO);
     public NguoiDungTiemChungDTO toNguoiDungTiemChungDTO(NguoiDungTiemChung nguoiDungTiemChung);
+    public Set<NguoiDungTiemChung> toNguoiDungTiemChungSet(Set<NguoiDungTiemChungDTO> nguoiDungTiemChungDTOSet);
     public LichHenTiemChung toLichHenTiemChung(LichHenTiemChungDTO lichHenTiemChungDTO);
 
     @Mapping(source = "maLichHenTiemChung", target = "maLichHenTiemChung")

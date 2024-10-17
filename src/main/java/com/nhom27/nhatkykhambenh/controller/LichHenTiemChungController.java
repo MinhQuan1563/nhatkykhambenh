@@ -5,6 +5,7 @@ import com.nhom27.nhatkykhambenh.dto.NguoiDungDTO;
 import com.nhom27.nhatkykhambenh.dto.NguoiDungTiemChungDTO;
 import com.nhom27.nhatkykhambenh.model.NguoiDung;
 import com.nhom27.nhatkykhambenh.model.NguoiDungTiemChung;
+import com.nhom27.nhatkykhambenh.model.NguoiDungTiemChungId;
 import com.nhom27.nhatkykhambenh.service.interfaces.ILichHenTiemChungService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
@@ -16,6 +17,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/admin/lichhentiemchung")
@@ -29,7 +31,7 @@ public class LichHenTiemChungController {
     @GetMapping("add")
     public String AddLichHenTiemChung(Model model) {
         LichHenTiemChungDTO lichHenTiemChungDTO = new LichHenTiemChungDTO();
-        lichHenTiemChungDTO.setNguoiDungTiemChungList(new HashSet<NguoiDungTiemChungDTO>());
+        lichHenTiemChungDTO.setNguoiDungTiemChungList(new HashSet<>());
         model.addAttribute("lichHenTiemChungDTO", lichHenTiemChungDTO);
         //Lấy danh sách thành viên
         List<NguoiDungDTO> members = new ArrayList<>();
@@ -76,22 +78,27 @@ public class LichHenTiemChungController {
         members.add(nguoiDung2);
         members.add(nguoiDung1);
         members.add(nguoiDung3);
-
         model.addAttribute("members", members);
-
-
         return "/admin/lichhentiemchung/addLichHenTiemChung";
     }
+
     @PostMapping("/save")
-    public String CreateLichHenTiemChung(@ModelAttribute("lichhentiemchung")LichHenTiemChungDTO lichHenTiemChungDTO) {
-        System.out.println(lichHenTiemChungDTO.getNguoiDungTiemChungList().size());
-        this.lichHenTiemChungService.CreateLichHenTiemChung(lichHenTiemChungDTO);
+    public String CreateLichHenTiemChung(@ModelAttribute("lichhentiemchung") LichHenTiemChungDTO lichHenTiemChungDTO, @RequestParam("memberIds") List<Integer> memberIds, @RequestParam("tenVaccins") List<String> tenVaccins) {
+        Set<NguoiDungTiemChung> nguoiDungTiemChungSet = new HashSet<>();
+        for (int i = 0; i < memberIds.size(); i++) {
+            nguoiDungTiemChungSet.add(NguoiDungTiemChung.builder()
+                    .tenVaccin(tenVaccins.get(i))
+                    .nguoiDung(NguoiDung.builder().maNguoiDung(memberIds.get(i)).build())
+                    .build());
+        }
+        this.lichHenTiemChungService.CreateLichHenTiemChung(lichHenTiemChungDTO, nguoiDungTiemChungSet);
         return "redirect:/admin/lichhentiemchung";
     }
 
     @PostMapping("delete")
     public String DeleteLichHenTiemChung(@RequestParam("deletedIds") List<Integer> deletedIds) {
         this.lichHenTiemChungService.DeleteLichHenTiemChungList(deletedIds);
+
         return "redirect:/admin/lichhentiemchung";
     }
 

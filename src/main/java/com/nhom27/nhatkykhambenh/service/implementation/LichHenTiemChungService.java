@@ -1,12 +1,17 @@
 package com.nhom27.nhatkykhambenh.service.implementation;
 
 import com.nhom27.nhatkykhambenh.dto.LichHenTiemChungDTO;
+import com.nhom27.nhatkykhambenh.dto.NguoiDungTiemChungDTO;
 import com.nhom27.nhatkykhambenh.mapper.LichHenTiemChungMapper;
 import com.nhom27.nhatkykhambenh.model.LichHenTiemChung;
+import com.nhom27.nhatkykhambenh.model.NguoiDung;
+import com.nhom27.nhatkykhambenh.model.NguoiDungTiemChung;
 import com.nhom27.nhatkykhambenh.repository.ILichHenTiemChungRepo;
+import com.nhom27.nhatkykhambenh.repository.INguoiDungTiemChung;
 import com.nhom27.nhatkykhambenh.service.interfaces.ILichHenTiemChungService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.Set;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +22,19 @@ public class LichHenTiemChungService implements ILichHenTiemChungService {
     private ILichHenTiemChungRepo lichHenTiemChungRepo;
 
     @Autowired
+    private INguoiDungTiemChung nguoiDungTiemChungRepo;
+
+    @Autowired
     private LichHenTiemChungMapper lichHenTiemChungMapper;
 
     @Override
-    public void CreateLichHenTiemChung(LichHenTiemChungDTO lichHenTiemChungDTO) {
+    public void CreateLichHenTiemChung(LichHenTiemChungDTO lichHenTiemChungDTO, Set<NguoiDungTiemChung> nguoiDungTiemChungSet) {
         LichHenTiemChung lichHenTiemChung = this.lichHenTiemChungMapper.toLichHenTiemChung(lichHenTiemChungDTO);
-        lichHenTiemChungRepo.save(lichHenTiemChung);
+        LichHenTiemChung savedLichHenTiemChung = lichHenTiemChungRepo.save(lichHenTiemChung);
+        nguoiDungTiemChungSet.forEach(nguoiDungTiemChung -> {
+            nguoiDungTiemChung.setLichHenTiemChung(savedLichHenTiemChung);
+        });
+         nguoiDungTiemChungRepo.saveAll(nguoiDungTiemChungSet);
         return;
     }
 

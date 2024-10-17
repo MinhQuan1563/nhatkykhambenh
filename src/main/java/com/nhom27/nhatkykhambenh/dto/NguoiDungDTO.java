@@ -1,6 +1,7 @@
 package com.nhom27.nhatkykhambenh.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.sql.Timestamp;
@@ -8,6 +9,7 @@ import java.sql.Timestamp;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class NguoiDungDTO {
     private Integer maNguoiDung;
     private String hinhAnh;
