@@ -52,7 +52,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute("registration") RegistrationDTO registrationDTO,
+        public String register(@ModelAttribute("registration") RegistrationDTO registrationDTO,
                            Model model) {
         try {
             if (!Validation.checkPasswordMatch(registrationDTO.getTaikhoan().getMatKhau(),
