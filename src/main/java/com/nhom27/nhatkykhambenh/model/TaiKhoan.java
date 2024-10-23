@@ -38,9 +38,6 @@ public class TaiKhoan {
     @JoinColumn(name = "MaQuyen",nullable = true)
     private NhomQuyen nhomQuyen;
 
-    @Column(name = "TrangThai")
-    private Boolean trangThai;
-
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "MaNguoiDung", referencedColumnName = "MaNguoiDung")
     @ToString.Exclude

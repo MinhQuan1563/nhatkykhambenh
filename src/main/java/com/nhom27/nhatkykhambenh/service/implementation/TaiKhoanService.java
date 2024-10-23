@@ -11,7 +11,6 @@ import com.nhom27.nhatkykhambenh.repository.INguoiDungRepo;
 import com.nhom27.nhatkykhambenh.repository.ITaiKhoanRepo;
 import com.nhom27.nhatkykhambenh.service.interfaces.ITaiKhoanService;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -71,6 +70,16 @@ public class TaiKhoanService implements ITaiKhoanService {
 
         if (taiKhoan != null) {
             return taiKhoanMapper.toTaiKhoanDTO(taiKhoan);
+        }
+        return null;
+    }
+
+    @Override
+    public TaiKhoan findBySoDienThoaiAndMatKhau(String soDienThoai, String matKhau) {
+        for (TaiKhoan i:taiKhoanRepo.findAll()){
+            if(i.getMatKhau().equals(matKhau) && i.getSoDienThoai().equals(soDienThoai)){
+                return i;
+            }
         }
         return null;
     }
