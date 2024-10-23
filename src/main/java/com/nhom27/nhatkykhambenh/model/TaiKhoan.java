@@ -19,6 +19,8 @@ public class TaiKhoan {
 
     @Column(name = "TaiKhoan")
     private String taiKhoan;
+//    @Column(name = "MaGiaDinh")
+//    private  Integer maGiaDinh;
 
     @Column(name = "MatKhau")
     private String matKhau;
@@ -37,9 +39,6 @@ public class TaiKhoan {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MaQuyen",nullable = true)
     private NhomQuyen nhomQuyen;
-
-    @Column(name = "TrangThai")
-    private Boolean trangThai;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "MaNguoiDung", referencedColumnName = "MaNguoiDung")

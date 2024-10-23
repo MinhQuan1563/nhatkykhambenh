@@ -14,7 +14,6 @@ public class GiaDinhService implements IGiaDinhService {
     @Override
     public void saveGiaDinh(GiaDinh giaDinh) {
         try{
-
             giaDinhRepo.save(giaDinh);
         }catch (Exception e){
             e.printStackTrace();

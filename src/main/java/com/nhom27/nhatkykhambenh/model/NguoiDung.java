@@ -6,8 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,25 +21,27 @@ import java.util.Set;
 @Table(name = "NguoiDung")
 public class NguoiDung {
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MaNguoiDung")
     private Integer maNguoiDung;
 
-    @Column(name = "HoTen")
-    private String hoTen;
+//    @Column(name = "HoTen")
+//    private String hoTen;
 
     @Column(name = "HinhAnh")
     private String hinhAnh;
-
     @Column(name = "SoDienThoai")
     private String soDienThoai;
 
     @Column(name = "CCCD")
     private String cccd;
 
+//    @Column(name = "NgayThangNamSinh")
+//    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "NgayThangNamSinh")
     @Temporal(TemporalType.TIMESTAMP)
-    private Timestamp ngayThangNamSinh;
+    private Date ngayThangNamSinh;
 
     @Column(name = "GioiTinh")
     private String gioiTinh;
@@ -50,11 +54,13 @@ public class NguoiDung {
     @Column(name = "Email")
     private String email;
 
-    @Column(name = "MatKhau")
-    private String matKhau;
+//    @Column(name = "MatKhau")
+//    private String matKhau;
 
+//    @Column(name = "MoiQuanHe")
+//    private MoiQuanHe moiQuanHe;
     @Column(name = "MoiQuanHe")
-    private MoiQuanHe moiQuanHe;
+    private String moiQuanHe;
 
     @Column(name = "TrangThai")
     private Boolean trangThai=true;

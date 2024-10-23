@@ -93,4 +93,14 @@ public class TaiKhoanService implements ITaiKhoanService {
 
         return taiKhoanDTO;
     }
+
+    @Override
+    public TaiKhoan findBySoDienThoaiAndMatKhau(String soDienThoai, String matKhau) {
+        for (TaiKhoan i:taiKhoanRepo.findAll()){
+            if(i.getMatKhau().equals(matKhau) && i.getSoDienThoai().equals(soDienThoai)){
+                return i;
+            }
+        }
+        return null;
+    }
 }

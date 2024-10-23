@@ -2,6 +2,7 @@ package com.nhom27.nhatkykhambenh.service.interfaces;
 
 import com.nhom27.nhatkykhambenh.dto.NguoiDungDTO;
 import com.nhom27.nhatkykhambenh.dto.TaiKhoanDTO;
+import com.nhom27.nhatkykhambenh.model.TaiKhoan;
 
 public interface ITaiKhoanService {
     void saveTaiKhoan(TaiKhoanDTO taiKhoanDTO);
@@ -15,4 +16,5 @@ public interface ITaiKhoanService {
     TaiKhoanDTO getTaiKhoanByName(String name);
 
     public TaiKhoanDTO registerUser(TaiKhoanDTO taiKhoanDTO, NguoiDungDTO nguoiDungDTO);
+    TaiKhoan findBySoDienThoaiAndMatKhau(String soDienThoai, String matKhau);
 }

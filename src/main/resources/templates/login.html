@@ -26,7 +26,7 @@
         <!-------------------- ------ Right Box ---------------------------->
 
         <div class="col-md-6 right-box">
-            <form th:action="@{/login}" th:object="${taikhoan}" method="POST" class="row align-items-center">
+            <form th:action="@{/login}" th:object="${taiKhoan}" method="POST" class="row align-items-center">
                 <div class="header-text mb-4 w-100 d-flex flex-column justify-content-center">
                     <h2 class="text-center fw-bold">Đăng nhập</h2>
                 </div>
@@ -48,7 +48,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="accountForm" class="form-label">Số điện thoại</label>
-                    <input type="text" id="accountForm" th:field="*{taiKhoan}" pattern="[0-9]*" class="form-control form-control-lg bg-light fs-6" placeholder="Nhập thông tin" maxlength="100" />
+                    <input type="text" id="accountForm" th:field="*{soDienThoai}" pattern="[0-9]*" class="form-control form-control-lg bg-light fs-6" placeholder="Nhập Số Điện Thoại" maxlength="100" />
                 </div>
                 <div class="position-relative">
                     <label for="passwordForm" class="form-label">Mật khẩu</label>

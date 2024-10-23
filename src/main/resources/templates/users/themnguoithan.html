@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org" th:replace="~{base}">
 <head>
     <meta charset="UTF-8">
@@ -10,16 +11,16 @@
 <div th:fragment="contentUser" class="container">
     <link rel="stylesheet" th:href="@{../../css/user/themnguoithan.css}">
     <div class="form-container">
-        <div class="profile-pic-wrapper">
-            <div class="profile-pic">
-                <img id="profileImage" src="https://via.placeholder.com/150" alt="Profile Picture">
+        <form action="#" th:action="@{/users/themnguoithan}" th:object="${nguoiDung}" method="POST" enctype="multipart/form-data">
+            <div class="profile-pic-wrapper">
+                <div class="profile-pic">
+                    <img id="profileImage" src="https://via.placeholder.com/150" alt="Profile Picture">
+                </div>
+                <label for="imageUpload" class="camera-icon">
+                    <i class="bi bi-camera"></i>
+                </label>
+                <input type="file" id="imageUpload" accept="image/*">
             </div>
-            <label for="imageUpload" class="camera-icon">
-                <i class="bi bi-camera"></i>
-            </label>
-            <input type="file" id="imageUpload" accept="image/*">
-        </div>
-        <form action="#" th:action="@{/users/themnguoithan}" th:object="${nguoiDung}">
             <div class="row">
                 <div class="mb-3">
                     <label for="fullName" class="form-label">Họ tên *</label>
@@ -36,14 +37,6 @@
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="gender" id="male" value="male" th:field="*{gioiTinh}" checked>
                         <label class="form-check-label" for="male">Nam</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="gender" id="female" th:field="*{gioiTinh}" value="female">
-                        <label class="form-check-label" for="female">Nữ</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="gender" id="other" th:field="*{gioiTinh}" value="other">
-                        <label class="form-check-label" for="other">Khác</label>
                     </div>
                 </div>
             </div>
@@ -73,28 +66,10 @@
                 <label for="email" class="form-label">Email</label>
                 <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="Nhập nội dung">
             </div>
-<!--            <div class="mb-3">-->
-<!--                <label for="city" class="form-label">Tỉnh/Thành phố *</label>-->
-<!--                <select class="form-select" id="city" required>-->
-<!--                    <option value="" selected disabled>-Chọn-</option>-->
-<!--                </select>-->
-<!--            </div>-->
-<!--            <div class="mb-3">-->
-<!--                <label for="district" class="form-label">Quận/Huyện *</label>-->
-<!--                <select class="form-select" id="district" required>-->
-<!--                    <option value="" selected disabled>-Chọn-</option>-->
-<!--                </select>-->
-<!--            </div>-->
-<!--            <div class="mb-3">-->
-<!--                <label for="ward" class="form-label">Phường/Xã *</label>-->
-<!--                <select class="form-select" id="ward" required>-->
-<!--                    <option value="" selected disabled>-Chọn-</option>-->
-<!--                </select>-->
-<!--            </div>-->
-<!--            <div class="mb-3">-->
-<!--                <label for="address" class="form-label">Thôn/Xóm/Số nhà</label>-->
-<!--                <input type="text" class="form-control" id="address" placeholder="Nhập nội dung">-->
-<!--            </div>-->
+            <div class="mb-3">
+                <label for="address" class="form-label">Thôn/Xóm/Số nhà</label>
+                <input type="text" class="form-control" id="address" th:field="*{diaChi}" placeholder="Nhập nội dung">
+            </div>
             <button type="submit" class="btn btn-primary w-100">Lưu thông tin</button>
         </form>
     </div>
