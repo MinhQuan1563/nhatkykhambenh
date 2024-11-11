@@ -45,5 +45,4 @@ public class KhamBenh {
 
     @OneToOne(mappedBy = "khamBenh")
     private DonThuoc donThuoc;
-
 }

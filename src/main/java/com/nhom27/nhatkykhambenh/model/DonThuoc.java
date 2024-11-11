@@ -5,12 +5,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "DonThuoc")
 public class DonThuoc {
+
+    public static final String OBJ_NAME = "DonThuoc";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MaDonThuoc")
@@ -19,13 +25,13 @@ public class DonThuoc {
     @Column(name = "BacSiKham")
     private String bacSiKham;
 
-    @Column(name = "TenThuoc")
-    private String tenThuoc;
-
     @Column(name = "TrangThai")
     private Boolean trangThai;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MaKhamBenh", referencedColumnName = "MaKhamBenh")
     private KhamBenh khamBenh;
+
+    @OneToMany(mappedBy = "donThuoc", fetch = FetchType.LAZY)
+    private Set<ChiTietDonThuoc> danhSachChiTietDonThuoc = new HashSet<>();
 }

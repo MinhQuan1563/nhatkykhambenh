@@ -1,6 +1,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/admin/dashboard}">
 <head>
-    <title>Quản lý tiêm chủng</title>
+    <title>Quản lý Đơn Thuốc</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
@@ -54,10 +54,10 @@
                     <div class="table-title">
                         <div class="row">
                             <div class="col-sm-6 p-0 d-flex justify-content-lg-start justify-content-center">
-                                <h2 class="ml-lg-2">Quản lý tiêm chủng</h2>
+                                <h2 class="ml-lg-2">Quản lý Đơn Thuốc</h2>
                             </div>
                             <div class="col-sm-6 p-0 d-flex justify-content-lg-end justify-content-center">
-                                <a th:href="@{/admin/tiemchung/add}" class="btn btn-success">
+                                <a th:href="@{/admin/donthuoc/add}" class="btn btn-success">
                                     <i class="material-icons">&#xE147;</i>
                                     <span>Thêm mới</span>
                                 </a>
@@ -98,33 +98,29 @@
                                         <label for="selectAll"></label>
                                     </span>
                             </th>
-                            <th>Mã tiêm chủng</th>
-                            <th>Nơi tiêm chủng</th>
-                            <th>Ngày tiêm</th>
-                            <th>Người tiêm</th>
-                            <th>Số mũi</th>
+                            <th>Mã Đơn Thuốc</th>
+                            <th>Mã Khám Bệnh</th>
+                            <th>Bác Sĩ</th>
                             <th>Thao tác</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="tiemchung : ${dsTiemChung}">
+                        <tr th:each="donthuoc : ${dsDonThuoc}">
                             <td>
                                     <span class="custom-checkbox">
-                                        <input type="checkbox" th:id="${tiemchung.maTiemChung}"
-                                               th:value="${tiemchung.maTiemChung}"
+                                        <input type="checkbox" th:id="${donthuoc.maDonThuoc}"
+                                               th:value="${donthuoc.maDonThuoc}"
                                                name="selectedIds">
-                                        <label th:for="'checkbox' + ${tiemchung.maTiemChung}"></label>
+                                        <label th:for="'checkbox' + ${donthuoc.maDonThuoc}"></label>
                                     </span>
                             </td>
-                            <td th:text="${tiemchung.maTiemChung}"></td>
-                            <td th:text="${tiemchung.noiTiemChung}"></td>
-                            <td th:text="${tiemchung.ngayTiem}"></td>
-                            <td th:text="${tiemchung.nguoiTiem}"></td>
-                            <td th:text="${tiemchung.soMuiTiem}"></td>
+                            <td th:text="${donthuoc.maDonThuoc}"></td>
+                            <td th:text="${donthuoc.khamBenh.maKhamBenh}"></td>
+                            <td th:text="${donthuoc.bacSi}"></td>
                             <td>
-                                <a th:href="@{/admin/tiemchung/update(id=${tiemchung.maTiemChung})}" class="edit">
-                                    <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                <a href="#" class="delete" data-toggle="modal" th:data-id="${tiemchung.maTiemChung}">
+                                <a th:href="@{/admin/donthuoc/update(id=${donthuoc.maDonThuoc})}" class="edit">
+                                    <i class="material-icons" data-toggle="tooltip" t   itle="Edit">&#xE254;</i></a>
+                                <a href="#" class="delete" data-toggle="modal" th:data-id="${donthuoc.maDonThuoc}">
                                     <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                             </td>
                         </tr>
@@ -140,17 +136,17 @@
                         <ul class="pagination">
                             <li th:if="${currentPage > 0}"
                                 th:class="${currentPage == 0 ? 'page-item disabled' : 'page-item'}">
-                                <a th:href="@{/admin/tiemchung(page=${currentPage - 1}, size=${pageSize}, query=${query})}"
+                                <a th:href="@{/admin/donthuoc(page=${currentPage - 1}, size=${pageSize}, query=${query})}"
                                    class="page-link">Trước</a>
                             </li>
                             <li class="page-item" th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
                                 th:classappend="${pageNum == currentPage} ? active">
-                                <a th:href="@{/admin/tiemchung(page=${pageNum}, size=${pageSize}, query=${query})}"
+                                <a th:href="@{/admin/donthuoc(page=${pageNum}, size=${pageSize}, query=${query})}"
                                    class="page-link" th:text="${pageNum + 1}"></a>
                             </li>
                             <li th:if="${currentPage < totalPages - 1}"
                                 th:class="${currentPage == totalPages - 1 ? 'page-item disabled' : 'page-item'}">
-                                <a th:href="@{/admin/tiemchung(page=${currentPage + 1}, size=${pageSize}, query=${query})}"
+                                <a th:href="@{/admin/donthuoc(page=${currentPage + 1}, size=${pageSize}, query=${query})}"
                                    class="page-link">Sau</a>
                             </li>
                         </ul>
@@ -162,10 +158,10 @@
             <div id="deleteModal" class="modal fade">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <form th:action="@{/admin/tiemchung/delete}" method="POST">
-                            <input type="hidden" name="maTiemChung" id="maTiemChung">
+                        <form th:action="@{/admin/donthuoc/delete}" method="POST">
+                            <input type="hidden" name="maDonThuoc" id="maDonThuoc">
                             <div class="modal-header">
-                                <h4 class="modal-title">Xóa thông tin tiêm chủng</h4>
+                                <h4 class="modal-title">Xóa thông tin Khám Bệnh</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
                                 </button>
                             </div>
@@ -186,10 +182,10 @@
             <div id="deleteAllModal" class="modal fade">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <form th:action="@{/admin/tiemchung/deleteall}" method="POST">
+                        <form th:action="@{/admin/donthuoc/deleteall}" method="POST">
                             <input type="hidden" name="selectedIds" id="selectedIds">
                             <div class="modal-header">
-                                <h4 class="modal-title">Xóa thông tin tiêm chủng</h4>
+                                <h4 class="modal-title">Xóa thông tin Khám Bệnh</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
                                 </button>
                             </div>
@@ -218,7 +214,7 @@
     </footer>
 
     <script th:src="@{/js/admin/jquery-3.3.1.min.js}"></script>
-    <script th:src="@{../../js/admin/tiemchung.js}"></script>
+    <script th:src="@{../../js/admin/donthuoc.js}"></script>
 </div>
 </body>
 </html>

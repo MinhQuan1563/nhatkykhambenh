@@ -1,11 +1,13 @@
 package com.nhom27.nhatkykhambenh.service.implementation;
 
-import com.nhom27.nhatkykhambenh.dto.TiemChungDTO;
+import com.nhom27.nhatkykhambenh.dto.DonThuocDTO;
+import com.nhom27.nhatkykhambenh.dto.DonThuocDTO;
 import com.nhom27.nhatkykhambenh.exception.SaveDataException;
-import com.nhom27.nhatkykhambenh.mapper.TiemChungMapper;
-import com.nhom27.nhatkykhambenh.model.TiemChung;
-import com.nhom27.nhatkykhambenh.repository.ITiemChungRepo;
-import com.nhom27.nhatkykhambenh.service.interfaces.ITiemChungService;
+import com.nhom27.nhatkykhambenh.mapper.DonThuocMapper;
+import com.nhom27.nhatkykhambenh.model.DonThuoc;
+import com.nhom27.nhatkykhambenh.model.DonThuoc;
+import com.nhom27.nhatkykhambenh.repository.IDonThuocRepo;
+import com.nhom27.nhatkykhambenh.service.interfaces.IDonThuocService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
@@ -18,19 +20,18 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class TiemChungService implements ITiemChungService {
+public class DonThuocService implements IDonThuocService {
+    @Autowired
+    private IDonThuocRepo donThuocRepo;
 
     @Autowired
-    private ITiemChungRepo tiemChungRepo;
-
-    @Autowired
-    private TiemChungMapper tiemChungMapper;
+    private DonThuocMapper donThuocMapper;
 
     @PersistenceContext
     private EntityManager entityManager;
 
 //    @Override
-//    public Page<TiemChungDTO> getDSTiemChung(Pageable pageable, String query) {
+//    public Page<DonThuocDTO> getDSDonThuoc(Pageable pageable, String query) {
 //        String searchTerm = "%" + query + "%";
 //
 //        String columnQuery = "SELECT GROUP_CONCAT(COLUMN_NAME) FROM INFORMATION_SCHEMA.COLUMNS " +
@@ -41,66 +42,66 @@ public class TiemChungService implements ITiemChungService {
 //        // Tạo truy vấn động với LIMIT và OFFSET
 //        String sql = "SELECT * FROM tiem_chung WHERE CONCAT(" + columns + ") LIKE :searchTerm " +
 //                "LIMIT :limit OFFSET :offset";
-//        Query nativeQuery = entityManager.createNativeQuery(sql, TiemChung.class);
+//        Query nativeQuery = entityManager.createNativeQuery(sql, DonThuoc.class);
 //        nativeQuery.setParameter("searchTerm", searchTerm);
 //        nativeQuery.setParameter("limit", pageable.getPageSize());
 //        nativeQuery.setParameter("offset", pageable.getPageNumber() * pageable.getPageSize());
 //
-//        List<TiemChung> results = nativeQuery.getResultList();
+//        List<DonThuoc> results = nativeQuery.getResultList();
 //
 //        long totalElements = results.size(); // Tổng số phần tử
-//        return new PageImpl<>(tiemChungMapper.toTiemChungDtoList(results), pageable, totalElements);
+//        return new PageImpl<>(donThuocMapper.toDonThuocDtoList(results), pageable, totalElements);
 //    }
 
     @Override
-    public Page<TiemChungDTO> getDSTiemChung(Pageable pageable, String query) {
+    public Page<DonThuocDTO> getDSDonThuoc(Pageable pageable, String query) {
         String searchTerm = "%" + query + "%";
-
         String columnQuery = "SELECT GROUP_CONCAT(COLUMN_NAME) FROM INFORMATION_SCHEMA.COLUMNS " +
-                "WHERE TABLE_NAME = 'tiem_chung' AND TABLE_SCHEMA = 'nhatkykhambenh'";
+                "WHERE TABLE_NAME = 'don_thuoc' AND TABLE_SCHEMA = 'nhatkykhambenh'";
         Query columnNativeQuery = entityManager.createNativeQuery(columnQuery);
         String columns = (String) columnNativeQuery.getSingleResult();
 
         // Tạo truy vấn động với LIMIT và OFFSET
-        String sql = "SELECT * FROM tiem_chung WHERE trang_thai=1 AND CONCAT(" + columns + ") LIKE :searchTerm ";
-        Query nativeQuery = entityManager.createNativeQuery(sql, TiemChung.class);
+        String sql = "SELECT * FROM don_thuoc WHERE trang_thai=1 AND CONCAT(" + columns + ") LIKE :searchTerm ";
+        Query nativeQuery = entityManager.createNativeQuery(sql, DonThuoc.class);
         nativeQuery.setParameter("searchTerm", searchTerm);
 
-        List<TiemChung> results = nativeQuery.getResultList();
+        List<DonThuoc> results = nativeQuery.getResultList();
 
         long totalElements = results.size(); // Tổng số phần tử
-        return new PageImpl<>(tiemChungMapper.toTiemChungDtoList(results), pageable, totalElements);
+        return new PageImpl<>(donThuocMapper.toDonThuocDtoList(results), pageable, totalElements);
     }
 
+
     @Override
-    public void saveTiemChung(TiemChungDTO tiemChungDTO) {
-        TiemChung tiemChung = tiemChungMapper.toTiemChung(tiemChungDTO);
-        tiemChung.setTrangThai(true);
+    public void saveDonThuoc(DonThuocDTO donThuocDTO) {
+        DonThuoc donThuoc = donThuocMapper.toDonThuoc(donThuocDTO);
+        donThuoc.setTrangThai(true);
         try {
-            tiemChungRepo.save(tiemChung);
+            donThuocRepo.save(donThuoc);
         } catch (Exception e) {
-            throw new SaveDataException(TiemChung.OBJ_NAME);
+            throw new SaveDataException(DonThuoc.OBJ_NAME);
         }
     }
 
     @Override
-    public TiemChungDTO findById(Integer id) {
-        TiemChung tiemChung = tiemChungRepo.findById(id).get();
-        return tiemChungMapper.toTiemChungDTO(tiemChung);
+    public DonThuocDTO findById(Integer id) {
+        DonThuoc donThuoc = donThuocRepo.findById(id).get();
+        return donThuocMapper.toDonThuocDTO(donThuoc);
     }
 
     @Override
     public void deleteById(Integer id) {
-        TiemChung tiemChung = tiemChungRepo.findById(id).orElseThrow(() -> new SaveDataException(TiemChung.OBJ_NAME));
-        tiemChung.setTrangThai(false);
-        tiemChungRepo.save(tiemChung);
+        DonThuoc donThuoc = donThuocRepo.findById(id).orElseThrow(() -> new SaveDataException(DonThuoc.OBJ_NAME));
+        donThuoc.setTrangThai(false);
+        donThuocRepo.save(donThuoc);
     }
 
     public void deleteAllByIds(List<Integer> ids) {
-        List<TiemChung> tiemChungList = tiemChungRepo.findAllById(ids);
-        for (TiemChung tiemChung : tiemChungList) {
-            tiemChung.setTrangThai(false);
+        List<DonThuoc> donThuocList = donThuocRepo.findAllById(ids);
+        for (DonThuoc donThuoc : donThuocList) {
+            donThuoc.setTrangThai(false);
         }
-        tiemChungRepo.saveAll(tiemChungList);
+        donThuocRepo.saveAll(donThuocList);
     }
 }

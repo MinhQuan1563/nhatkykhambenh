@@ -1,8 +1,12 @@
 package com.nhom27.nhatkykhambenh.controller;
 
 import com.nhom27.nhatkykhambenh.dto.KhamBenhDTO;
+import com.nhom27.nhatkykhambenh.dto.NguoiDungDTO;
+import com.nhom27.nhatkykhambenh.dto.TiemChungDTO;
 import com.nhom27.nhatkykhambenh.exception.SaveDataException;
+import com.nhom27.nhatkykhambenh.model.NguoiDung;
 import com.nhom27.nhatkykhambenh.service.implementation.KhamBenhService;
+import com.nhom27.nhatkykhambenh.service.implementation.NguoiDungService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,6 +29,9 @@ public class KhamBenhController {
     @Autowired
     private KhamBenhService khamBenhService;
 
+    @Autowired
+    private NguoiDungService nguoiDungService;
+
     @GetMapping("/admin/khambenh")
     public String GetListKhamBenh(Model model,
                                    @RequestParam(defaultValue = "0") int page,
@@ -32,7 +39,6 @@ public class KhamBenhController {
                                    @RequestParam(defaultValue = "") String query) {
         Pageable pageable = PageRequest.of(page, size);
         Page<KhamBenhDTO> khamBenhPage = khamBenhService.getDSKhamBenh(pageable,query);
-        int count = 0;
 
         model.addAttribute("dsKhamBenh", khamBenhPage.getContent());
         model.addAttribute("currentPage", page);
@@ -60,9 +66,20 @@ public class KhamBenhController {
     @GetMapping("/admin/khambenh/add")
     public String addKhamBenhForm(Model model) {
         KhamBenhDTO khamBenhDTO = new KhamBenhDTO();
+        Pageable pageable = PageRequest.of(0, 5);
+        Page<NguoiDungDTO> nguoiDungPage = nguoiDungService.getDSNguoiDung(pageable, "");
+        int count=0;
+        for(var nguoidung : nguoiDungPage) {
+            count++;
+            System.out.println("nguoidung: " + nguoidung.getMaNguoiDung());
+        }
+
+        System.out.println("count: " + count);
+        model.addAttribute("dsNguoiDung", nguoiDungPage.getContent());
         model.addAttribute("khambenh", khamBenhDTO);
         return "admin/khambenh/addKhamBenh";
     }
+
 
     @GetMapping("/admin/khambenh/update")
     public String updateKhamBenhForm(@RequestParam("id") Integer id, Model model) {

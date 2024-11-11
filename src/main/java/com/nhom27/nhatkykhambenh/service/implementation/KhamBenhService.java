@@ -1,10 +1,13 @@
 package com.nhom27.nhatkykhambenh.service.implementation;
 
 import com.nhom27.nhatkykhambenh.dto.KhamBenhDTO;
+import com.nhom27.nhatkykhambenh.dto.NguoiDungDTO;
 import com.nhom27.nhatkykhambenh.dto.TiemChungDTO;
 import com.nhom27.nhatkykhambenh.exception.SaveDataException;
 import com.nhom27.nhatkykhambenh.mapper.KhamBenhMapper;
+import com.nhom27.nhatkykhambenh.mapper.NguoiDungMapper;
 import com.nhom27.nhatkykhambenh.model.KhamBenh;
+import com.nhom27.nhatkykhambenh.model.NguoiDung;
 import com.nhom27.nhatkykhambenh.model.TiemChung;
 import com.nhom27.nhatkykhambenh.repository.IKhamBenhRepo;
 import com.nhom27.nhatkykhambenh.service.interfaces.IKhamBenhService;
@@ -15,9 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class KhamBenhService implements IKhamBenhService {
     @Autowired
     private IKhamBenhRepo khamBenhRepo;
@@ -25,31 +29,11 @@ public class KhamBenhService implements IKhamBenhService {
     @Autowired
     private KhamBenhMapper khamBenhMapper;
 
+    @Autowired
+    private NguoiDungMapper nguoiDungMapper;
+
     @PersistenceContext
     private EntityManager entityManager;
-
-//    @Override
-//    public Page<TiemChungDTO> getDSTiemChung(Pageable pageable, String query) {
-//        String searchTerm = "%" + query + "%";
-//
-//        String columnQuery = "SELECT GROUP_CONCAT(COLUMN_NAME) FROM INFORMATION_SCHEMA.COLUMNS " +
-//                "WHERE TABLE_NAME = 'tiem_chung' AND TABLE_SCHEMA = 'nhatkykhambenh'";
-//        Query columnNativeQuery = entityManager.createNativeQuery(columnQuery);
-//        String columns = (String) columnNativeQuery.getSingleResult();
-//
-//        // Tạo truy vấn động với LIMIT và OFFSET
-//        String sql = "SELECT * FROM tiem_chung WHERE CONCAT(" + columns + ") LIKE :searchTerm " +
-//                "LIMIT :limit OFFSET :offset";
-//        Query nativeQuery = entityManager.createNativeQuery(sql, TiemChung.class);
-//        nativeQuery.setParameter("searchTerm", searchTerm);
-//        nativeQuery.setParameter("limit", pageable.getPageSize());
-//        nativeQuery.setParameter("offset", pageable.getPageNumber() * pageable.getPageSize());
-//
-//        List<TiemChung> results = nativeQuery.getResultList();
-//
-//        long totalElements = results.size(); // Tổng số phần tử
-//        return new PageImpl<>(tiemChungMapper.toTiemChungDtoList(results), pageable, totalElements);
-//    }
 
     @Override
     public Page<KhamBenhDTO> getDSKhamBenh(Pageable pageable, String query) {
@@ -61,7 +45,7 @@ public class KhamBenhService implements IKhamBenhService {
         String columns = (String) columnNativeQuery.getSingleResult();
 
         // Tạo truy vấn động với LIMIT và OFFSET
-        String sql = "SELECT * FROM kham_benh WHERE CONCAT(" + columns + ") LIKE :searchTerm ";
+        String sql = "SELECT * FROM kham_benh WHERE trang_thai=1 AND CONCAT(" + columns + ") LIKE :searchTerm ";
         Query nativeQuery = entityManager.createNativeQuery(sql, KhamBenh.class);
         nativeQuery.setParameter("searchTerm", searchTerm);
 
