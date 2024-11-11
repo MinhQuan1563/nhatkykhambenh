@@ -132,8 +132,8 @@
 
                     <!-- Pagination -->
                     <div class="clearfix">
-                        <div class="hint-text">Hiển thị <b th:text="${currentCount}"></b> trong số <b
-                                th:text="${totalItems}"></b> mục
+                        <div class="hint-text">Hiển thị <b th:text="${currentPage * pageSize + 1}"></b> đến
+                            <b th:text="${currentPage * pageSize + dsKhamBenh.size()}"></b> trong số <b th:text="${totalItems}"></b> mục
                         </div>
                         <ul class="pagination">
                             <li th:if="${currentPage > 0}"

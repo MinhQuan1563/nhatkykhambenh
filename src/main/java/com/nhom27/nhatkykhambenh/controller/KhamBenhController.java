@@ -7,6 +7,8 @@ import com.nhom27.nhatkykhambenh.exception.SaveDataException;
 import com.nhom27.nhatkykhambenh.model.NguoiDung;
 import com.nhom27.nhatkykhambenh.service.implementation.KhamBenhService;
 import com.nhom27.nhatkykhambenh.service.implementation.NguoiDungService;
+import com.nhom27.nhatkykhambenh.service.interfaces.IKhamBenhService;
+import com.nhom27.nhatkykhambenh.service.interfaces.INguoiDungService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,10 +29,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class KhamBenhController {
     @Autowired
-    private KhamBenhService khamBenhService;
+    private IKhamBenhService khamBenhService;
 
     @Autowired
-    private NguoiDungService nguoiDungService;
+    private INguoiDungService nguoiDungService;
 
     @GetMapping("/admin/khambenh")
     public String GetListKhamBenh(Model model,
@@ -67,7 +69,7 @@ public class KhamBenhController {
     public String addKhamBenhForm(Model model) {
         KhamBenhDTO khamBenhDTO = new KhamBenhDTO();
         Pageable pageable = PageRequest.of(0, 5);
-        Page<NguoiDungDTO> nguoiDungPage = nguoiDungService.getDSNguoiDung(pageable, "");
+        List<NguoiDung> nguoiDungPage = nguoiDungService.getAllNguoiDung();
         int count=0;
         for(var nguoidung : nguoiDungPage) {
             count++;
@@ -75,7 +77,7 @@ public class KhamBenhController {
         }
 
         System.out.println("count: " + count);
-        model.addAttribute("dsNguoiDung", nguoiDungPage.getContent());
+        model.addAttribute("dsNguoiDung", nguoiDungPage);
         model.addAttribute("khambenh", khamBenhDTO);
         return "admin/khambenh/addKhamBenh";
     }
@@ -84,18 +86,29 @@ public class KhamBenhController {
     @GetMapping("/admin/khambenh/update")
     public String updateKhamBenhForm(@RequestParam("id") Integer id, Model model) {
         KhamBenhDTO khamBenhDTO = khamBenhService.findById(id);
+        List<NguoiDung> nguoiDungPage = nguoiDungService.getAllNguoiDung();
         model.addAttribute("khambenh", khamBenhDTO);
+        model.addAttribute("dsNguoiDung", nguoiDungPage);
+        model.addAttribute("maND", khamBenhDTO.getNguoiDung().getMaNguoiDung());
+
+        System.out.println("size = " + nguoiDungPage.size());
+        System.out.println("maND = " + khamBenhDTO.getNguoiDung().getMaNguoiDung());
+
         return "admin/khambenh/addKhamBenh";
     }
 
     @PostMapping("/admin/khambenh/save")
     public String saveKhamBenh(@ModelAttribute("khambenh") KhamBenhDTO khambenh,
                                 BindingResult bindingResult,
-                                Model model) {
+                                Model model,
+                                @RequestParam Integer maNguoiDung) {
         if (bindingResult.hasErrors()) {
             return "admin/khambenh/addKhamBenh";
         }
         try {
+            System.out.println("maNguoiDung = " + maNguoiDung);
+            NguoiDung nguoiDung = nguoiDungService.getById(maNguoiDung);
+            khambenh.setNguoiDung(nguoiDung);
             khamBenhService.saveKhamBenh(khambenh);
             return "redirect:/admin/khambenh";
         } catch (SaveDataException e) {

@@ -14,22 +14,17 @@
           <div class="card-body">
             <form th:action="@{/admin/khambenh/save}" th:object="${khambenh}" method="post">
               <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="maKhamBenh">Mã Khám Bệnh:</label>
-                    <input type="number" id="maKhamBenh" class="form-control form-control-lg bg-light fs-6" th:field="*{maKhamBenh}" disabled/>
-                    <span th:if="${#fields.hasErrors('maKhamBenh')}" th:errors="*{maKhamBenh}" class="text-danger"></span>
-                  </div>
-                </div>
+                <input type="number" id="maNguoiDung" class="form-control form-control-lg bg-light fs-6" hidden />
 
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="maNguoiDung">Mã Người Dùng:</label>
-                    <select class="form-control" id="maNguoiDung" th:field="*{nguoiDung}">
-                      <option value="">Chọn Mã Người Dùng</option>
+                    <label for="nguoiDung">Mã Người Dùng:</label>
+                    <select id="nguoiDung" name="maNguoiDung" class="form-select" onchange="updateMaNguoiDung()">
+                      <option selected>Chọn người dung</option>
                       <option th:each="nguoiDung : ${dsNguoiDung}"
                               th:value="${nguoiDung.maNguoiDung}"
-                              th:text="${nguoiDung.maNguoiDung}">
+                              th:text="${nguoiDung.maNguoiDung + ' - ' + nguoiDung.tenNguoiDung}"
+                              th:selected="${nguoiDung.maNguoiDung == maND}">
                       </option>
                     </select>
 <!--                    <span th:if="${#fields.hasErrors('maNguoiDung')}" th:errors="*{maNguoiDung}" class="text-danger"></span>-->
@@ -66,3 +61,10 @@
 </div>
 </body>
 </html>
+
+ <script>
+   function updateMaNguoiDung() {
+       var selectedValue = document.getElementById('nguoiDung').value;
+       document.getElementById('maNguoiDung').value = selectedValue;
+   }
+ </script>

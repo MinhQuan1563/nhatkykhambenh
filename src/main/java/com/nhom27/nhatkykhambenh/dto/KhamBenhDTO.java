@@ -11,6 +11,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,7 +26,7 @@ public class KhamBenhDTO {
     private String benhVien;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Timestamp ngayKham;
+    private LocalDate ngayKham;
     private Boolean trangThai;
     private NguoiDung nguoiDung;
     private Set<ChiTietKhamBenh> danhSachChiTietKhamBenh;

@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Timestamp;
 
@@ -19,12 +20,15 @@ import java.sql.Timestamp;
 public class NguoiDungDTO {
     private Integer maNguoiDung;
 
+    private String tenNguoiDung;
+
     private String hinhAnh;
 
     private String soDienThoai;
 
     private String cccd;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Timestamp ngayThangNamSinh;
 
     private String gioiTinh;

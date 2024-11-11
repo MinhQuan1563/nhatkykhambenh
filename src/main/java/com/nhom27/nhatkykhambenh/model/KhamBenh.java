@@ -5,9 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -27,8 +26,8 @@ public class KhamBenh {
     private String benhVien;
 
     @Column(name = "NgayKham")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Timestamp ngayKham;
+//    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDate ngayKham;
 
     @Column(name = "TrangThai")
     private Boolean trangThai;

@@ -33,7 +33,6 @@ public class NguoiDungController {
     public String saveThemNguoiThan(@ModelAttribute("nguoiDung")NguoiDung nguoiDung, HttpSession session) {
         TaiKhoan tk = (TaiKhoan)session.getAttribute("taikhoan");
         NguoiDung nd = nguoiDung;
-        //NguoiDung nguoiDung=new NguoiDung();
         return "redirect:/";
     }
 }

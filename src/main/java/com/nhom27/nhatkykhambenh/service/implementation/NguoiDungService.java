@@ -1,7 +1,9 @@
 package com.nhom27.nhatkykhambenh.service.implementation;
 
+import com.nhom27.nhatkykhambenh.model.GiaDinh;
 import com.nhom27.nhatkykhambenh.model.NguoiDung;
 import com.nhom27.nhatkykhambenh.repository.INguoiDungRepo;
+import com.nhom27.nhatkykhambenh.service.interfaces.INguoiDungService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -8,6 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 @Component
@@ -36,6 +37,10 @@ public class DataSeeder implements CommandLineRunner {
 
     @Autowired
     private IChiTietTiemChungRepo chiTietTiemChungRepo;
+
+    @Autowired
+    private IKhamBenhRepo khamBenhRepo;
+
 
     @Override
     public void run(String... args) throws Exception {
@@ -190,6 +195,19 @@ public class DataSeeder implements CommandLineRunner {
             }
 
         }
+
+        // Seed data cho KhamBenh
+        if (khamBenhRepo.count() == 0) {
+            List<KhamBenh> khamBenhList = List.of(
+                    new KhamBenh(null, "Bệnh viện Đa khoa TP.HCM", LocalDate.of(2024, 12, 10), true, nguoiDungRepo.findById(1).orElse(null), new HashSet<>(), new HashSet<>(), null),
+                    new KhamBenh(null, "Bệnh viện Y học Cổ truyền", LocalDate.of(2024, 12, 10), true, nguoiDungRepo.findById(2).orElse(null), new HashSet<>(), new HashSet<>(), null),
+                    new KhamBenh(null, "Bệnh viện Nhi Đồng", LocalDate.of(2024, 12, 10), true, nguoiDungRepo.findById(3).orElse(null), new HashSet<>(), new HashSet<>(), null)
+            );
+
+            khamBenhRepo.saveAll(khamBenhList);
+            System.out.println("Saved " + khamBenhList.size() + " KhamBenh records to the database.");
+        }
+
 
     }
 }

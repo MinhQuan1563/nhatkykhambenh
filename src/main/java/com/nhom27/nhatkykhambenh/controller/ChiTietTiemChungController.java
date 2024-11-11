@@ -75,18 +75,17 @@ public class ChiTietTiemChungController {
 
         List<NguoiDungDTO> nguoiDungDTOList = nguoiDungMapper.toNguoiDungDtoList(nguoiDungService.getAllNguoiDung());
 
+        System.out.println("size = " + nguoiDungDTOList.size());
+
+        for(NguoiDungDTO dt: nguoiDungDTOList){
+            System.out.println("name " + dt.getTenNguoiDung());
+        }
+
         model.addAttribute("ctTiemChung", chiTietTiemChungDTO);
         model.addAttribute("dsNguoiDung", nguoiDungDTOList);
 
         return "admin/tiemchung/addChiTietTiemChung";
     }
-
-//    @GetMapping("/admin/ctTiemChung/chitiet/update")
-//    public String updateTiemChungForm(@RequestParam("id") Integer id, Model model) {
-//        ChiTietTiemChungDTO chiTietTiemChungDTO = chiTietTiemChungService.findByIds(id);
-//        model.addAttribute("ctTiemChung", chiTietTiemChungDTO);
-//        return "admin/ctTiemChung/addTiemChung";
-//    }
 
     @PostMapping("/admin/tiemchung/chitiet/save")
     public String saveTiemChung(@ModelAttribute("ctTiemChung") ChiTietTiemChungDTO ctTiemChungDTO,

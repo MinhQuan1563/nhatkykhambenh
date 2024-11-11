@@ -79,6 +79,7 @@ public class KhamBenhService implements IKhamBenhService {
         khamBenhRepo.save(khamBenh);
     }
 
+    @Override
     public void deleteAllByIds(List<Integer> ids) {
         List<KhamBenh> khamBenhList = khamBenhRepo.findAllById(ids);
         for (KhamBenh khamBenh : khamBenhList) {

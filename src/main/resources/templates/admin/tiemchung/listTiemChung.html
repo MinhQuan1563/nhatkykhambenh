@@ -124,6 +124,9 @@
                                         <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                                     <a href="#" class="delete" data-toggle="modal" th:data-id="${tiemchung.maTiemChung}">
                                         <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                    <a th:href="@{/admin/tiemchung/chitiet(maTiemChung=${tiemchung.maTiemChung})}" class="details">
+                                        <i class="material-icons" data-toggle="tooltip" title="Detail">visibility</i>
+                                    </a>
                                 </td>
                             </tr>
                             </tbody>
@@ -132,7 +135,9 @@
 
                         <!-- Pagination -->
                         <div class="clearfix">
-                            <div class="hint-text">Hiển thị <b th:text="${currentCount}"></b> trong số <b th:text="${totalItems}"></b> mục</div>
+                            <div class="hint-text">Hiển thị <b th:text="${currentPage * pageSize + 1}"></b> đến
+                                <b th:text="${currentPage * pageSize + dsTiemChung.size()}"></b> trong số <b th:text="${totalItems}"></b> mục
+                            </div>
                             <ul class="pagination">
                                 <li th:if="${currentPage > 0}" th:class="${currentPage == 0 ? 'page-item disabled' : 'page-item'}">
                                     <a th:href="@{/admin/tiemchung(page=${currentPage - 1}, size=${pageSize}, query=${query})}" class="page-link">Trước</a>
