@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Getter
@@ -19,6 +20,7 @@ public class TiemChungDTO {
     private Integer maTiemChung;
 
     private String noiTiemChung;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate ngayTiem;
 
@@ -27,6 +29,4 @@ public class TiemChungDTO {
     private Integer soMuiTiem;
 
     private Boolean trangThai;
-
-    private Set<ChiTietTiemChung> danhSachChiTietTiemChung;
 }

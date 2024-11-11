@@ -33,6 +33,12 @@ public class TiemChungController {
         Page<TiemChungDTO> tiemChungPage = tiemChungService.getDSTiemChung(pageable, query);
 
         int count = 0;
+        System.out.println("Lan " + count++);
+
+        for(TiemChungDTO tiemChungDTO : tiemChungPage.getContent()){
+            System.out.println("Lan " + count++);
+            System.out.println(tiemChungDTO.getMaTiemChung());
+        }
 
         model.addAttribute("dsTiemChung", tiemChungPage.getContent());
         model.addAttribute("currentPage", page);

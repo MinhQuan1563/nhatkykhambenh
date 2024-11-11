@@ -23,7 +23,7 @@ public class ChiTietBenh {
     private Boolean trangThaiBenhHienTai;
 
     @Column(name = "TrangThai")
-    private Boolean trangThai;
+    private Boolean trangThai=true;
 
     @ManyToOne
     @JoinColumn(name = "MaTongQuan", referencedColumnName = "MaTongQuan")

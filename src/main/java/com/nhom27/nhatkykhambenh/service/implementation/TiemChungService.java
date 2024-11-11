@@ -68,7 +68,7 @@ public class TiemChungService implements ITiemChungService {
 
         List<TiemChung> results = nativeQuery.getResultList();
 
-        long totalElements = results.size(); // Tổng số phần tử
+        long totalElements = results.size();
         return new PageImpl<>(tiemChungMapper.toTiemChungDtoList(results), pageable, totalElements);
     }
 
@@ -96,6 +96,7 @@ public class TiemChungService implements ITiemChungService {
         tiemChungRepo.save(tiemChung);
     }
 
+    @Override
     public void deleteAllByIds(List<Integer> ids) {
         List<TiemChung> tiemChungList = tiemChungRepo.findAllById(ids);
         for (TiemChung tiemChung : tiemChungList) {

@@ -15,38 +15,38 @@
     <div class="row border rounded-5 p-3 bg-white shadow box-area">
         <!--------------------------- Left Box ----------------------------->
         <div class="col-md-6 right-box" style="padding: 30px 30px 30px 20px">
-            <form action="#" th:action="@{/register}" method="POST"
+            <form action="#" th:action="@{/register}" th:object="${registration}" method="POST"
                   class="row align-items-center">
                 <div class="header-text mb-2 w-100 d-flex flex-column justify-content-center">
                     <h2 class="text-center fw-bold">Đăng ký</h2>
                 </div>
-                <div th:if="${param.error}">
-                    <div class="alert alert-danger" th:text="${param.error}">...</div>
+                <div th:if="${errorMessage}">
+                    <div class="alert alert-danger" th:text="${errorMessage}">...</div>
                 </div>
                 <div class="mb-3">
-                    <label for="accountForm" class="form-label">Tài khoản</label>
-                    <input type="number" id="accountForm" class="form-control form-control-lg bg-light fs-6"
-                           placeholder="Tài khoản" maxlength="10" />
+                    <label for="usernameForm" class="form-label">Họ tên</label>
+                    <input type="text" id="usernameForm" th:field="*{nguoidung.tenNguoiDung}" class="form-control form-control-lg bg-light fs-6"
+                           placeholder="Nhập họ tên" maxlength="100" />
                 </div>
                 <div class="mb-3">
-                    <label for="passwordForm" class="form-label">Mật khẩu</label>
-                    <input type="password" id="passwordForm" class="form-control form-control-lg bg-light fs-6"
-                           placeholder="Password" />
-                </div>
-                <div class="mb-3">
-                    <label for="rePasswordForm" class="form-label">Nhập lại mật khẩu</label>
-                    <input type="password" id="rePasswordForm" class="form-control form-control-lg bg-light fs-6"
-                           placeholder="Password" />
-                </div>
-                <div class="mb-3">
-                    <label for="nameForm" class="form-label">Name</label>
-                    <input type="text" id="nameForm" class="form-control form-control-lg bg-light fs-6"
-                           placeholder="Name" />
+                    <label for="phoneForm" class="form-label">Số điện thoại</label>
+                    <input type="text" id="phoneForm" th:field="*{nguoidung.soDienThoai}" class="form-control form-control-lg bg-light fs-6"
+                           placeholder="Nhập số" />
                 </div>
                 <div class="mb-3">
                     <label for="emailForm" class="form-label">Email</label>
-                    <input type="email" id="emailForm" class="form-control form-control-lg bg-light fs-6"
-                           placeholder="Email address"/>
+                    <input type="email" id="emailForm" th:field="*{nguoidung.email}" class="form-control form-control-lg bg-light fs-6"
+                           placeholder="Địa chỉ email"/>
+                </div>
+                <div class="mb-3">
+                    <label for="passwordForm" class="form-label">Mật khẩu</label>
+                    <input type="password" id="passwordForm" th:field="*{taikhoan.matKhau}" class="form-control form-control-lg bg-light fs-6"
+                           placeholder="Nhập mật khẩu" />
+                </div>
+                <div class="mb-3">
+                    <label for="rePasswordForm" class="form-label">Nhập lại mật khẩu</label>
+                    <input type="password" id="rePasswordForm" th:field="*{rePassword}" class="form-control form-control-lg bg-light fs-6"
+                           placeholder="Nhập lại mật khẩu" />
                 </div>
                 <div class="input-group mb-3">
                     <button type="submit" class="btn btn-lg btn-primary w-100 fs-6">Đăng ký</button>
@@ -68,5 +68,16 @@
     </div>
 </div>
 </body>
+<script>
+    function validatePassword() {
+        var password = document.getElementById("passwordForm").value;
+        var confirmPassword = document.getElementById("rePasswordForm").value;
 
+        if (password !== confirmPassword) {
+            alert("Mật khẩu nhập lại không khớp!");
+            return false;
+        }
+        return true;
+    }
+</script>
 </html>

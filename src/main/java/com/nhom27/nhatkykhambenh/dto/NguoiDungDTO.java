@@ -2,7 +2,6 @@ package com.nhom27.nhatkykhambenh.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nhom27.nhatkykhambenh.enums.MoiQuanHe;
-import jakarta.persistence.Column;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
@@ -26,7 +25,6 @@ public class NguoiDungDTO {
 
     private String cccd;
 
-    @Temporal(TemporalType.TIMESTAMP)
     private Timestamp ngayThangNamSinh;
 
     private String gioiTinh;

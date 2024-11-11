@@ -2,10 +2,10 @@ package com.nhom27.nhatkykhambenh.model;
 
 import com.nhom27.nhatkykhambenh.enums.MoiQuanHe;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import java.sql.Timestamp;
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,9 +30,10 @@ public class NguoiDung {
     @Column(name = "CCCD")
     private String cccd;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "NgayThangNamSinh")
     @Temporal(TemporalType.TIMESTAMP)
-    private Timestamp ngayThangNamSinh;
+    private Date ngayThangNamSinh;
 
     @Column(name = "GioiTinh")
     private String gioiTinh;
@@ -40,17 +41,17 @@ public class NguoiDung {
     @Column(name = "DiaChi")
     private String diaChi;
 
+    @Column(name="TenNguoiDung")
+    private String tenNguoiDung;
+
     @Column(name = "Email")
     private String email;
-
-    @Column(name = "MatKhau")
-    private String matKhau;
 
     @Column(name = "MoiQuanHe")
     private MoiQuanHe moiQuanHe;
 
     @Column(name = "TrangThai")
-    private Boolean trangThai;
+    private Boolean trangThai = true;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MaGiaDinh")
@@ -65,12 +66,17 @@ public class NguoiDung {
     @OneToMany(mappedBy = "nguoiDung", fetch = FetchType.LAZY)
     private Set<NguoiDungTiemChung> danhSachNguoiDungTiemChung = new HashSet<>();
 
-    @OneToMany(mappedBy = "nguoiDung", fetch = FetchType.LAZY)
-    private Set<ChiTietTiemChung> danhSachChiTietTiemChung = new HashSet<>();
+//    @OneToMany(mappedBy = "nguoiDung", fetch = FetchType.LAZY)
+//    private Set<ChiTietTiemChung> danhSachChiTietTiemChung = new HashSet<>();
 
-    @OneToMany(mappedBy = "nguoiDung", fetch = FetchType.LAZY)
-    private Set<ChiTietTiemChung> danhSachKhamBenh = new HashSet<>();
+    // @OneToMany(mappedBy = "nguoiDung", fetch = FetchType.LAZY)
+    // private Set<ChiTietTiemChung> danhSachKhamBenh = new HashSet<>();
 
     @OneToOne(mappedBy = "nguoiDung", fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private TaiKhoan taiKhoan;
+
+    @OneToMany(mappedBy = "nguoiDung", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<PasswordResetToken> passwordResetTokens;
 }

@@ -30,7 +30,6 @@ public class ThongTinKhac {
 
     @Column(name = "TonGiao", length = 250)
     private String tonGiao;
-
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MaNguoiDung", referencedColumnName = "MaNguoiDung")
     private NguoiDung nguoiDung;
