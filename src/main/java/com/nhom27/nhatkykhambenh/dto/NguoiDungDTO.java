@@ -20,7 +20,7 @@ import java.sql.Timestamp;
 public class NguoiDungDTO {
     private Integer maNguoiDung;
 
-    private String hoTen;
+    private String tenNguoiDung;
 
     private String hinhAnh;
 

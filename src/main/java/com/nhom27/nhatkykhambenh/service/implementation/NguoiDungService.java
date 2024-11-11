@@ -1,46 +1,43 @@
 package com.nhom27.nhatkykhambenh.service.implementation;
 
-import com.nhom27.nhatkykhambenh.dto.NguoiDungDTO;
+import com.nhom27.nhatkykhambenh.model.GiaDinh;
+import com.nhom27.nhatkykhambenh.repository.IGiaDinhRepo;
 import com.nhom27.nhatkykhambenh.service.interfaces.INguoiDungService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import com.nhom27.nhatkykhambenh.model.NguoiDung;
 import com.nhom27.nhatkykhambenh.repository.INguoiDungRepo;
-import com.nhom27.nhatkykhambenh.service.interfaces.INguoiDungService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.nhom27.nhatkykhambenh.mapper.NguoiDungMapper;
+
+import java.util.List;
 
 @Service
 public class NguoiDungService implements INguoiDungService {
+
     @Autowired
     private INguoiDungRepo nguoiDungRepo;
-  
-    @Autowired
-    private NguoiDungMapper nguoiDungMapper;
-  
+
     @Override
-    public Page<NguoiDungDTO> getDSNguoiDung(Pageable pageable, String query) {
-        return null;
+    public List<NguoiDung> getAllNguoiDung() {
+        return nguoiDungRepo.findAll();
     }
 
     @Override
-    public void saveNguoiDung(NguoiDungDTO nguoiDungDTO) {
-        NguoiDung nguoiDung = nguoiDungMapper.toNguoiDung(nguoiDungDTO);
-        try{
-            nguoiDungRepo.save(nguoiDung);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public NguoiDungDTO findById(Integer id) {
-        return null;
+    public List<NguoiDung> getDsNguoiDungByGiaDinh(GiaDinh giaDinh) {
+        return nguoiDungRepo.findByGiaDinh(giaDinh);
     }
 
     @Override
     public void deleteById(Integer id) {
 
+    }
+
+    @Override
+    public NguoiDung getById(Integer id) {
+        return nguoiDungRepo.getById(id);
+    }
+
+    @Override
+    public NguoiDung findByEmail(String email) {
+        return nguoiDungRepo.findByEmail(email);
     }
 }

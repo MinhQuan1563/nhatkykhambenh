@@ -9,9 +9,9 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface TongQuanMapper {
-    public TongQuan toTongQuan(TongQuanDTO tongQuanDTO);
+    TongQuan toTongQuan(TongQuanDTO tongQuanDTO);
 
-    public TongQuanDTO toTongQuanDTO(TongQuan tongQuan);
+    TongQuanDTO toTongQuanDTO(TongQuan tongQuan);
 
-    public List<TongQuanDTO> toTongQuanDtoList(List<TongQuan> tongQuanList);
+    List<TongQuanDTO> toTongQuanDtoList(List<TongQuan> tongQuanList);
 }

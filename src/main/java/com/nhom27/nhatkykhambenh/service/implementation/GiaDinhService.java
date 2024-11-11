@@ -9,12 +9,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class GiaDinhService implements IGiaDinhService {
+
     @Autowired
     private IGiaDinhRepo giaDinhRepo;
+
     @Override
     public void saveGiaDinh(GiaDinh giaDinh) {
         try{
-
             giaDinhRepo.save(giaDinh);
         }catch (Exception e){
             e.printStackTrace();

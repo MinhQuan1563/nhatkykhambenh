@@ -1,15 +1,15 @@
 package com.nhom27.nhatkykhambenh.service.interfaces;
 
-import com.nhom27.nhatkykhambenh.dto.TongQuanDTO;
+import com.nhom27.nhatkykhambenh.model.TongQuan;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface ITongQuanService {
-    Page<TongQuanDTO> getDSTongQuan(Pageable pageable, String query);
+    Page<TongQuan> getDSTongQuan(Pageable pageable, String query);
 
-    void saveTongQuan(TongQuanDTO tongQuanDTO);
-
-    TongQuanDTO findById(Integer id);
+    TongQuan findByNguoiDung(Integer maNguoiDung);
 
     void deleteById(Integer id);
+
+    String[][] updateChiSoForTongQuan(TongQuan tongQuan);
 }

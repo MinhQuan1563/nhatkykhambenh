@@ -9,9 +9,9 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface TaiKhoanMapper {
-    public TaiKhoan toTaiKhoan(TaiKhoanDTO taiKhoanDTO);
+    TaiKhoan toTaiKhoan(TaiKhoanDTO taiKhoanDTO);
 
-    public TaiKhoanDTO toTaiKhoanDTO(TaiKhoan taiKhoan);
+    TaiKhoanDTO toTaiKhoanDTO(TaiKhoan taiKhoan);
 
-    public List<TaiKhoanDTO> toTaiKhoanDtoList(List<TaiKhoan> taiKhoanList);
+    List<TaiKhoanDTO> toTaiKhoanDtoList(List<TaiKhoan> taiKhoanList);
 }

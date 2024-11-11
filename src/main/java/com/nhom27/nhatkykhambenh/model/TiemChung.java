@@ -37,7 +37,7 @@ public class TiemChung {
     @Column(name = "TrangThai")
     private Boolean trangThai;
 
-    @OneToMany(mappedBy = "tiemChung",cascade = CascadeType.ALL)
-    private Set<ChiTietTiemChung> danhSachChiTietTiemChung = new HashSet<>();
+//    @OneToMany(mappedBy = "tiemChung",cascade = CascadeType.ALL)
+//    private Set<ChiTietTiemChung> danhSachChiTietTiemChung = new HashSet<>();
 
 }

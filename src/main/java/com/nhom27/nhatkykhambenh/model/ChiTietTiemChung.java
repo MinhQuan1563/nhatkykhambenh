@@ -6,38 +6,63 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "ChiTietTiemChung")
+@IdClass(ChiTietTiemChung.ChiTietTiemChungId.class)
 public class ChiTietTiemChung {
-    @EmbeddedId
-    private ChiTietTiemChungId id;
+    @Id
+    @Column(name = "MaTiemChung")
+    private Integer maTiemChung;
 
-    @Column(name = "TenVacXin", length = 250)
+    @Id
+    @Column(name = "MaNguoiDung")
+    private Integer maNguoiDung;
+
+    @Id
+    @Column(name = "TenVacXin")
     private String tenVacXin;
 
     @Column(name = "TrangThai")
     private Boolean trangThai;
 
+    public ChiTietTiemChungId getId() {
+        return new ChiTietTiemChungId(maTiemChung, maNguoiDung, tenVacXin);
+    }
+
     @ManyToOne
-    @MapsId("maTiemChung")
-    @JoinColumn(name = "MaTiemChung", referencedColumnName = "MaTiemChung")
+    @JoinColumn(name = "MaTiemChung", referencedColumnName = "MaTiemChung", insertable = false, updatable = false)
     private TiemChung tiemChung;
 
     @ManyToOne
-    @MapsId("maNguoiDung")
-    @JoinColumn(name = "MaNguoiDung", referencedColumnName = "MaNguoiDung")
+    @JoinColumn(name = "MaNguoiDung", referencedColumnName = "MaNguoiDung", insertable = false, updatable = false)
     private NguoiDung nguoiDung;
 
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    @Embeddable
     public static class ChiTietTiemChungId implements Serializable {
         private Integer maTiemChung;
         private Integer maNguoiDung;
+        private String tenVacXin;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof ChiTietTiemChung.ChiTietTiemChungId)) return false;
+            ChiTietTiemChung.ChiTietTiemChungId that = (ChiTietTiemChung.ChiTietTiemChungId) o;
+            return Objects.equals(maTiemChung, that.maTiemChung) &&
+                    Objects.equals(maNguoiDung, that.maNguoiDung) &&
+                    Objects.equals(tenVacXin, that.tenVacXin);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(maTiemChung, maNguoiDung, tenVacXin);
+        }
     }
 }

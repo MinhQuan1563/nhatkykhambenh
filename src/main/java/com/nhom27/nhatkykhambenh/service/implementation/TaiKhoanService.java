@@ -1,14 +1,15 @@
 package com.nhom27.nhatkykhambenh.service.implementation;
 
-import com.nhom27.nhatkykhambenh.dto.NguoiDungDTO;
-import com.nhom27.nhatkykhambenh.dto.TaiKhoanDTO;
-import com.nhom27.nhatkykhambenh.exception.SaveDataException;
 import com.nhom27.nhatkykhambenh.mapper.NguoiDungMapper;
 import com.nhom27.nhatkykhambenh.mapper.TaiKhoanMapper;
+import com.nhom27.nhatkykhambenh.model.GiaDinh;
 import com.nhom27.nhatkykhambenh.model.NguoiDung;
 import com.nhom27.nhatkykhambenh.model.TaiKhoan;
+import com.nhom27.nhatkykhambenh.model.TongQuan;
+import com.nhom27.nhatkykhambenh.repository.IGiaDinhRepo;
 import com.nhom27.nhatkykhambenh.repository.INguoiDungRepo;
 import com.nhom27.nhatkykhambenh.repository.ITaiKhoanRepo;
+import com.nhom27.nhatkykhambenh.repository.ITongQuanRepo;
 import com.nhom27.nhatkykhambenh.service.interfaces.ITaiKhoanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,32 +21,21 @@ public class TaiKhoanService implements ITaiKhoanService {
     private ITaiKhoanRepo taiKhoanRepo;
 
     @Autowired
-    private TaiKhoanMapper taiKhoanMapper;
-
-    @Autowired
     private INguoiDungRepo nguoiDungRepo;
 
     @Autowired
-    private NguoiDungMapper nguoiDungMapper;
+    private IGiaDinhRepo giaDinhRepo;
 
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private ITongQuanRepo tongQuanRepo;
 
     @Override
-    public void saveTaiKhoan(TaiKhoanDTO taiKhoanDTO) {
-        TaiKhoan taikhoan = taiKhoanMapper.toTaiKhoan(taiKhoanDTO);
-        taikhoan.setTrangThai(true);
-        try {
-            taiKhoanRepo.save(taikhoan);
-        } catch (Exception e) {
-            throw new SaveDataException("TaiKhoan");
+    public void saveTaiKhoan(TaiKhoan taiKhoan) {
+        try{
+            taiKhoanRepo.save(taiKhoan);
+        }catch (Exception e){
+            e.printStackTrace();
         }
-    }
-
-    @Override
-    public TaiKhoanDTO findById(Integer id) {
-        TaiKhoan taiKhoan = taiKhoanRepo.findById(id).get();
-        return taiKhoanMapper.toTaiKhoanDTO(taiKhoan);
     }
 
     @Override
@@ -54,30 +44,34 @@ public class TaiKhoanService implements ITaiKhoanService {
     }
 
     @Override
-    public Boolean checkTaiKhoanExist(String tenTaiKhoan, String matKhau) {
-        TaiKhoan taiKhoan = taiKhoanRepo.findByTaiKhoan(tenTaiKhoan);
-
-        if(taiKhoan != null) {
-            return taiKhoan.getMatKhau().equals(matKhau);
+    public NguoiDung registerUser(TaiKhoan taiKhoan) {
+        if (taiKhoanRepo.findBySoDienThoai(taiKhoan.getSoDienThoai()) != null) {
+            throw new RuntimeException("Tài khoản đã tồn tại!");
         }
 
-        return false;
-    }
+        GiaDinh giaDinh = new GiaDinh();
+        giaDinhRepo.save(giaDinh);
 
-    @Override
-    public TaiKhoanDTO getTaiKhoanByName(String name) {
-        TaiKhoan taiKhoan = taiKhoanRepo.findByTaiKhoan(name);
+        taiKhoan.setGiaDinh(giaDinh);
+        taiKhoanRepo.save(taiKhoan);
 
-        if (taiKhoan != null) {
-            return taiKhoanMapper.toTaiKhoanDTO(taiKhoan);
-        }
-        return null;
+        NguoiDung nguoiDung = new NguoiDung();
+        nguoiDung.setSoDienThoai(taiKhoan.getSoDienThoai());
+        nguoiDung.setTenNguoiDung(taiKhoan.getTaiKhoan());
+        nguoiDung.setMaNguoiDung(taiKhoan.getMaNguoiDung());
+        nguoiDungRepo.save(nguoiDung);
+
+        TongQuan tongQuan = new TongQuan();
+        tongQuan.setNguoiDung(nguoiDung);
+        tongQuanRepo.save(tongQuan);
+
+        return nguoiDung;
     }
 
     @Override
     public TaiKhoan findBySoDienThoaiAndMatKhau(String soDienThoai, String matKhau) {
-        for (TaiKhoan i:taiKhoanRepo.findAll()){
-            if(i.getMatKhau().equals(matKhau) && i.getSoDienThoai().equals(soDienThoai)){
+        for (TaiKhoan i : taiKhoanRepo.findAll()) {
+            if (i.getMatKhau() != null && i.getMatKhau().equals(matKhau) && i.getSoDienThoai().equals(soDienThoai)) {
                 return i;
             }
         }
@@ -85,21 +79,7 @@ public class TaiKhoanService implements ITaiKhoanService {
     }
 
     @Override
-    public TaiKhoanDTO registerUser(TaiKhoanDTO taiKhoanDTO, NguoiDungDTO nguoiDungDTO) {
-        if (taiKhoanRepo.findByTaiKhoan(nguoiDungDTO.getSoDienThoai()) != null) {
-            throw new RuntimeException("Tài khoản đã tồn tại!");
-        }
-
-        NguoiDung nguoiDung = nguoiDungMapper.toNguoiDung(nguoiDungDTO);
-        nguoiDung.setTrangThai(true);
-        nguoiDungRepo.save(nguoiDung);
-
-        TaiKhoan taiKhoan = taiKhoanMapper.toTaiKhoan(taiKhoanDTO);
-        taiKhoan.setMaNguoiDung(nguoiDung.getMaNguoiDung());
-        taiKhoan.setTaiKhoan(nguoiDungDTO.getSoDienThoai());
-        taiKhoan.setTrangThai(true);
-        taiKhoanRepo.save(taiKhoan);
-
-        return taiKhoanDTO;
+    public TaiKhoan findById(Integer maNguoiDung) {
+        return taiKhoanRepo.findById(maNguoiDung).get();
     }
 }

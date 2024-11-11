@@ -13,114 +13,98 @@
 
     <div class="merged-container">
         <h4 class="mb-4">Tổng quan</h4>
-        <div class="card-wrapper" th:each="tongQuan : ${dsTongQuan}">
+        <div class="card-wrapper">
             <div class="row">
-                <a th:href="@{/users/chitiettongquan/{id}(id=${tongQuan.maTongQuan})}" class="col-md-3 col-sm-6">
+                <a th:href="@{/users/chiso/{loaiChiSo}(loaiChiSo='duongHuyet')}" class="col-md-3 col-sm-6">
                     <div class="health-card">
                         <div class="health-icon">✏️</div>
                         <div class="health-value">
-                            <span th:text="${tongQuan.duongHuyet}"></span>
+                            <span th:text="${tongquan.duongHuyet}"></span>
                             <span class="health-unit">mg/DL</span>
                         </div>
                         <div class="health-title">Đường huyết</div>
                         <div class="health-date">Đo lúc: 08:56 - 21/09/2024</div>
                     </div>
                 </a>
-<!--                <a class="col-md-3 col-sm-6">-->
-<!--                    <div class="health-card">-->
-<!--                        <div class="health-icon">❤️</div>-->
-<!--                        <div class="health-value">-->
-<!--                            <span th:text="${tongQuan.duongHuyet}"></span>-->
-<!--                            <span class="health-unit">%</span>-->
-<!--                        </div>-->
-<!--                        <div class="health-title">SPO2</div>-->
-<!--                        <div class="health-date">Đo lúc: 17:51 - 28/09/2024</div>-->
-<!--                    </div>-->
-<!--                </a>-->
-                <a class="col-md-3 col-sm-6">
+                <a th:href="@{/users/chiso/{loaiChiSo}(loaiChiSo='huyetAp')}" class="col-md-3 col-sm-6">
                     <div class="health-card">
                         <div class="health-icon">🩸</div>
                         <div class="health-value">
-                            <span th:text="${tongQuan.huyetAp}"></span>
+                            <span th:text="${tongquan.huyetAp}"></span>
                             <span class="health-unit">mmHg</span>
                         </div>
                         <div class="health-title">Huyết áp</div>
+                        <div class="health-date">Đo lúc: 08:56 - 21/09/2024</div>
                     </div>
                 </a>
-                <a class="col-md-3 col-sm-6">
+                <a th:href="@{/users/chiso/{loaiChiSo}(loaiChiSo='nhipTim')}" class="col-md-3 col-sm-6">
                     <div class="health-card">
                         <div class="health-icon">📈</div>
                         <div class="health-value">
-                            <span th:text="${tongQuan.nhipTim}"></span>
+                            <span th:text="${tongquan.nhipTim}"></span>
                             <span class="health-unit">nhịp/phút</span>
                         </div>
                         <div class="health-title">Nhịp tim</div>
+                        <div class="health-date">Đo lúc: 08:56 - 21/09/2024</div>
                     </div>
                 </a>
-            </div>
-            <div class="row">
-                <a class="col-md-3 col-sm-6">
-                    <div class="health-card">
-                        <div class="health-icon">🌡️</div>
-                        <div class="health-value">
-                            <span th:text="${tongQuan.nhietDo}"></span>
-                            <span class="health-unit">°C</span>
-                        </div>
-                        <div class="health-title">Nhiệt độ</div>
-                    </div>
-                </a>
-                <a class="col-md-3 col-sm-6">
-                    <div class="health-card">
-                        <div class="health-icon">📏</div>
-                        <div class="health-value">
-                            <span th:text="${tongQuan.chieuCao}"></span>
-                            <span class="health-unit">cm</span>
-                        </div>
-                        <div class="health-title">Chiều cao</div>
-                    </div>
-                </a>
-                <a class="col-md-3 col-sm-6">
-                    <div class="health-card">
-                        <div class="health-icon">⚖️</div>
-                        <div class="health-value">
-                            <span th:text="${tongQuan.canNang}"></span>
-                            <span class="health-unit">kg</span>
-                        </div>
-                        <div class="health-title">Cân nặng</div>
-                    </div>
-                </a>
-                <a class="col-md-3 col-sm-6">
-                    <div class="health-card">
-                        <div class="health-icon">📊</div>
-                        <div class="health-value">
-                            <span th:text="${tongQuan.chiSoBMI}"></span>
-                            <span class="health-unit">kg/m²</span>
-                        </div>
-                        <div class="health-title">Chỉ số BMI</div>
-                    </div>
-                </a>
-            </div>
-            <div class="row">
-                <a class="col-md-3 col-sm-6">
+                <a th:href="@{/users/chiso/{loaiChiSo}(loaiChiSo='nhomMau')}" class="col-md-3 col-sm-6">
                     <div class="health-card">
                         <div class="health-icon">🩺</div>
                         <div class="health-value">
-                            <span th:text="${tongQuan.nhomMau}"></span>
+                            <span th:text="${tongquan.nhomMau}"></span>
                             <span class="health-unit"></span>
                         </div>
                         <div class="health-title">Nhóm Máu</div>
+                        <div class="health-date">Đo lúc: 08:56 - 21/09/2024</div>
                     </div>
                 </a>
-<!--                <a class="col-md-3 col-sm-6">-->
-<!--                    <div class="health-card">-->
-<!--                        <div class="health-icon">🩸</div>-->
-<!--                        <div class="health-title">Nhóm Máu RH</div>-->
-<!--                        <div class="health-value">-->
-<!--                            Dương-->
-<!--                            <span class="rh-emoji">Rh<span class="rh-emoji">+</span></span>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </a>-->
+            </div>
+            <div class="row">
+                <a th:href="@{/users/chiso/{loaiChiSo}(loaiChiSo='nhietDo')}" class="col-md-3 col-sm-6">
+                    <div class="health-card">
+                        <div class="health-icon">🌡️</div>
+                        <div class="health-value">
+                            <span th:text="${tongquan.nhietDo}"></span>
+                            <span class="health-unit">°C</span>
+                        </div>
+                        <div class="health-title">Nhiệt độ</div>
+                        <div class="health-date">Đo lúc: 08:56 - 21/09/2024</div>
+                    </div>
+                </a>
+                <a th:href="@{/users/chiso/{loaiChiSo}(loaiChiSo='chieuCao')}" class="col-md-3 col-sm-6">
+                    <div class="health-card">
+                        <div class="health-icon">📏</div>
+                        <div class="health-value">
+                            <span th:text="${tongquan.chieuCao}"></span>
+                            <span class="health-unit">cm</span>
+                        </div>
+                        <div class="health-title">Chiều cao</div>
+                        <div class="health-date">Đo lúc: 08:56 - 21/09/2024</div>
+                    </div>
+                </a>
+                <a th:href="@{/users/chiso/{loaiChiSo}(loaiChiSo='canNang')}" class="col-md-3 col-sm-6">
+                    <div class="health-card">
+                        <div class="health-icon">⚖️</div>
+                        <div class="health-value">
+                            <span th:text="${tongquan.canNang}"></span>
+                            <span class="health-unit">kg</span>
+                        </div>
+                        <div class="health-title">Cân nặng</div>
+                        <div class="health-date">Đo lúc: 08:56 - 21/09/2024</div>
+                    </div>
+                </a>
+                <a th:href="@{/users/chiso/{loaiChiSo}(loaiChiSo='chiSoBMI')}" class="col-md-3 col-sm-6">
+                    <div class="health-card">
+                        <div class="health-icon">📊</div>
+                        <div class="health-value">
+                            <span th:text="${tongquan.chiSoBMI}"></span>
+                            <span class="health-unit">kg/m²</span>
+                        </div>
+                        <div class="health-title">Chỉ số BMI</div>
+                        <div class="health-date">Đo lúc: 08:56 - 21/09/2024</div>
+                    </div>
+                </a>
             </div>
         </div>
     </div>

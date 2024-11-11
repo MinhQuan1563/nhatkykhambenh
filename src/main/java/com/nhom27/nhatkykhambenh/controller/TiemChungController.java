@@ -2,7 +2,7 @@ package com.nhom27.nhatkykhambenh.controller;
 
 import com.nhom27.nhatkykhambenh.dto.TiemChungDTO;
 import com.nhom27.nhatkykhambenh.exception.SaveDataException;
-import com.nhom27.nhatkykhambenh.service.implementation.TiemChungService;
+import com.nhom27.nhatkykhambenh.service.interfaces.ITiemChungService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,7 +21,7 @@ import java.util.List;
 public class TiemChungController {
 
     @Autowired
-    private TiemChungService tiemChungService;
+    private ITiemChungService tiemChungService;
 
     @GetMapping("/admin/tiemchung")
     public String GetListTiemChung(Model model,
@@ -99,5 +99,4 @@ public class TiemChungController {
         }
         return "redirect:/admin/tiemchung";
     }
-
 }
