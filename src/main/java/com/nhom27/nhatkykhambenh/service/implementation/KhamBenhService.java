@@ -45,13 +45,20 @@ public class KhamBenhService implements IKhamBenhService {
         String columns = (String) columnNativeQuery.getSingleResult();
 
         // Tạo truy vấn động với LIMIT và OFFSET
-        String sql = "SELECT * FROM kham_benh WHERE trang_thai=1 AND CONCAT(" + columns + ") LIKE :searchTerm ";
+        String sql = "SELECT * FROM kham_benh WHERE CONCAT(" + columns + ") LIKE :searchTerm " +
+                "LIMIT :limit OFFSET :offset";
         Query nativeQuery = entityManager.createNativeQuery(sql, KhamBenh.class);
         nativeQuery.setParameter("searchTerm", searchTerm);
+        nativeQuery.setParameter("limit", pageable.getPageSize());
+        nativeQuery.setParameter("offset", pageable.getPageNumber() * pageable.getPageSize());
 
         List<KhamBenh> results = nativeQuery.getResultList();
 
-        long totalElements = results.size(); // Tổng số phần tử
+        String countQuery = "SELECT COUNT(*) FROM kham_benh WHERE CONCAT(" + columns + ") LIKE :searchTerm";
+        Query countNativeQuery = entityManager.createNativeQuery(countQuery);
+        countNativeQuery.setParameter("searchTerm", searchTerm);
+        long totalElements = ((Number) countNativeQuery.getSingleResult()).longValue();
+
         return new PageImpl<>(khamBenhMapper.toKhamBenhDtoList(results), pageable, totalElements);
     }
 
@@ -60,6 +67,8 @@ public class KhamBenhService implements IKhamBenhService {
         KhamBenh khamBenh = khamBenhMapper.toKhamBenh(khamBenhDTO);
         khamBenh.setTrangThai(true);
         try {
+            System.out.println("maKhamBenh2 = " + khamBenh.getMaKhamBenh());
+
             khamBenhRepo.save(khamBenh);
         } catch (Exception e) {
             throw new SaveDataException(KhamBenh.OBJ_NAME);

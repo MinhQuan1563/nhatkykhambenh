@@ -98,7 +98,7 @@ public class KhamBenhController {
     }
 
     @PostMapping("/admin/khambenh/save")
-    public String saveKhamBenh(@ModelAttribute("khambenh") KhamBenhDTO khambenh,
+    public String saveKhamBenh(@ModelAttribute("khambenh") KhamBenhDTO khambenhDTO,
                                 BindingResult bindingResult,
                                 Model model,
                                 @RequestParam Integer maNguoiDung) {
@@ -106,16 +106,17 @@ public class KhamBenhController {
             return "admin/khambenh/addKhamBenh";
         }
         try {
-            System.out.println("maNguoiDung = " + maNguoiDung);
+            System.out.println("maKhamBenh1 = " + khambenhDTO.getMaKhamBenh());
             NguoiDung nguoiDung = nguoiDungService.getById(maNguoiDung);
-            khambenh.setNguoiDung(nguoiDung);
-            khamBenhService.saveKhamBenh(khambenh);
+            khambenhDTO.setNguoiDung(nguoiDung);
+            khamBenhService.saveKhamBenh(khambenhDTO);
             return "redirect:/admin/khambenh";
         } catch (SaveDataException e) {
             model.addAttribute("error", e.getMessage());
             return "admin/khambenh/addKhamBenh";
         }
     }
+
 
     @PostMapping("/admin/khambenh/delete")
     public String deleteKhamBenh(@RequestParam("maKhamBenh") Integer maKhamBenh, RedirectAttributes redirectAttributes) {

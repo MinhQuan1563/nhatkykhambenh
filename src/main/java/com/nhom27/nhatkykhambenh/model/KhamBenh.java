@@ -30,7 +30,7 @@ public class KhamBenh {
     private LocalDate ngayKham;
 
     @Column(name = "TrangThai")
-    private Boolean trangThai;
+    private Boolean trangThai = true;
 
     @ManyToOne
     @JoinColumn(name = "MaNguoiDung", referencedColumnName = "MaNguoiDung", nullable = true)

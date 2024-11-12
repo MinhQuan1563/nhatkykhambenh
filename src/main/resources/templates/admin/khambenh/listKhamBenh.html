@@ -115,7 +115,7 @@
                                         <label th:for="'checkbox' + ${khambenh.maKhamBenh}"></label>
                                     </span>
                             </td>
-                            <td th:text="${khambenh.maKhamBenh}"></td>
+                            <td th:text="'KB' + ${@stringUtils.padWithZeros(khambenh.maKhamBenh, 3)}"></td>
                             <td th:text="${khambenh.nguoiDung.maNguoiDung}"></td>
                             <td th:text="${khambenh.benhVien}"></td>
                             <td th:text="${khambenh.ngayKham}"></td>

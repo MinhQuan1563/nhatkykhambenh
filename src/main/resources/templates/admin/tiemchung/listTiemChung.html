@@ -114,7 +114,9 @@
                                         <label th:for="'checkbox' + ${tiemchung.maTiemChung}"></label>
                                     </span>
                                 </td>
-                                <td th:text="${tiemchung.maTiemChung}"></td>
+<!--                                <td th:text="${tiemchung.maTiemChung}"></td>-->
+
+                                <td th:text="'TC' + ${@stringUtils.padWithZeros(tiemchung.maTiemChung, 3)}"></td>
                                 <td th:text="${tiemchung.noiTiemChung}"></td>
                                 <td th:text="${tiemchung.ngayTiem}"></td>
                                 <td th:text="${tiemchung.nguoiTiem}"></td>

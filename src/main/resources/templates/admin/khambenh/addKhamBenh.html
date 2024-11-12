@@ -14,7 +14,7 @@
           <div class="card-body">
             <form th:action="@{/admin/khambenh/save}" th:object="${khambenh}" method="post">
               <div class="row">
-                <input type="number" id="maNguoiDung" class="form-control form-control-lg bg-light fs-6" hidden />
+                <input type="number" id="maKhamBenh" th:field="*{maKhamBenh}" class="form-control form-control-lg bg-light fs-6" hidden />
 
                 <div class="col-md-6">
                   <div class="form-group">
