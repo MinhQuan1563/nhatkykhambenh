@@ -63,14 +63,14 @@ public class TiemChungController {
     }
 
     @PostMapping("/admin/tiemchung/save")
-    public String saveTiemChung(@ModelAttribute("tiemchung") TiemChungDTO tiemchung,
+    public String saveTiemChung(@ModelAttribute("tiemchung") TiemChungDTO tiemchungDTO,
                                 BindingResult bindingResult,
                                 Model model) {
         if (bindingResult.hasErrors()) {
             return "admin/tiemchung/addTiemChung";
         }
         try {
-            tiemChungService.saveTiemChung(tiemchung);
+            tiemChungService.saveTiemChung(tiemchungDTO);
             return "redirect:/admin/tiemchung";
         } catch (SaveDataException e) {
             model.addAttribute("error", e.getMessage());

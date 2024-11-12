@@ -1,7 +1,6 @@
 package com.nhom27.nhatkykhambenh.service.implementation;
 
 import com.nhom27.nhatkykhambenh.model.GiaDinh;
-import com.nhom27.nhatkykhambenh.repository.IGiaDinhRepo;
 import com.nhom27.nhatkykhambenh.service.interfaces.INguoiDungService;
 import com.nhom27.nhatkykhambenh.model.NguoiDung;
 import com.nhom27.nhatkykhambenh.repository.INguoiDungRepo;
