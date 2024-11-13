@@ -9,9 +9,9 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface NguoiDungMapper {
-    public NguoiDung toNguoiDung(NguoiDungDTO nguoiDungDTO);
+    NguoiDung toNguoiDung(NguoiDungDTO nguoiDungDTO);
 
-    public NguoiDungDTO toNguoiDungDTO(NguoiDung nguoiDung);
+    NguoiDungDTO toNguoiDungDTO(NguoiDung nguoiDung);
 
-    public List<NguoiDungDTO> toNguoiDungDtoList(List<NguoiDung> nguoiDungList);
+    List<NguoiDungDTO> toNguoiDungDtoList(List<NguoiDung> nguoiDungList);
 }

@@ -1,9 +1,8 @@
 package com.nhom27.nhatkykhambenh.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -12,6 +11,8 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "TiemChung")
 public class TiemChung {
@@ -37,7 +38,7 @@ public class TiemChung {
     @Column(name = "TrangThai")
     private Boolean trangThai;
 
-    @OneToMany(mappedBy = "tiemChung",cascade = CascadeType.ALL)
-    private Set<ChiTietTiemChung> danhSachChiTietTiemChung = new HashSet<>();
+//    @OneToMany(mappedBy = "tiemChung",cascade = CascadeType.ALL)
+//    private Set<ChiTietTiemChung> danhSachChiTietTiemChung = new HashSet<>();
 
 }

@@ -18,5 +18,11 @@ public class TaiKhoanDTO {
 
     private String matKhau;
 
+    private String soDienThoai;
+
     private Boolean trangThai;
+
+    private Integer maGiaDinh;
+
+    private Integer maQuyen;
 }

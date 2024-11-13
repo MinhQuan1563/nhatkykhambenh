@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -31,6 +32,14 @@ public class TiemChungController {
         Pageable pageable = PageRequest.of(page, size);
         Page<TiemChungDTO> tiemChungPage = tiemChungService.getDSTiemChung(pageable, query);
 
+        int count = 0;
+        System.out.println("Lan " + count++);
+
+        for(TiemChungDTO tiemChungDTO : tiemChungPage.getContent()){
+            System.out.println("Lan " + count++);
+            System.out.println(tiemChungDTO.getMaTiemChung());
+        }
+
         model.addAttribute("dsTiemChung", tiemChungPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("pageSize", size);
@@ -44,6 +53,12 @@ public class TiemChungController {
         model.addAttribute("startItem", startItem);
         model.addAttribute("endItem", endItem);
         model.addAttribute("currentCount", endItem - startItem + 1);
+
+        System.out.println("currentPage: " + page);
+        System.out.println("currentPage: " + size);
+        System.out.println("currentPage: " + tiemChungPage.getTotalPages());
+        System.out.println("currentPage: " + tiemChungPage.getTotalElements());
+        System.out.println("currentPage: " + query);
 
         return "admin/tiemchung/listTiemChung";
     }
@@ -99,5 +114,6 @@ public class TiemChungController {
         }
         return "redirect:/admin/tiemchung";
     }
+
 
 }

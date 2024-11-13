@@ -29,29 +29,6 @@ public class TiemChungService implements ITiemChungService {
     @PersistenceContext
     private EntityManager entityManager;
 
-//    @Override
-//    public Page<TiemChungDTO> getDSTiemChung(Pageable pageable, String query) {
-//        String searchTerm = "%" + query + "%";
-//
-//        String columnQuery = "SELECT GROUP_CONCAT(COLUMN_NAME) FROM INFORMATION_SCHEMA.COLUMNS " +
-//                "WHERE TABLE_NAME = 'tiem_chung' AND TABLE_SCHEMA = 'nhatkykhambenh'";
-//        Query columnNativeQuery = entityManager.createNativeQuery(columnQuery);
-//        String columns = (String) columnNativeQuery.getSingleResult();
-//
-//        // Tạo truy vấn động với LIMIT và OFFSET
-//        String sql = "SELECT * FROM tiem_chung WHERE CONCAT(" + columns + ") LIKE :searchTerm " +
-//                "LIMIT :limit OFFSET :offset";
-//        Query nativeQuery = entityManager.createNativeQuery(sql, TiemChung.class);
-//        nativeQuery.setParameter("searchTerm", searchTerm);
-//        nativeQuery.setParameter("limit", pageable.getPageSize());
-//        nativeQuery.setParameter("offset", pageable.getPageNumber() * pageable.getPageSize());
-//
-//        List<TiemChung> results = nativeQuery.getResultList();
-//
-//        long totalElements = results.size(); // Tổng số phần tử
-//        return new PageImpl<>(tiemChungMapper.toTiemChungDtoList(results), pageable, totalElements);
-//    }
-
     @Override
     public Page<TiemChungDTO> getDSTiemChung(Pageable pageable, String query) {
         String searchTerm = "%" + query + "%";
@@ -62,13 +39,20 @@ public class TiemChungService implements ITiemChungService {
         String columns = (String) columnNativeQuery.getSingleResult();
 
         // Tạo truy vấn động với LIMIT và OFFSET
-        String sql = "SELECT * FROM tiem_chung WHERE trang_thai=1 AND CONCAT(" + columns + ") LIKE :searchTerm ";
+        String sql = "SELECT * FROM tiem_chung WHERE CONCAT(" + columns + ") LIKE :searchTerm " +
+                "LIMIT :limit OFFSET :offset";
         Query nativeQuery = entityManager.createNativeQuery(sql, TiemChung.class);
         nativeQuery.setParameter("searchTerm", searchTerm);
+        nativeQuery.setParameter("limit", pageable.getPageSize());
+        nativeQuery.setParameter("offset", pageable.getPageNumber() * pageable.getPageSize());
 
         List<TiemChung> results = nativeQuery.getResultList();
 
-        long totalElements = results.size(); // Tổng số phần tử
+        String countQuery = "SELECT COUNT(*) FROM tiem_chung WHERE CONCAT(" + columns + ") LIKE :searchTerm";
+        Query countNativeQuery = entityManager.createNativeQuery(countQuery);
+        countNativeQuery.setParameter("searchTerm", searchTerm);
+        long totalElements = ((Number) countNativeQuery.getSingleResult()).longValue();
+
         return new PageImpl<>(tiemChungMapper.toTiemChungDtoList(results), pageable, totalElements);
     }
 
@@ -96,6 +80,7 @@ public class TiemChungService implements ITiemChungService {
         tiemChungRepo.save(tiemChung);
     }
 
+    @Override
     public void deleteAllByIds(List<Integer> ids) {
         List<TiemChung> tiemChungList = tiemChungRepo.findAllById(ids);
         for (TiemChung tiemChung : tiemChungList) {

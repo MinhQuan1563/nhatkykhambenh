@@ -2,3 +2,8 @@
     margin: 0 120px;
     padding: 0;
 }
+
+#userImage {
+    border-radius: 50%;
+    width: 50px;
+}
