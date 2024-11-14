@@ -1,5 +1,6 @@
 package com.nhom27.nhatkykhambenh.service.implementation;
 
+import com.nhom27.nhatkykhambenh.dto.TiemChungDTO;
 import com.nhom27.nhatkykhambenh.exception.SaveDataException;
 import com.nhom27.nhatkykhambenh.model.ChiTietTiemChung;
 import com.nhom27.nhatkykhambenh.model.TiemChung;
@@ -25,10 +26,34 @@ public class ChiTietTiemChungService implements IChiTietTiemChungService {
     @PersistenceContext
     private EntityManager entityManager;
 
+//    @Override
+//    public Page<ChiTietTiemChung> getCTTiemChungByTiemChung(Pageable pageable,
+//                                                            String query,
+//                                                            Integer maTiemChung) {
+//        String searchTerm = "%" + query + "%";
+//
+//        String columnQuery = "SELECT GROUP_CONCAT(COLUMN_NAME) FROM INFORMATION_SCHEMA.COLUMNS " +
+//                "WHERE TABLE_NAME = 'chi_tiet_tiem_chung' AND TABLE_SCHEMA = 'nhatkykhambenh'";
+//        Query columnNativeQuery = entityManager.createNativeQuery(columnQuery);
+//        String columns = (String) columnNativeQuery.getSingleResult();
+//
+//        String sql = "SELECT * FROM chi_tiet_tiem_chung WHERE trang_thai = 1 AND ma_tiem_chung = :maTiemChung " +
+//                "AND CONCAT(" + columns + ") LIKE :searchTerm";
+//        Query nativeQuery = entityManager.createNativeQuery(sql, ChiTietTiemChung.class);
+//        nativeQuery.setParameter("maTiemChung", maTiemChung);
+//        nativeQuery.setParameter("searchTerm", searchTerm);
+//
+//        nativeQuery.setFirstResult((int) pageable.getOffset());
+//        nativeQuery.setMaxResults(pageable.getPageSize());
+//
+//        List<ChiTietTiemChung> results = nativeQuery.getResultList();
+//        long totalElements = results.size();
+//
+//        return new PageImpl<>(results, pageable, totalElements);
+//    }
+
     @Override
-    public Page<ChiTietTiemChung> getCTTiemChungByTiemChung(Pageable pageable,
-                                                            String query,
-                                                            Integer maTiemChung) {
+    public Page<ChiTietTiemChung> getCTTiemChungByTiemChung(Pageable pageable, String query, Integer maTiemChung) {
         String searchTerm = "%" + query + "%";
 
         String columnQuery = "SELECT GROUP_CONCAT(COLUMN_NAME) FROM INFORMATION_SCHEMA.COLUMNS " +
@@ -36,17 +61,20 @@ public class ChiTietTiemChungService implements IChiTietTiemChungService {
         Query columnNativeQuery = entityManager.createNativeQuery(columnQuery);
         String columns = (String) columnNativeQuery.getSingleResult();
 
-        String sql = "SELECT * FROM chi_tiet_tiem_chung WHERE trang_thai = 1 AND ma_tiem_chung = :maTiemChung " +
-                "AND CONCAT(" + columns + ") LIKE :searchTerm";
+        String sql = "SELECT * FROM chi_tiet_tiem_chung WHERE trang_thai=1 AND ma_tiem_chung= :maTiemChung AND CONCAT(" + columns + ") LIKE :searchTerm " +
+                "LIMIT :limit OFFSET :offset";
         Query nativeQuery = entityManager.createNativeQuery(sql, ChiTietTiemChung.class);
-        nativeQuery.setParameter("maTiemChung", maTiemChung);
         nativeQuery.setParameter("searchTerm", searchTerm);
-
-        nativeQuery.setFirstResult((int) pageable.getOffset());
-        nativeQuery.setMaxResults(pageable.getPageSize());
+        nativeQuery.setParameter("maTiemChung", maTiemChung);
+        nativeQuery.setParameter("limit", pageable.getPageSize());
+        nativeQuery.setParameter("offset", pageable.getPageNumber() * pageable.getPageSize());
 
         List<ChiTietTiemChung> results = nativeQuery.getResultList();
-        long totalElements = results.size();
+
+        String countQuery = "SELECT COUNT(*) FROM chi_tiet_tiem_chung WHERE CONCAT(" + columns + ") LIKE :searchTerm";
+        Query countNativeQuery = entityManager.createNativeQuery(countQuery);
+        countNativeQuery.setParameter("searchTerm", searchTerm);
+        long totalElements = ((Number) countNativeQuery.getSingleResult()).longValue();
 
         return new PageImpl<>(results, pageable, totalElements);
     }

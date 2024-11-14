@@ -116,15 +116,32 @@
                                     </span>
                             </td>
                             <td th:text="'KB' + ${@stringUtils.padWithZeros(khambenh.maKhamBenh, 3)}"></td>
-                            <td th:text="${khambenh.nguoiDung.maNguoiDung}"></td>
+                            <td th:text="${khambenh.nguoiDung.maNguoiDung + ' - ' + khambenh.nguoiDung.tenNguoiDung}"></td>
                             <td th:text="${khambenh.benhVien}"></td>
                             <td th:text="${khambenh.ngayKham}"></td>
+<!--                            <td>-->
+<!--                                <a th:href="@{/admin/khambenh/update(id=${khambenh.maKhamBenh})}" class="edit">-->
+<!--                                    <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>-->
+<!--                                <a href="#" class="delete" data-toggle="modal" th:data-id="${khambenh.maKhamBenh}">-->
+<!--                                    <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>-->
+<!--                                    <a th:href="@{/admin/khambenh/chitiet(maKhamBenh=${khambenh.maKhamBenh})}" class="details">-->
+<!--                                    <i class="material-icons" data-toggle="tooltip" title="Detail">visibility</i>-->
+<!--                                </a>-->
+<!--                            </td>-->
+
                             <td>
                                 <a th:href="@{/admin/khambenh/update(id=${khambenh.maKhamBenh})}" class="edit">
-                                    <i class="material-icons" data-toggle="tooltip" t   itle="Edit">&#xE254;</i></a>
+                                    <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
+                                </a>
                                 <a href="#" class="delete" data-toggle="modal" th:data-id="${khambenh.maKhamBenh}">
-                                    <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                    <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+                                </a>
+                                <a th:href="@{/admin/khambenh/chitiet(maKhamBenh=${khambenh.maKhamBenh})}" class="details">
+                                    <i class="material-icons" data-toggle="tooltip" title="Detail">visibility</i>
+                                </a>
+
                             </td>
+
                         </tr>
                         </tbody>
                     </table>

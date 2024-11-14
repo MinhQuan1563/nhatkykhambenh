@@ -133,7 +133,9 @@
 
                     <!-- Pagination -->
                     <div class="clearfix">
-                        <div class="hint-text">Hiển thị <b th:text="${currentCount}"></b> trong số <b th:text="${totalItems}"></b> mục</div>
+                        <div class="hint-text">Hiển thị <b th:text="${currentPage * pageSize + 1}"></b> đến
+                            <b th:text="${currentPage * pageSize + dsCTTiemChung.size()}"></b> trong số <b th:text="${totalItems}"></b> mục
+                        </div>
                         <ul class="pagination">
                             <li th:if="${currentPage > 0}" th:class="${currentPage == 0 ? 'page-item disabled' : 'page-item'}">
                                 <a th:href="@{/admin/cttiemchung(page=${currentPage - 1}, size=${pageSize}, query=${query})}" class="page-link">Trước</a>

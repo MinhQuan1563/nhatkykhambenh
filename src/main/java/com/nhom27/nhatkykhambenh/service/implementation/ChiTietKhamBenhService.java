@@ -1,10 +1,11 @@
 package com.nhom27.nhatkykhambenh.service.implementation;
 
-import com.nhom27.nhatkykhambenh.dto.ChiTietKhamBenhDTO;
 import com.nhom27.nhatkykhambenh.exception.SaveDataException;
 import com.nhom27.nhatkykhambenh.mapper.ChiTietKhamBenhMapper;
 import com.nhom27.nhatkykhambenh.model.ChiTietKhamBenh;
+import com.nhom27.nhatkykhambenh.model.KhamBenh;
 import com.nhom27.nhatkykhambenh.repository.IChiTietKhamBenhRepo;
+import com.nhom27.nhatkykhambenh.repository.IKhamBenhRepo;
 import com.nhom27.nhatkykhambenh.service.interfaces.IChiTietKhamBenhService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ChiTietKhamBenhService implements IChiTietKhamBenhService {
@@ -22,78 +24,67 @@ public class ChiTietKhamBenhService implements IChiTietKhamBenhService {
     private IChiTietKhamBenhRepo ChiTietKhamBenhRepo;
 
     @Autowired
+    private IKhamBenhRepo khamBenhRepo;
+
+    @Autowired
     private ChiTietKhamBenhMapper chiTietKhamBenhMapper;
 
     @PersistenceContext
     private EntityManager entityManager;
 
-//    @Override
-//    public Page<ChiTietKhamBenhDTO> getDSChiTietKhamBenh(Pageable pageable, String query) {
-//        String searchTerm = "%" + query + "%";
-//
-//        String columnQuery = "SELECT GROUP_CONCAT(COLUMN_NAME) FROM INFORMATION_SCHEMA.COLUMNS " +
-//                "WHERE TABLE_NAME = 'tiem_chung' AND TABLE_SCHEMA = 'nhatkykhambenh'";
-//        Query columnNativeQuery = entityManager.createNativeQuery(columnQuery);
-//        String columns = (String) columnNativeQuery.getSingleResult();
-//
-//        // Tạo truy vấn động với LIMIT và OFFSET
-//        String sql = "SELECT * FROM tiem_chung WHERE CONCAT(" + columns + ") LIKE :searchTerm " +
-//                "LIMIT :limit OFFSET :offset";
-//        Query nativeQuery = entityManager.createNativeQuery(sql, ChiTietKhamBenh.class);
-//        nativeQuery.setParameter("searchTerm", searchTerm);
-//        nativeQuery.setParameter("limit", pageable.getPageSize());
-//        nativeQuery.setParameter("offset", pageable.getPageNumber() * pageable.getPageSize());
-//
-//        List<ChiTietKhamBenh> results = nativeQuery.getResultList();
-//
-//        long totalElements = results.size(); // Tổng số phần tử
-//        return new PageImpl<>(chitietdonThuocMapper.toChiTietKhamBenh(results), pageable, totalElements);
-//    }
-
     @Override
-    public Page<ChiTietKhamBenhDTO> getDSChiTietKhamBenh(Pageable pageable, String query) {
+    public Page<ChiTietKhamBenh> getDSChiTietKhamBenh(Pageable pageable, String query, Integer maKhamBenh) {
         String searchTerm = "%" + query + "%";
+
         String columnQuery = "SELECT GROUP_CONCAT(COLUMN_NAME) FROM INFORMATION_SCHEMA.COLUMNS " +
                 "WHERE TABLE_NAME = 'chi_tiet_kham_benh' AND TABLE_SCHEMA = 'nhatkykhambenh'";
         Query columnNativeQuery = entityManager.createNativeQuery(columnQuery);
         String columns = (String) columnNativeQuery.getSingleResult();
 
         // Tạo truy vấn động với LIMIT và OFFSET
-        String sql = "SELECT * FROM chi_tiet_kham_benh WHERE trang_thai=1 AND CONCAT(" + columns + ") LIKE :searchTerm ";
+        String sql = "SELECT * FROM chi_tiet_kham_benh WHERE trang_thai = 1 AND ma_kham_benh = :maKhamBenh AND CONCAT(" + columns + ") LIKE :searchTerm " +
+                "LIMIT :limit OFFSET :offset";
         Query nativeQuery = entityManager.createNativeQuery(sql, ChiTietKhamBenh.class);
+        nativeQuery.setParameter("maKhamBenh", maKhamBenh);
         nativeQuery.setParameter("searchTerm", searchTerm);
+        nativeQuery.setParameter("limit", pageable.getPageSize());
+        nativeQuery.setParameter("offset", pageable.getPageNumber() * pageable.getPageSize());
 
         List<ChiTietKhamBenh> results = nativeQuery.getResultList();
 
-        long totalElements = results.size(); // Tổng số phần tử
-        return new PageImpl<>(chiTietKhamBenhMapper.toChiTietKhamBenhDtoList(results), pageable, totalElements);
+        String countQuery = "SELECT COUNT(*) FROM chi_tiet_kham_benh WHERE CONCAT(" + columns + ") LIKE :searchTerm";
+        Query countNativeQuery = entityManager.createNativeQuery(countQuery);
+        countNativeQuery.setParameter("searchTerm", searchTerm);
+        long totalElements = ((Number) countNativeQuery.getSingleResult()).longValue();
+
+        return new PageImpl<>(results, pageable, totalElements);
     }
 
-
     @Override
-    public void saveChiTietKhamBenh(ChiTietKhamBenhDTO chiTietKhamBenhDTO) {
-        ChiTietKhamBenh chiTietKhamBenh = chiTietKhamBenhMapper.toChiTietKhamBenh(chiTietKhamBenhDTO);
-        chiTietKhamBenh.setTrangThai(true);
+    public void saveChiTietKhamBenh(ChiTietKhamBenh ctKhamBenh, Integer maKhamBenh) {
+        KhamBenh khamBenh = khamBenhRepo.findById(maKhamBenh).get();
+        ctKhamBenh.setTrangThai(true);
+        ctKhamBenh.setKhamBenh(khamBenh);
         try {
-            ChiTietKhamBenhRepo.save(chiTietKhamBenh);
+            ChiTietKhamBenhRepo.save(ctKhamBenh);
         } catch (Exception e) {
-            throw new SaveDataException(ChiTietKhamBenh.OBJ_NAME);
+            throw new SaveDataException("ChiTietKhamBenh");
         }
     }
 
     @Override
-    public ChiTietKhamBenhDTO findById(Integer id) {
-        ChiTietKhamBenh chiTietKhamBenh = ChiTietKhamBenhRepo.findById(id).get();
-        return chiTietKhamBenhMapper.toChiTietKhamBenhDTO(chiTietKhamBenh);
+    public ChiTietKhamBenh findById(Integer id) {
+        return ChiTietKhamBenhRepo.findById(id).get();
     }
 
     @Override
     public void deleteById(Integer id) {
-        ChiTietKhamBenh chitietdonThuoc = ChiTietKhamBenhRepo.findById(id).orElseThrow(() -> new SaveDataException(ChiTietKhamBenh.OBJ_NAME));
-        chitietdonThuoc.setTrangThai(false);
-        ChiTietKhamBenhRepo.save(chitietdonThuoc);
+        ChiTietKhamBenh chiTietKhamBenh = findById(id);
+        chiTietKhamBenh.setTrangThai(false);
+        ChiTietKhamBenhRepo.save(chiTietKhamBenh);
     }
 
+    @Override
     public void deleteAllByIds(List<Integer> ids) {
         List<ChiTietKhamBenh> chitietdonThuocList = ChiTietKhamBenhRepo.findAllById(ids);
         for (ChiTietKhamBenh chitietdonThuoc : chitietdonThuocList) {

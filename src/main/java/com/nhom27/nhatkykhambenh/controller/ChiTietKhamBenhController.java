@@ -2,8 +2,12 @@ package com.nhom27.nhatkykhambenh.controller;
 
 import com.nhom27.nhatkykhambenh.dto.ChiTietKhamBenhDTO;
 import com.nhom27.nhatkykhambenh.exception.SaveDataException;
+import com.nhom27.nhatkykhambenh.mapper.ChiTietKhamBenhMapper;
+import com.nhom27.nhatkykhambenh.model.ChiTietKhamBenh;
+import com.nhom27.nhatkykhambenh.repository.IChiTietKhamBenhRepo;
 import com.nhom27.nhatkykhambenh.service.implementation.ChiTietKhamBenhService;
 import com.nhom27.nhatkykhambenh.service.implementation.ChiTietKhamBenhService;
+import com.nhom27.nhatkykhambenh.service.interfaces.IChiTietKhamBenhService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,19 +27,30 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class ChiTietKhamBenhController {
-    @Autowired
-    private ChiTietKhamBenhService chiTietKhamBenhService;
 
-    @GetMapping("/admin/chitietkhambenh")
+    @Autowired
+    private IChiTietKhamBenhService chiTietKhamBenhService;
+
+    @Autowired
+    private ChiTietKhamBenhMapper chiTietKhamBenhMapper;
+
+    @Autowired
+    private IChiTietKhamBenhRepo chiTietKhamBenhRepo;
+
+    @GetMapping("/admin/khambenh/chitiet")
     public String GetListChiTietKhamBenh(Model model,
                                          @RequestParam(defaultValue = "0") int page,
                                          @RequestParam(defaultValue = "5") int size,
-                                         @RequestParam(defaultValue = "") String query) {
+                                         @RequestParam(defaultValue = "") String query,
+                                         @RequestParam Integer maKhamBenh) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<ChiTietKhamBenhDTO> chitietkhamBenhPage = chiTietKhamBenhService.getDSChiTietKhamBenh(pageable,query);
-        int count = 0;
+        Page<ChiTietKhamBenh> chitietkhamBenhPage = chiTietKhamBenhService.getDSChiTietKhamBenh(pageable, query, maKhamBenh);
+        List<ChiTietKhamBenhDTO> chiTietKhamBenhDTOList = chiTietKhamBenhMapper.toChiTietKhamBenhDtoList(chitietkhamBenhPage.getContent());
 
-        model.addAttribute("dsChiTietKhamBenh", chitietkhamBenhPage.getContent());
+        System.out.println("size = " + chitietkhamBenhPage.getContent().size());
+
+        model.addAttribute("dsChiTietKhamBenh", chiTietKhamBenhDTOList);
+        model.addAttribute("maKhamBenh", maKhamBenh);
         model.addAttribute("currentPage", page);
         model.addAttribute("pageSize", size);
         model.addAttribute("totalPages", chitietkhamBenhPage.getTotalPages());
@@ -50,57 +65,77 @@ public class ChiTietKhamBenhController {
         model.addAttribute("endItem", endItem);
         model.addAttribute("currentCount", endItem - startItem + 1);
 
-        System.out.println("currentPage: " + page);
-        System.out.println("currentPage: " + size);
-        System.out.println("currentPage: " + chitietkhamBenhPage.getTotalPages());
-        System.out.println("currentPage: " + chitietkhamBenhPage.getTotalElements());
-        System.out.println("currentPage: " + query);
-        return "admin/chitietkhambenh/listChiTietKhamBenh";
+        return "admin/khambenh/listChiTietKhamBenh";
     }
 
-    @GetMapping("/admin/chitietkhambenh/add")
-    public String addChiTietKhamBenhForm(Model model) {
-        ChiTietKhamBenhDTO donThuocDTO = new ChiTietKhamBenhDTO();
-        model.addAttribute("chitietkhambenh", donThuocDTO);
-        return "admin/chitietkhambenh/addChiTietKhamBenh";
+    @GetMapping("/admin/khambenh/chitiet/add")
+    public String addChiTietKhamBenhForm(Model model, @RequestParam Integer maKhamBenh) {
+        ChiTietKhamBenhDTO chiTietKhamBenhDTO = new ChiTietKhamBenhDTO();
+        chiTietKhamBenhDTO.setMaKhamBenh(maKhamBenh);
+
+        model.addAttribute("chitietkhambenh", chiTietKhamBenhDTO);
+        model.addAttribute("maKhamBenh2", maKhamBenh);
+
+        return "admin/khambenh/addChiTietKhamBenh";
     }
 
 
-    @GetMapping("/admin/chitietkhambenh/update")
-    public String updateChiTietKhamBenhForm(@RequestParam("id") Integer id, Model model) {
-        ChiTietKhamBenhDTO donThuocDTO = chiTietKhamBenhService.findById(id);
-        model.addAttribute("chitietkhambenh", donThuocDTO);
-        return "admin/chitietkhambenh/addChiTietKhamBenh";
+    @GetMapping("/admin/khambenh/chitiet/update")
+    public String updateChiTietKhamBenhForm(@RequestParam Integer maChiTietKhamBenh,
+                                            @RequestParam Integer maKhamBenh,
+                                            Model model) {
+        ChiTietKhamBenh chiTietKhamBenh = chiTietKhamBenhService.findById(maChiTietKhamBenh);
+        ChiTietKhamBenhDTO chiTietKhamBenhDTO = chiTietKhamBenhMapper.toChiTietKhamBenhDTO(chiTietKhamBenh);
+        chiTietKhamBenhDTO.setMaKhamBenh(maKhamBenh);
+
+        model.addAttribute("chitietkhambenh", chiTietKhamBenhDTO);
+        model.addAttribute("maKhamBenh2", maKhamBenh);
+        return "admin/khambenh/addChiTietKhamBenh";
     }
 
-    @PostMapping("/admin/chitietkhambenh/save")
-    public String saveChiTietKhamBenh(@ModelAttribute("chitietkhambenh") ChiTietKhamBenhDTO chitietkhambenh,
+    @PostMapping("/admin/khambenh/chitiet/save")
+    public String saveChiTietKhamBenh(@ModelAttribute("chitietkhambenh") ChiTietKhamBenhDTO chitietkhambenhDTO,
                                       BindingResult bindingResult,
-                                      Model model) {
+                                      Model model,
+                                      @RequestParam(required = false) Integer maKhamBenh,
+                                      @RequestParam(required = false) Integer maChiTietKhamBenh,
+                                      RedirectAttributes redirectAttributes) {
+
         if (bindingResult.hasErrors()) {
-            return "admin/chitietkhambenh/addChiTietKhamBenh";
+            return "admin/khambenh/addChiTietKhamBenh";
         }
+
         try {
-            chiTietKhamBenhService.saveChiTietKhamBenh(chitietkhambenh);
-            return "redirect:/admin/chitietkhambenh";
+            if (maChiTietKhamBenh != null) {
+                chitietkhambenhDTO.setMaChiTietKhamBenh(maChiTietKhamBenh);
+            }
+            ChiTietKhamBenh chiTietKhamBenh = chiTietKhamBenhMapper.toChiTietKhamBenh(chitietkhambenhDTO);
+            chiTietKhamBenhService.saveChiTietKhamBenh(chiTietKhamBenh, maKhamBenh);
+
+            redirectAttributes.addAttribute("maKhamBenh", maKhamBenh);
+            return "redirect:/admin/khambenh/chitiet";
         } catch (SaveDataException e) {
             model.addAttribute("error", e.getMessage());
-            return "admin/chitietkhambenh/addChiTietKhamBenh";
+            return "admin/khambenh/addChiTietKhamBenh";
         }
     }
 
-    @PostMapping("/admin/chitietkhambenh/delete")
-    public String deleteChiTietKhamBenh(@RequestParam("maChiTietKhamBenh") Integer maChiTietKhamBenh, RedirectAttributes redirectAttributes) {
+
+    @PostMapping("/admin/khambenh/chitiet/delete")
+        public String deleteChiTietKhamBenh(@RequestParam("maChiTietKhamBenh") Integer maChiTietKhamBenh,
+                                        @RequestParam("maKhamBenh") Integer maKhamBenh,
+                                        RedirectAttributes redirectAttributes) {
         try {
             chiTietKhamBenhService.deleteById(maChiTietKhamBenh);
             redirectAttributes.addFlashAttribute("success", "Xóa thành công");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Lỗi!! Xóa thông tin Đơn Thuốc thất bại");
         }
-        return "redirect:/admin/chitietkhambenh";
+        redirectAttributes.addAttribute("maKhamBenh", maKhamBenh);
+        return "redirect:/admin/khambenh/chitiet";
     }
 
-    @PostMapping("/admin/chitietkhambenh/deleteall")
+    @PostMapping("/admin/khambenh/chitiet/deleteall")
     public String deleteAllByIds(@RequestParam("selectedIds") List<Integer> ids, RedirectAttributes redirectAttributes) {
         try {
             chiTietKhamBenhService.deleteAllByIds(ids);
@@ -108,6 +143,7 @@ public class ChiTietKhamBenhController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Có lỗi xảy ra khi xóa.");
         }
-        return "redirect:/admin/chitietkhambenh";
+
+        return "redirect:/admin/khambenh/chitiet";
     }
 }
