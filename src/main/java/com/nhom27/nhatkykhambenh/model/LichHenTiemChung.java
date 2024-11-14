@@ -1,5 +1,6 @@
 package com.nhom27.nhatkykhambenh.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,6 +29,7 @@ public class LichHenTiemChung {
     @Column(name = "NgayHenTiem")
     private LocalDateTime ngayHenTiem;
 
-    @OneToMany(mappedBy = "lichHenTiemChung",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "lichHenTiemChung", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private Set<NguoiDungTiemChung> nguoiDungTiemChungList = new HashSet<>();
 }

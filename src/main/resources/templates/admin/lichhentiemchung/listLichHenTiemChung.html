@@ -68,10 +68,8 @@
                 <td th:text="${lichHen.noiTiemChung}"></td>
                 <td th:text="${#temporals.format(lichHen.ngayHenTiem, 'dd-MM-yyyy HH:mm')}"></td>
                 <td>
-                    <a class="edit">
+                    <a class="edit" th:href="@{/admin/lichhentiemchung/{id}(id=${lichHen.maLichHenTiemChung})}">
                         <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                    <a class="delete">
-                        <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                 </td>
             </tr>
             </tbody>

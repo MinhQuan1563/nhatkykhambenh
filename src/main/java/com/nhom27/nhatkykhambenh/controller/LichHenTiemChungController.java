@@ -7,6 +7,7 @@ import com.nhom27.nhatkykhambenh.model.NguoiDung;
 import com.nhom27.nhatkykhambenh.model.NguoiDungTiemChung;
 import com.nhom27.nhatkykhambenh.model.NguoiDungTiemChungId;
 import com.nhom27.nhatkykhambenh.service.interfaces.ILichHenTiemChungService;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -28,57 +31,64 @@ public class LichHenTiemChungController {
     @Autowired
     private DataSourceTransactionManagerAutoConfiguration dataSourceTransactionManagerAutoConfiguration;
 
+    private List<NguoiDung> getMembers(){
+        List<NguoiDung> members = new ArrayList<>();
+
+        NguoiDung user1 = NguoiDung.builder()
+                .maNguoiDung(1)
+                .hinhAnh("image1.png")
+                .soDienThoai("0123456789")
+                .cccd("123456789012")
+                .ngayThangNamSinh(Timestamp.valueOf("1990-01-01 00:00:00"))
+                .gioiTinh("Nam")
+                .diaChi("123 Đường ABC")
+                .tenNguoiDung("Nguyen Van A")
+                .email("user1@example.com")
+                .matKhau("password1")
+                .trangThai(true)
+                .build();
+
+        NguoiDung user2 = NguoiDung.builder()
+                .maNguoiDung(2)
+                .hinhAnh("image2.png")
+                .soDienThoai("0987654321")
+                .cccd("987654321098")
+                .ngayThangNamSinh(Timestamp.valueOf("1992-05-10 00:00:00"))
+                .gioiTinh("Nu")
+                .diaChi("456 Đường XYZ")
+                .tenNguoiDung("Tran Thi B")
+                .email("user2@example.com")
+                .matKhau("password2")
+                .trangThai(true)
+                .build();
+
+        NguoiDung user3 = NguoiDung.builder()
+                .maNguoiDung(3)
+                .hinhAnh("image3.png")
+                .soDienThoai("0912345678")
+                .cccd("111122223333")
+                .ngayThangNamSinh(Timestamp.valueOf("1995-07-20 00:00:00"))
+                .gioiTinh("Nam")
+                .diaChi("789 Đường QWE")
+                .tenNguoiDung("Le Van C")
+                .email("user3@example.com")
+                .matKhau("password3")
+                .trangThai(false)
+                .build();
+
+        members.add(user1);
+        members.add(user2);
+        members.add(user3);
+        return members;
+    }
+
     @GetMapping("add")
     public String AddLichHenTiemChung(Model model) {
         LichHenTiemChungDTO lichHenTiemChungDTO = new LichHenTiemChungDTO();
         lichHenTiemChungDTO.setNguoiDungTiemChungList(new HashSet<>());
         model.addAttribute("lichHenTiemChungDTO", lichHenTiemChungDTO);
-        //Lấy danh sách thành viên
-        List<NguoiDungDTO> members = new ArrayList<>();
-        NguoiDungDTO nguoiDung1 = new NguoiDungDTO(
-                1, // maNguoiDung
-                "hinh1.png", // hinhAnh
-                "0909090909", // soDienThoai
-                "0123456789", // cccd
-                new Timestamp(System.currentTimeMillis()), // ngayThangNamSinh
-                "Nam", // gioiTinh
-                "Dia chi 1", // diaChi
-                "email1@example.com", // email
-                true, // trangThai
-                101 // maGiaDinh
-        );
 
-        NguoiDungDTO nguoiDung2 = new NguoiDungDTO(
-                2,
-                "hinh2.png",
-                "0988888888",
-                "9876543210",
-                new Timestamp(System.currentTimeMillis()),
-                "Nu",
-                "Dia chi 2",
-                "email2@example.com",
-                false,
-                102
-        );
-
-        NguoiDungDTO nguoiDung3 = new NguoiDungDTO(
-                3,
-                "hinh3.png",
-                "0912121212",
-                "1029384756",
-                new Timestamp(System.currentTimeMillis()),
-                "Nam",
-                "Dia chi 3",
-                "email3@example.com",
-                true,
-                103
-        );
-
-
-        members.add(nguoiDung2);
-        members.add(nguoiDung1);
-        members.add(nguoiDung3);
-        model.addAttribute("members", members);
+        model.addAttribute("members", this.getMembers());
         return "/admin/lichhentiemchung/addLichHenTiemChung";
     }
 
@@ -109,4 +119,26 @@ public class LichHenTiemChungController {
         return "/admin/lichhentiemchung/listLichHenTiemChung";
     }
 
+    @GetMapping("{id}")
+    public String GetLichHenTiemChungById(@PathVariable("id") Integer id, Model model) {
+        LichHenTiemChungDTO lichHenTiemChungDTO = this.lichHenTiemChungService.GetLichHenTiemChungById(id);
+        System.out.println(lichHenTiemChungDTO.getNgayHenTiem());
+        model.addAttribute("lichHenTiemChung",lichHenTiemChungDTO);
+        model.addAttribute("members", this.getMembers());
+        System.out.println(lichHenTiemChungDTO.getNgayHenTiem());
+        return "/admin/lichhentiemchung/updateLichHenTiemChung";
+    }
+
+    @PostMapping("/update")
+    public String UpdateLichHenTiemChungById(@ModelAttribute("lichHenTiemChung") LichHenTiemChungDTO lichHenTiemChungDTO, @RequestParam("memberIds") List<Integer> memberIds, @RequestParam("tenVaccins") List<String> tenVaccins){
+        Set<NguoiDungTiemChung> nguoiDungTiemChungSet = new HashSet<>();
+        for (int i = 0; i < memberIds.size(); i++) {
+            nguoiDungTiemChungSet.add(NguoiDungTiemChung.builder()
+                    .tenVaccin(tenVaccins.get(i))
+                    .nguoiDung(NguoiDung.builder().maNguoiDung(memberIds.get(i)).build())
+                    .build());
+        }
+        this.lichHenTiemChungService.UpdateLichHenTiemChung(lichHenTiemChungDTO, nguoiDungTiemChungSet);
+        return "redirect:/admin/lichhentiemchung";
+    }
 }

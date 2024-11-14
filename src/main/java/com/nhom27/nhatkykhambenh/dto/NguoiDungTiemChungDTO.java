@@ -9,7 +9,8 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class NguoiDungTiemChungDTO {
-    private String tenVacXin;
+    private Integer maNguoiDungTiemChung;
+    private String tenVaccin;
     private Boolean trangThai;
     private NguoiDungDTO nguoiDung;
 }

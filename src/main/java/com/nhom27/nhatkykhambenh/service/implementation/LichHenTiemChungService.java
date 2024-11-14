@@ -3,12 +3,15 @@ package com.nhom27.nhatkykhambenh.service.implementation;
 import com.nhom27.nhatkykhambenh.dto.LichHenTiemChungDTO;
 import com.nhom27.nhatkykhambenh.dto.NguoiDungTiemChungDTO;
 import com.nhom27.nhatkykhambenh.mapper.LichHenTiemChungMapper;
+import com.nhom27.nhatkykhambenh.mapper.NguoiDungTiemChungMapper;
 import com.nhom27.nhatkykhambenh.model.LichHenTiemChung;
 import com.nhom27.nhatkykhambenh.model.NguoiDung;
 import com.nhom27.nhatkykhambenh.model.NguoiDungTiemChung;
 import com.nhom27.nhatkykhambenh.repository.ILichHenTiemChungRepo;
 import com.nhom27.nhatkykhambenh.repository.INguoiDungTiemChung;
 import com.nhom27.nhatkykhambenh.service.interfaces.ILichHenTiemChungService;
+import jakarta.transaction.Transactional;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Set;
@@ -27,6 +30,9 @@ public class LichHenTiemChungService implements ILichHenTiemChungService {
     @Autowired
     private LichHenTiemChungMapper lichHenTiemChungMapper;
 
+    @Autowired
+    private NguoiDungTiemChungMapper nguoiDungTiemChungMapper;
+
     @Override
     public void CreateLichHenTiemChung(LichHenTiemChungDTO lichHenTiemChungDTO, Set<NguoiDungTiemChung> nguoiDungTiemChungSet) {
         LichHenTiemChung lichHenTiemChung = this.lichHenTiemChungMapper.toLichHenTiemChung(lichHenTiemChungDTO);
@@ -39,8 +45,16 @@ public class LichHenTiemChungService implements ILichHenTiemChungService {
     }
 
     @Override
-    public void UpdateLichHenTiemChung(LichHenTiemChungDTO lichHenTiemChungDTO) {
-
+    @Transactional
+    public void UpdateLichHenTiemChung(LichHenTiemChungDTO lichHenTiemChungDTO, Set<NguoiDungTiemChung> nguoiDungTiemChungSet) {
+        LichHenTiemChung lichHenTiemChung = this.lichHenTiemChungMapper.toLichHenTiemChung(lichHenTiemChungDTO);
+        lichHenTiemChung.setNguoiDungTiemChungList(nguoiDungTiemChungSet);
+        LichHenTiemChung savedLichHenTiemChung = lichHenTiemChungRepo.save(lichHenTiemChung);
+        nguoiDungTiemChungRepo.deleteByLichHenTiemChung(lichHenTiemChung);
+        nguoiDungTiemChungSet.forEach(nguoiDungTiemChung -> {
+            nguoiDungTiemChung.setLichHenTiemChung(savedLichHenTiemChung);
+        });
+        nguoiDungTiemChungRepo.saveAll(nguoiDungTiemChungSet);
     }
 
     @Override
@@ -57,7 +71,18 @@ public class LichHenTiemChungService implements ILichHenTiemChungService {
     public List<LichHenTiemChungDTO> GetAllLichHenTiemChung() {
         List<LichHenTiemChung> listLichHenTiemChung = lichHenTiemChungRepo.findAll();
         List<LichHenTiemChungDTO> listLichHenTiemChungDTO = this.lichHenTiemChungMapper.toListLichHenTiemChungDTO(listLichHenTiemChung);
-
         return listLichHenTiemChungDTO;
+    }
+
+    @Override
+    @Transactional
+    public LichHenTiemChungDTO GetLichHenTiemChungById(Integer id) {
+        LichHenTiemChung lichHenTiemChung = lichHenTiemChungRepo.findById(id).orElse(null);
+
+        Set<NguoiDungTiemChung> nguoiDungTiemChungSet = nguoiDungTiemChungRepo.findAllByLichHenTiemChung(lichHenTiemChung);
+        Set<NguoiDungTiemChungDTO> nguoiDungTiemChungDTOSet = nguoiDungTiemChungMapper.toNguoiDungTiemChungDTOSet(nguoiDungTiemChungSet);
+        LichHenTiemChungDTO lichHenTiemChungDTO = lichHenTiemChungMapper.toLichHenTiemChungDTO(lichHenTiemChung);
+        lichHenTiemChungDTO.setNguoiDungTiemChungList(nguoiDungTiemChungDTOSet);
+        return lichHenTiemChungDTO;
     }
 }

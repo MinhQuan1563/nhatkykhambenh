@@ -1,5 +1,7 @@
 package com.nhom27.nhatkykhambenh.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +18,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "NguoiDungTiemChung")
 @Builder
-public class NguoiDungTiemChung implements Serializable {
+public class NguoiDungTiemChung {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MaNguoiDungTiemChung")
@@ -28,10 +30,9 @@ public class NguoiDungTiemChung implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MaLichHenTiemChung", referencedColumnName = "MaLichHenTiemChung")
+    @JsonBackReference
     private LichHenTiemChung lichHenTiemChung;
 
     @Column(name = "TenVaccin")
     private String tenVaccin;
-
-    // Getters and Setters
 }
