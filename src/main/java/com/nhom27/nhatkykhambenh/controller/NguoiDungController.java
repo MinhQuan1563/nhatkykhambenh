@@ -1,9 +1,12 @@
 package com.nhom27.nhatkykhambenh.controller;
 
 import com.nhom27.nhatkykhambenh.dto.NguoiDungDTO;
+import com.nhom27.nhatkykhambenh.mapper.NguoiDungMapper;
 import com.nhom27.nhatkykhambenh.model.NguoiDung;
 import com.nhom27.nhatkykhambenh.model.TaiKhoan;
 import com.nhom27.nhatkykhambenh.service.implementation.NguoiDungService;
+import com.nhom27.nhatkykhambenh.service.interfaces.ICloudinaryService;
+import com.nhom27.nhatkykhambenh.service.interfaces.INguoiDungService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,7 +14,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,9 +26,15 @@ import java.util.List;
 public class NguoiDungController {
 
     @Autowired
-    private NguoiDungService nguoiDungService;
+    private INguoiDungService nguoiDungService;
 
-    @GetMapping("/users/themnguoithan")
+    @Autowired
+    private NguoiDungMapper nguoiDungMapper;
+
+    @Autowired
+    private ICloudinaryService cloudinaryService;
+
+    @GetMapping("/users/nguoidung/add")
     public String formThemNguoiThan(Model model) {
         NguoiDungDTO nguoiDungDTO = new NguoiDungDTO();
 
@@ -29,11 +42,41 @@ public class NguoiDungController {
         return "users/themnguoithan";
     }
 
-    @PostMapping("/users/themnguoithan")
-    public String saveThemNguoiThan(@ModelAttribute("nguoiDung")NguoiDung nguoiDung, HttpSession session) {
-        TaiKhoan tk = (TaiKhoan)session.getAttribute("taikhoan");
-        NguoiDung nd = nguoiDung;
-        //NguoiDung nguoiDung=new NguoiDung();
+    @GetMapping("/users/nguoidung/update")
+    public String formSuaNguoiThan(@RequestParam("maNguoiDung") Integer maNguoiDung, Model model) {
+        NguoiDungDTO nguoiDungDTO = nguoiDungMapper.toNguoiDungDTO(nguoiDungService.getById(maNguoiDung));
+
+        model.addAttribute("nguoiDung", nguoiDungDTO);
+        return "users/themnguoithan";
+    }
+
+    @PostMapping("/users/nguoidung/save")
+    public String saveThemNguoiThan(@ModelAttribute("nguoiDung")NguoiDungDTO nguoiDungDTO,
+                                    @RequestParam("file") MultipartFile file,
+                                    HttpSession session) {
+        TaiKhoan taiKhoan = (TaiKhoan) session.getAttribute("taikhoan");
+
+        try {
+            String imageUrl = cloudinaryService.uploadImage(file);
+            nguoiDungDTO.setHinhAnh(imageUrl);
+            nguoiDungService.saveNguoiDung(nguoiDungMapper.toNguoiDung(nguoiDungDTO), taiKhoan);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "redirect:/";
+    }
+
+    @PostMapping("/users/nguoidung/delete")
+    public String deleteNguoiDung(@RequestParam("maNguoiDung") Integer maNguoiDung,
+                                  RedirectAttributes redirectAttributes) {
+        try {
+            nguoiDungService.deleteById(maNguoiDung);
+            redirectAttributes.addFlashAttribute("success", "Xóa thành công");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Lỗi!! Xóa thông tin người dùng thất bại");
+        }
         return "redirect:/";
     }
 }

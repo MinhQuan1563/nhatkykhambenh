@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -29,7 +29,7 @@ public class NguoiDungDTO {
     private String cccd;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Timestamp ngayThangNamSinh;
+    private LocalDate ngayThangNamSinh;
 
     private String gioiTinh;
 

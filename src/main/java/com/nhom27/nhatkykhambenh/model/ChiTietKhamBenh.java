@@ -15,6 +15,7 @@ import java.util.Set;
 @Entity
 @Table(name = "ChiTietKhamBenh")
 public class ChiTietKhamBenh {
+    public static final String OBJ_NAME = "ChiTietKhamBenh";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MaChiTietKhamBenh")

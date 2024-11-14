@@ -24,7 +24,7 @@ public class IndexController {
 
     @GetMapping()
     public String home(Model theModel, HttpSession session) {
-        TaiKhoan taiKhoan = (TaiKhoan) session.getAttribute("taiKhoan");
+        TaiKhoan taiKhoan = (TaiKhoan) session.getAttribute("taikhoan");
         List<NguoiDung> dsNguoiDung = nguoiDungService.getDsNguoiDungByGiaDinh(taiKhoan.getGiaDinh());
         List<NguoiDungDTO> dsNguoiDungDTO = nguoiDungMapper.toNguoiDungDtoList(dsNguoiDung);
 

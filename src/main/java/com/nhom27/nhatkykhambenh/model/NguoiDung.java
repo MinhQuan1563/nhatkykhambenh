@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,8 +32,7 @@ public class NguoiDung {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "NgayThangNamSinh")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date ngayThangNamSinh;
+    private LocalDate ngayThangNamSinh;
 
     @Column(name = "GioiTinh")
     private String gioiTinh;

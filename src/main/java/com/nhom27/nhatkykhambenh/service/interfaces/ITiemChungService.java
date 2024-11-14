@@ -10,6 +10,8 @@ public interface ITiemChungService {
 
     Page<TiemChungDTO> getDSTiemChung(Pageable pageable, String query);
 
+    List<TiemChungDTO> getAllTiemChung();
+
     void saveTiemChung(TiemChungDTO tiemChungDTO);
 
     TiemChungDTO findById(Integer id);

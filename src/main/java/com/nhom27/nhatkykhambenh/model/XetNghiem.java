@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "XetNghiem")
 public class XetNghiem {
+    public static final String OBJ_NAME = "XetNghiem";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MaXetNghiem")

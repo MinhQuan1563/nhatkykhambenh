@@ -9,6 +9,7 @@ import java.util.List;
 
 @Repository
 public interface INguoiDungRepo extends JpaRepository<NguoiDung, Integer> {
-    List<NguoiDung> findByGiaDinh(GiaDinh giaDinh);
+    List<NguoiDung> findByTrangThai(Boolean trangThai);
+    List<NguoiDung> findByGiaDinhAndTrangThai(GiaDinh giaDinh, Boolean trangThai);
     NguoiDung findByEmail(String email);
 }

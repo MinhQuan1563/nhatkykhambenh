@@ -1,8 +1,16 @@
 package com.nhom27.nhatkykhambenh.controller;
 
+import com.nhom27.nhatkykhambenh.dto.ChiTietTiemChungDTO;
 import com.nhom27.nhatkykhambenh.dto.TiemChungDTO;
+import com.nhom27.nhatkykhambenh.dto.TiemChungDetailDTO;
 import com.nhom27.nhatkykhambenh.exception.SaveDataException;
+import com.nhom27.nhatkykhambenh.mapper.ChiTietTiemChungMapper;
+import com.nhom27.nhatkykhambenh.model.ChiTietTiemChung;
+import com.nhom27.nhatkykhambenh.model.NguoiDung;
+import com.nhom27.nhatkykhambenh.service.interfaces.IChiTietTiemChungService;
+import com.nhom27.nhatkykhambenh.service.interfaces.INguoiDungService;
 import com.nhom27.nhatkykhambenh.service.interfaces.ITiemChungService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,7 +22,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -22,6 +32,15 @@ public class TiemChungController {
 
     @Autowired
     private ITiemChungService tiemChungService;
+
+    @Autowired
+    private IChiTietTiemChungService chiTietTiemChungService;
+
+    @Autowired
+    private INguoiDungService nguoiDungService;
+
+    @Autowired
+    private ChiTietTiemChungMapper chiTietTiemChungMapper;
 
     @GetMapping("/admin/tiemchung")
     public String GetListTiemChung(Model model,
@@ -99,4 +118,24 @@ public class TiemChungController {
         }
         return "redirect:/admin/tiemchung";
     }
+
+    @GetMapping("/users/tiemchung")
+    public String getAllTiemChung(Model model,
+                                  HttpSession session,
+                                  @RequestParam("maNguoiDung") Integer maNguoiDung) {
+        List<String> pageName = new ArrayList<>();
+        pageName.add("Tiêm chủng");
+
+        NguoiDung nguoiDung = nguoiDungService.getById(maNguoiDung);
+        session.setAttribute("nguoidung", nguoiDung);
+
+        List<TiemChungDetailDTO> dsTiemChungDetailDTO = chiTietTiemChungService.getAllTiemChungDetails(maNguoiDung);
+
+        session.setAttribute("pageName", pageName);
+        model.addAttribute("dsTiemChungDetail", dsTiemChungDetailDTO);
+
+        return "users/danhsachtiemchung";
+    }
+
+
 }
