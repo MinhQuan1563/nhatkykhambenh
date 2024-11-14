@@ -135,15 +135,41 @@ public class ChiTietKhamBenhController {
         return "redirect:/admin/khambenh/chitiet";
     }
 
+//    @PostMapping("/admin/khambenh/chitiet/deleteall")
+//    public String deleteAllByIds(@RequestParam("selectedIds") List<Integer> ids, RedirectAttributes redirectAttributes) {
+//        try {
+//            chiTietKhamBenhService.deleteAllByIds(ids);
+//            redirectAttributes.addFlashAttribute("success", "Xóa thành công các mục đã chọn.");
+//        } catch (Exception e) {
+//            redirectAttributes.addFlashAttribute("error", "Có lỗi xảy ra khi xóa.");
+//        }
+//
+//        return "redirect:/admin/khambenh/chitiet";
+//    }
+
     @PostMapping("/admin/khambenh/chitiet/deleteall")
-    public String deleteAllByIds(@RequestParam("selectedIds") List<Integer> ids, RedirectAttributes redirectAttributes) {
+    public String deleteAllByIds(@RequestParam(value = "selectedIds", required = false) List<Integer> ids,
+                                 @RequestParam("maKhamBenh") Integer maKhamBenh,
+                                 RedirectAttributes redirectAttributes) {
+        if (ids == null || ids.isEmpty()) {
+            redirectAttributes.addFlashAttribute("error", "Không có mục nào được chọn để xóa.");
+            redirectAttributes.addAttribute("maKhamBenh", maKhamBenh);  // Thêm maKhamBenh vào redirect
+            return "redirect:/admin/khambenh/chitiet";
+        }
+
         try {
             chiTietKhamBenhService.deleteAllByIds(ids);
             redirectAttributes.addFlashAttribute("success", "Xóa thành công các mục đã chọn.");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Có lỗi xảy ra khi xóa.");
+            redirectAttributes.addFlashAttribute("error", "Có lỗi xảy ra khi xóa các mục đã chọn.");
         }
 
+        redirectAttributes.addAttribute("maKhamBenh", maKhamBenh);
         return "redirect:/admin/khambenh/chitiet";
     }
+
+
+
+
+
 }
