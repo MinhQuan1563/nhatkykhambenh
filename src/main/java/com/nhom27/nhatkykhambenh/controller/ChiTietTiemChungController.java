@@ -87,6 +87,25 @@ public class ChiTietTiemChungController {
         return "admin/tiemchung/addChiTietTiemChung";
     }
 
+    @GetMapping("/admin/tiemchung/chitiet/update")
+    public String updateTiemChungForm(Model model, @RequestParam Integer maTiemChung) {
+        ChiTietTiemChungDTO chiTietTiemChungDTO = new ChiTietTiemChungDTO();
+        chiTietTiemChungDTO.setMaTiemChung(maTiemChung);
+
+        List<NguoiDungDTO> nguoiDungDTOList = nguoiDungMapper.toNguoiDungDtoList(nguoiDungService.getAllNguoiDung());
+
+        System.out.println("size = " + nguoiDungDTOList.size());
+
+        for(NguoiDungDTO dt: nguoiDungDTOList){
+            System.out.println("name " + dt.getTenNguoiDung());
+        }
+
+        model.addAttribute("ctTiemChung", chiTietTiemChungDTO);
+        model.addAttribute("dsNguoiDung", nguoiDungDTOList);
+
+        return "admin/tiemchung/addChiTietTiemChung";
+    }
+
     @PostMapping("/admin/tiemchung/chitiet/save")
     public String saveTiemChung(@ModelAttribute("ctTiemChung") ChiTietTiemChungDTO ctTiemChungDTO,
                                 BindingResult bindingResult,

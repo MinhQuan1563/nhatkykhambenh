@@ -15,10 +15,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ChiTietTiemChungService implements IChiTietTiemChungService {
@@ -31,7 +29,7 @@ public class ChiTietTiemChungService implements IChiTietTiemChungService {
 
     @Override
     public Page<ChiTietTiemChung> getCTTiemChungByTiemChung(Pageable pageable,
-                                                            String query,
+                                                            String query, 
                                                             Integer maTiemChung) {
         String searchTerm = "%" + query + "%";
 
@@ -40,17 +38,20 @@ public class ChiTietTiemChungService implements IChiTietTiemChungService {
         Query columnNativeQuery = entityManager.createNativeQuery(columnQuery);
         String columns = (String) columnNativeQuery.getSingleResult();
 
-        String sql = "SELECT * FROM chi_tiet_tiem_chung WHERE trang_thai = 1 AND ma_tiem_chung = :maTiemChung " +
-                "AND CONCAT(" + columns + ") LIKE :searchTerm";
+        String sql = "SELECT * FROM chi_tiet_tiem_chung WHERE trang_thai=1 AND ma_tiem_chung= :maTiemChung AND CONCAT(" + columns + ") LIKE :searchTerm " +
+                "LIMIT :limit OFFSET :offset";
         Query nativeQuery = entityManager.createNativeQuery(sql, ChiTietTiemChung.class);
-        nativeQuery.setParameter("maTiemChung", maTiemChung);
         nativeQuery.setParameter("searchTerm", searchTerm);
-
-        nativeQuery.setFirstResult((int) pageable.getOffset());
-        nativeQuery.setMaxResults(pageable.getPageSize());
+        nativeQuery.setParameter("maTiemChung", maTiemChung);
+        nativeQuery.setParameter("limit", pageable.getPageSize());
+        nativeQuery.setParameter("offset", pageable.getPageNumber() * pageable.getPageSize());
 
         List<ChiTietTiemChung> results = nativeQuery.getResultList();
-        long totalElements = results.size();
+
+        String countQuery = "SELECT COUNT(*) FROM chi_tiet_tiem_chung WHERE CONCAT(" + columns + ") LIKE :searchTerm";
+        Query countNativeQuery = entityManager.createNativeQuery(countQuery);
+        countNativeQuery.setParameter("searchTerm", searchTerm);
+        long totalElements = ((Number) countNativeQuery.getSingleResult()).longValue();
 
         return new PageImpl<>(results, pageable, totalElements);
     }

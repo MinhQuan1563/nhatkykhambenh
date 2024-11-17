@@ -42,6 +42,9 @@ public class DataSeeder implements CommandLineRunner {
     @Autowired
     private IKhamBenhRepo khamBenhRepo;
 
+    @Autowired
+    private  IChiTietKhamBenhRepo chiTietKhamBenhRepo;
+
 
     @Override
     public void run(String... args) throws Exception {
@@ -206,6 +209,29 @@ public class DataSeeder implements CommandLineRunner {
             System.out.println("Saved " + khamBenhList.size() + " KhamBenh records to the database.");
         }
 
+        if (khamBenhRepo.count() == 0) {
+            List<KhamBenh> khamBenhList = List.of(
+                    new KhamBenh(null, "Bệnh viện Đa khoa TP.HCM", LocalDate.of(2024, 12, 10), true, nguoiDungRepo.findById(1).orElse(null), new HashSet<>(), new HashSet<>(), null),
+                    new KhamBenh(null, "Bệnh viện Y học Cổ truyền", LocalDate.of(2024, 12, 10), true, nguoiDungRepo.findById(2).orElse(null), new HashSet<>(), new HashSet<>(), null),
+                    new KhamBenh(null, "Bệnh viện Nhi Đồng", LocalDate.of(2024, 12, 10), true, nguoiDungRepo.findById(3).orElse(null), new HashSet<>(), new HashSet<>(), null)
+            );
+
+            khamBenhRepo.saveAll(khamBenhList);
+        }
+
+        // Seed ChiTietKhamBenh
+        if (chiTietKhamBenhRepo.count() == 0) {
+            KhamBenh khamBenh = khamBenhRepo.findAll().stream().findFirst().orElse(null);
+
+            List<ChiTietKhamBenh> chiTietKhamBenhList = List.of(
+                    new ChiTietKhamBenh(null, "Khoa Nội", "BS. Nguyễn Văn A", "Xét nghiệm máu", "Cảm cúm", "O", true, khamBenh, new HashSet<>(), new HashSet<>()),
+                    new ChiTietKhamBenh(null, "Khoa Nhi", "BS. Trần Văn B", "Siêu âm bụng", "Viêm ruột", "A", true, khamBenh, new HashSet<>(), new HashSet<>()),
+                    new ChiTietKhamBenh(null, "Khoa Ngoại", "BS. Lê Thị C", "CT Scan", "Chấn thương đầu", "B", true, khamBenh, new HashSet<>(), new HashSet<>())
+            );
+
+            chiTietKhamBenhRepo.saveAll(chiTietKhamBenhList);
+            System.out.println("Saved " + chiTietKhamBenhList.size() + " ChiTietKhamBenh records to the database.");
+        }
 
     }
 }
