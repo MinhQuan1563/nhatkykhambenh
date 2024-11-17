@@ -17,5 +17,4 @@ public class XetNghiemDTO {
     private Integer maChiTietKhamBenh;
     private String ketQuaXetNghiem;
     private Boolean trangThai;
-
 }

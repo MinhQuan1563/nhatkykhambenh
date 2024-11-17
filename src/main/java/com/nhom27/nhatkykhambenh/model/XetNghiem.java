@@ -24,6 +24,9 @@ public class XetNghiem {
     @Column(name = "TrangThai")
     private Boolean trangThai;
 
+    @Column(name = "MaChiTietKhamBenh")
+    private Integer maChiTietKhamBenh;
+
     @ManyToOne
     @JoinColumn(name = "MaChiTietKhamBenh",referencedColumnName="MaChiTietKhamBenh", insertable = false, updatable = false)
     private ChiTietKhamBenh chiTietKhamBenh;

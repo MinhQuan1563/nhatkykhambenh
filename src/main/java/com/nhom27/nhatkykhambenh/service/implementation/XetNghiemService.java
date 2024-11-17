@@ -67,6 +67,7 @@ public class XetNghiemService implements IXetNghiemService {
     public void saveXetNghiem(XetNghiem xetNghiem, Integer maChiTietKhamBenh) {
         ChiTietKhamBenh chiTietKhamBenh = ChiTietKhamBenhRepo.findById(maChiTietKhamBenh).get();
         xetNghiem.setTrangThai(true);
+        xetNghiem.setMaChiTietKhamBenh(maChiTietKhamBenh);//thêm
         xetNghiem.setChiTietKhamBenh(chiTietKhamBenh);
 
         try {
@@ -96,6 +97,4 @@ public class XetNghiemService implements IXetNghiemService {
         }
         XetNghiemRepo.saveAll(xetNghiemList);
     }
-
-
 }

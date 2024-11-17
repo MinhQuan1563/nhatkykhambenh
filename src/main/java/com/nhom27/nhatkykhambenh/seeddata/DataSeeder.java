@@ -233,17 +233,18 @@ public class DataSeeder implements CommandLineRunner {
 
             if (!chiTietKhamBenhList.isEmpty()) {
                 List<XetNghiem> xetNghiemList = List.of(
-                        new XetNghiem(null, "Positive for influenza", true, chiTietKhamBenhList.get(0)),
-                        new XetNghiem(null, "No abnormalities detected", true, chiTietKhamBenhList.get(1)),
-                        new XetNghiem(null, "Minor swelling observed", false, chiTietKhamBenhList.get(2))
+                        new XetNghiem(null, "Kết quả bình thường", true, chiTietKhamBenhList.get(0).getMaChiTietKhamBenh(), chiTietKhamBenhList.get(0)),
+                        new XetNghiem(null, "Kết quả cao hơn mức bình thường", false, chiTietKhamBenhList.get(1).getMaChiTietKhamBenh(), chiTietKhamBenhList.get(1)),
+                        new XetNghiem(null, "Kết quả cần theo dõi thêm", true, chiTietKhamBenhList.get(2).getMaChiTietKhamBenh(), chiTietKhamBenhList.get(2))
                 );
 
                 xetNghiemRepo.saveAll(xetNghiemList);
                 System.out.println("Saved " + xetNghiemList.size() + " XetNghiem records to the database.");
             } else {
-                System.out.println("No ChiTietKhamBenh records found. Cannot seed XetNghiem data.");
+                System.out.println("No ChiTietKhamBenh records found to associate with XetNghiem.");
             }
         }
+
 
 
     }

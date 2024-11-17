@@ -132,7 +132,7 @@
 
                             <td>
                                 <!-- Nút Chỉnh sửa -->
-                                <a th:href="@{/admin/khambenh/chitiet/xetnghiem/update(maXetNghiem=${xetnghiem.maXetNghiem}, maXetNghiem=${maXetNghiem})}" class="edit">
+                                <a th:href="@{/admin/khambenh/chitiet/xetnghiem/update(maXetNghiem=${xetnghiem.maXetNghiem}, maChiTietKhamBenh=${maChiTietKhamBenh})}" class="edit">
                                     <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
                                 </a>
                                 <a href="#" class="delete" data-toggle="modal"
@@ -153,15 +153,15 @@
                         </div>
                         <ul class="pagination">
                             <li th:if="${currentPage > 0}" th:class="${currentPage == 0 ? 'page-item disabled' : 'page-item'}">
-                                <a th:href="@{/admin/khambenh/chitiet/xetnghiem/(maXetNghiem=${maXetNghiem}, page=${currentPage - 1}, size=${pageSize}, query=${query})}" class="page-link">Trước</a>
+                                <a th:href="@{/admin/khambenh/chitiet/xetnghiem/(maChiTietKhamBenh=${maChiTietKhamBenh}, page=${currentPage - 1}, size=${pageSize}, query=${query})}" class="page-link">Trước</a>
                             </li>
                             <li class="page-item" th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
                                 th:classappend="${pageNum == currentPage} ? active">
-                                <a th:href="@{/admin/khambenh/chitiet/xetnghiem(maXetNghiem=${maXetNghiem}, page=${pageNum}, size=${pageSize}, query=${query})}"
+                                <a th:href="@{/admin/khambenh/chitiet/xetnghiem(maChiTietKhamBenh=${maChiTietKhamBenh}, page=${pageNum}, size=${pageSize}, query=${query})}"
                                    class="page-link" th:text="${pageNum + 1}"></a>
                             </li>
                             <li th:if="${currentPage < totalPages - 1}" th:class="${currentPage == totalPages - 1 ? 'page-item disabled' : 'page-item'}">
-                                <a th:href="@{/admin/khambenh/chitiet/xetnghiem(maXetNghiem=${maXetNghiem}, page=${currentPage + 1}, size=${pageSize}, query=${query})}" class="page-link">Sau</a>
+                                <a th:href="@{/admin/khambenh/chitiet/xetnghiem(maChiTietKhamBenh=${maChiTietKhamBenh}, page=${currentPage + 1}, size=${pageSize}, query=${query})}" class="page-link">Sau</a>
                             </li>
                         </ul>
                     </div>
@@ -172,7 +172,7 @@
             <div id="deleteModal" class="modal fade">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <form th:action="@{/admin/khambenh/chitiet/xetnghiem/delete(maXetNghiem=${maXetNghiem})}" method="POST">
+                        <form th:action="@{/admin/khambenh/chitiet/xetnghiem/delete(maChiTietKhamBenh=${maChiTietKhamBenh})}" method="POST">
                             <input type="hidden" name="maXetNghiem" id="maXetNghiem">
                             <div class="modal-header">
                                 <h4 class="modal-title">Xóa thông tin Khám Bệnh</h4>

@@ -1,14 +1,9 @@
 package com.nhom27.nhatkykhambenh.controller;
 
-import com.nhom27.nhatkykhambenh.dto.ChiTietKhamBenhDTO;
 import com.nhom27.nhatkykhambenh.dto.XetNghiemDTO;
 import com.nhom27.nhatkykhambenh.exception.SaveDataException;
-import com.nhom27.nhatkykhambenh.mapper.ChiTietKhamBenhMapper;
 import com.nhom27.nhatkykhambenh.mapper.XetNghiemMapper;
-import com.nhom27.nhatkykhambenh.model.ChiTietKhamBenh;
 import com.nhom27.nhatkykhambenh.model.XetNghiem;
-import com.nhom27.nhatkykhambenh.repository.IChiTietKhamBenhRepo;
-import com.nhom27.nhatkykhambenh.repository.IXetNghiemRepo;
 import com.nhom27.nhatkykhambenh.service.interfaces.IChiTietKhamBenhService;
 import com.nhom27.nhatkykhambenh.service.interfaces.IXetNghiemService;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +24,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-public class XetNghiemController {
+public class xetNghiemController {
 
     @Autowired
     private IXetNghiemService xetNghiemService;
@@ -42,10 +37,10 @@ public class XetNghiemController {
 
     @GetMapping("/admin/khambenh/chitiet/xetnghiem")
     public String GetListXetNghiem(Model model,
-                                         @RequestParam(defaultValue = "0") int page,
-                                         @RequestParam(defaultValue = "5") int size,
-                                         @RequestParam(defaultValue = "") String query,
-                                         @RequestParam Integer maChiTietKhamBenh) {
+                                   @RequestParam(defaultValue = "0") int page,
+                                   @RequestParam(defaultValue = "5") int size,
+                                   @RequestParam(defaultValue = "") String query,
+                                   @RequestParam Integer maChiTietKhamBenh) {
         Pageable pageable = PageRequest.of(page, size);
         Page<XetNghiem> xetNghiemPage = xetNghiemService.getDSXetNghiem(pageable, query, maChiTietKhamBenh);
         List<XetNghiemDTO> xetNghiemDTOList = xetNghiemMapper.toXetNghiemDtoList(xetNghiemPage.getContent());
@@ -71,7 +66,6 @@ public class XetNghiemController {
         return "admin/khambenh/listXetNghiem";
     }
 
-//    lỗi
     @GetMapping("/admin/khambenh/chitiet/xetnghiem/add")
     public String addXetNghiemForm(Model model, @RequestParam Integer maChiTietKhamBenh) {
         XetNghiemDTO xetNghiemDTO = new XetNghiemDTO();
@@ -84,26 +78,26 @@ public class XetNghiemController {
     }
 
 
-//    @GetMapping("/admin/khambenh/chitiet/update")
-//    public String updateChiTietKhamBenhForm(@RequestParam Integer maChiTietKhamBenh,
-//                                            @RequestParam Integer maKhamBenh,
-//                                            Model model) {
-//        ChiTietKhamBenh chiTietKhamBenh = chiTietKhamBenhService.findById(maChiTietKhamBenh);
-//        ChiTietKhamBenhDTO chiTietKhamBenhDTO = chiTietKhamBenhMapper.toChiTietKhamBenhDTO(chiTietKhamBenh);
-//        chiTietKhamBenhDTO.setMaKhamBenh(maKhamBenh);
-//
-//        model.addAttribute("chitietkhambenh", chiTietKhamBenhDTO);
-//        model.addAttribute("maKhamBenh2", maKhamBenh);
-//        return "admin/khambenh/addChiTietKhamBenh";
-//    }
-//
+    @GetMapping("/admin/khambenh/chitiet/xetnghiem/update")
+    public String updateXetNghiemForm(@RequestParam Integer maXetNghiem,
+                                      @RequestParam Integer maChiTietKhamBenh,
+                                      Model model) {
+        XetNghiem xetNghiem = xetNghiemService.findById(maXetNghiem);
+        XetNghiemDTO xetNghiemDTO = xetNghiemMapper.toXetNghiemDTO(xetNghiem);
+        xetNghiemDTO.setMaChiTietKhamBenh(maChiTietKhamBenh);
+
+        model.addAttribute("xetnghiem", xetNghiemDTO);
+        model.addAttribute("maChiTietKhamBenh2", maChiTietKhamBenh);
+        return "admin/khambenh/addXetNghiem";
+    }
+
     @PostMapping("/admin/khambenh/chitiet/xetnghiem/save")
     public String saveXetNghiem(@ModelAttribute("xetnghiem") XetNghiemDTO xetNghiemDTO,
-                                      BindingResult bindingResult,
-                                      Model model,
-                                      @RequestParam(required = false) Integer maChiTietKhamBenh,
-                                      @RequestParam(required = false) Integer maXetNghiem,
-                                      RedirectAttributes redirectAttributes) {
+                                BindingResult bindingResult,
+                                Model model,
+                                @RequestParam(required = false) Integer maChiTietKhamBenh,
+                                @RequestParam(required = false) Integer maXetNghiem,
+                                RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             return "admin/khambenh/addXetNghiem";
@@ -125,40 +119,39 @@ public class XetNghiemController {
     }
 
 
-//    @PostMapping("/admin/khambenh/chitiet/delete")
-//    public String deleteChiTietKhamBenh(@RequestParam("maChiTietKhamBenh") Integer maChiTietKhamBenh,
-//                                        @RequestParam("maKhamBenh") Integer maKhamBenh,
-//                                        RedirectAttributes redirectAttributes) {
-//        try {
-//            chiTietKhamBenhService.deleteById(maChiTietKhamBenh);
-//            redirectAttributes.addFlashAttribute("success", "Xóa thành công");
-//        } catch (Exception e) {
-//            redirectAttributes.addFlashAttribute("error", "Lỗi!! Xóa thông tin Đơn Thuốc thất bại");
-//        }
-//        redirectAttributes.addAttribute("maKhamBenh", maKhamBenh);
-//        return "redirect:/admin/khambenh/chitiet";
-//    }
-//
-//
-//
-//    @PostMapping("/admin/khambenh/chitiet/xetnghiem/deleteall")
-//    public String deleteAllByIds(@RequestParam(value = "selectedIds", required = false) List<Integer> ids,
-//                                 @RequestParam("maChiTietKhamBenh") Integer maChiTietKhamBenh,
-//                                 RedirectAttributes redirectAttributes) {
-//        if (ids == null || ids.isEmpty()) {
-//            redirectAttributes.addFlashAttribute("error", "Không có mục nào được chọn để xóa.");
-//            redirectAttributes.addAttribute("maChiTietKhamBenh", maChiTietKhamBenh);  // Thêm maKhamBenh vào redirect
-//            return "redirect:/admin/khambenh/xetnghiem/chitiet";
-//        }
-//
-//        try {
-//            xetNghiemService.deleteAllByIds(ids);
-//            redirectAttributes.addFlashAttribute("success", "Xóa thành công các mục đã chọn.");
-//        } catch (Exception e) {
-//            redirectAttributes.addFlashAttribute("error", "Có lỗi xảy ra khi xóa các mục đã chọn.");
-//        }
-//
-//        redirectAttributes.addAttribute("maChiTietKhamBenh", maChiTietKhamBenh);
-//        return "redirect:/admin/khambenh/xetnghiem/chitiet";
-//    }
+    @PostMapping("/admin/khambenh/chitiet/xetnghiem/delete")
+    public String deleteXetNghiem(@RequestParam("maXetNghiem") Integer maXetNghiem,
+                                  @RequestParam("maChiTietKhamBenh") Integer maChiTietKhamBenh,
+                                  RedirectAttributes redirectAttributes) {
+        try {
+            xetNghiemService.deleteById(maXetNghiem);
+            redirectAttributes.addFlashAttribute("success", "Xóa thành công");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Lỗi!! Xóa thông tin Xét Nghiệm thất bại");
+        }
+        redirectAttributes.addAttribute("maChiTietKhamBenh", maChiTietKhamBenh);
+        return "redirect:/admin/khambenh/chitiet/xetnghiem";
+    }
+
+    @PostMapping("/admin/khambenh/chitiet/xetnghiem/deleteall")
+    public String deleteAllByIds(@RequestParam(value = "selectedIds", required = false) List<Integer> ids,
+                                 @RequestParam("maChiTietKhamBenh") Integer maChiTietKhamBenh,
+                                 RedirectAttributes redirectAttributes) {
+        if (ids == null || ids.isEmpty()) {
+            redirectAttributes.addFlashAttribute("error", "Không có mục nào được chọn để xóa.");
+            redirectAttributes.addAttribute("maChiTietKhamBenh", maChiTietKhamBenh);  // Thêm maKhamBenh vào redirect
+            return "redirect:/admin/khambenh/chitiet/xetnghiem";
+        }
+
+        try {
+            xetNghiemService.deleteAllByIds(ids);
+            redirectAttributes.addFlashAttribute("success", "Xóa thành công các mục đã chọn.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Có lỗi xảy ra khi xóa các mục đã chọn.");
+        }
+
+        redirectAttributes.addAttribute("maChiTietKhamBenh", maChiTietKhamBenh);
+        return "redirect:/admin/khambenh/chitiet/xetnghiem";
+    }
+
 }
