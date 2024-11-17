@@ -1,16 +1,14 @@
 package com.nhom27.nhatkykhambenh.controller;
 
-import com.nhom27.nhatkykhambenh.dto.ChiSoDTO;
 import com.nhom27.nhatkykhambenh.dto.ChiTietChiSoDTO;
-import com.nhom27.nhatkykhambenh.dto.TongQuanDTO;
 import com.nhom27.nhatkykhambenh.exception.SaveDataException;
 import com.nhom27.nhatkykhambenh.model.ChiSo;
 import com.nhom27.nhatkykhambenh.model.NguoiDung;
-import com.nhom27.nhatkykhambenh.model.TaiKhoan;
 import com.nhom27.nhatkykhambenh.model.TongQuan;
-import com.nhom27.nhatkykhambenh.service.implementation.ChiSoService;
-import com.nhom27.nhatkykhambenh.service.implementation.ChiTietChiSoService;
 import com.nhom27.nhatkykhambenh.service.implementation.TongQuanService;
+import com.nhom27.nhatkykhambenh.service.interfaces.IChiSoService;
+import com.nhom27.nhatkykhambenh.service.interfaces.IChiTietChiSoService;
+import com.nhom27.nhatkykhambenh.service.interfaces.ITongQuanService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +27,13 @@ import java.util.List;
 public class ChiSoController {
 
     @Autowired
-    private ChiSoService chiSoService;
+    private IChiSoService chiSoService;
 
     @Autowired
-    private ChiTietChiSoService chiTietChiSoService;
+    private IChiTietChiSoService chiTietChiSoService;
 
     @Autowired
-    private TongQuanService tongQuanService;
+    private ITongQuanService tongQuanService;
 
     @GetMapping("users/chiso")
     public String showChiSo() {

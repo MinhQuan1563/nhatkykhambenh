@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface IChiTietChiSoRepo extends JpaRepository<ChiTietChiSo, ChiTietChiSo.ChiTietChiSoId> {
@@ -21,4 +22,6 @@ public interface IChiTietChiSoRepo extends JpaRepository<ChiTietChiSo, ChiTietCh
     void deleteByMaTongQuanAndMaChiSoAndThoiGianDo(@Param("maTongQuan") Integer maTongQuan,
                                                    @Param("maChiSo") Integer maChiSo,
                                                    @Param("thoiGianDo") Date thoiGianDo);
+
+    Optional<ChiTietChiSo> findTopByMaTongQuanAndMaChiSoOrderByThoiGianDoDesc(Integer maTongQuan, Integer maChiSo);
 }
