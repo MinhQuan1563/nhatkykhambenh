@@ -10,11 +10,11 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 import java.util.List;
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface ChiTietKhamBenhMapper {
-    public ChiTietKhamBenh toChiTietKhamBenh(ChiTietKhamBenhDTO chiTietKhamBenhDTO);
+    ChiTietKhamBenh toChiTietKhamBenh(ChiTietKhamBenhDTO chiTietKhamBenhDTO);
 
-    public ChiTietKhamBenhDTO toChiTietKhamBenhDTO(ChiTietKhamBenh chiTietKhamBenh);
+    ChiTietKhamBenhDTO toChiTietKhamBenhDTO(ChiTietKhamBenh chiTietKhamBenh);
 
-    public List<ChiTietKhamBenhDTO> toChiTietKhamBenhDtoList(List<ChiTietKhamBenh> chiTietKhamBenhList);
+    List<ChiTietKhamBenhDTO> toChiTietKhamBenhDtoList(List<ChiTietKhamBenh> chiTietKhamBenhList);
 
     @Mapping(target = "maChiTietKhamBenh", ignore = true)
     void updateChiTietKhamBenhFromDTO(ChiTietKhamBenhDTO chiTietKhamBenhDTO, @MappingTarget ChiTietKhamBenh chiTietKhamBenh);

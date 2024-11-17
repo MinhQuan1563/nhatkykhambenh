@@ -14,6 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 @Table(name = "NguoiDung")
 public class NguoiDung {
     @Id
@@ -64,12 +65,6 @@ public class NguoiDung {
 
     @OneToMany(mappedBy = "nguoiDung", fetch = FetchType.LAZY)
     private Set<NguoiDungTiemChung> danhSachNguoiDungTiemChung = new HashSet<>();
-
-//    @OneToMany(mappedBy = "nguoiDung", fetch = FetchType.LAZY)
-//    private Set<ChiTietTiemChung> danhSachChiTietTiemChung = new HashSet<>();
-
-    // @OneToMany(mappedBy = "nguoiDung", fetch = FetchType.LAZY)
-    // private Set<ChiTietTiemChung> danhSachKhamBenh = new HashSet<>();
 
     @OneToOne(mappedBy = "nguoiDung", fetch = FetchType.LAZY)
     @ToString.Exclude

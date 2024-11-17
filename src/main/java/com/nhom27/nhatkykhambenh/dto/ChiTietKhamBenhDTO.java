@@ -1,15 +1,27 @@
 package com.nhom27.nhatkykhambenh.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nhom27.nhatkykhambenh.model.HinhAnh;
 import com.nhom27.nhatkykhambenh.model.KhamBenh;
 import com.nhom27.nhatkykhambenh.model.XetNghiem;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ChiTietKhamBenhDTO {
     private Integer maChiTietKhamBenh;
+
+    private Integer maKhamBenh;
 
     private String khoaKham;
 
@@ -22,10 +34,4 @@ public class ChiTietKhamBenhDTO {
     private String nhomMau;
 
     private Boolean trangThai;
-
-    private KhamBenh khamBenh;
-
-    private Set<HinhAnh> danhSachHinhAnh = new HashSet<>();
-
-    private Set<XetNghiem> danhSachXetNghiem = new HashSet<>();
 }

@@ -1,10 +1,13 @@
 package com.nhom27.nhatkykhambenh.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,11 +24,12 @@ public class LichHenTiemChung {
     private Integer maLichHenTiemChung;
 
     @Column(name = "NoiTiemChung")
-    private Integer noiTiemChung;
+    private String noiTiemChung;
 
     @Column(name = "NgayHenTiem")
-    private Timestamp ngayHenTiem;
+    private LocalDateTime ngayHenTiem;
 
-    @OneToMany(mappedBy = "lichHenTiemChung",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "lichHenTiemChung", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private Set<NguoiDungTiemChung> nguoiDungTiemChungList = new HashSet<>();
 }
