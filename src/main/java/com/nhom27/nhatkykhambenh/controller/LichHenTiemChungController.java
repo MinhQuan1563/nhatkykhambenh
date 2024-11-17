@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -39,12 +40,11 @@ public class LichHenTiemChungController {
                 .hinhAnh("image1.png")
                 .soDienThoai("0123456789")
                 .cccd("123456789012")
-                .ngayThangNamSinh(Timestamp.valueOf("1990-01-01 00:00:00"))
+                .ngayThangNamSinh(LocalDate.of(2003, 6, 15))
                 .gioiTinh("Nam")
                 .diaChi("123 Đường ABC")
                 .tenNguoiDung("Nguyen Van A")
                 .email("user1@example.com")
-                .matKhau("password1")
                 .trangThai(true)
                 .build();
 
@@ -53,12 +53,11 @@ public class LichHenTiemChungController {
                 .hinhAnh("image2.png")
                 .soDienThoai("0987654321")
                 .cccd("987654321098")
-                .ngayThangNamSinh(Timestamp.valueOf("1992-05-10 00:00:00"))
+                .ngayThangNamSinh(LocalDate.of(2003, 6, 15))
                 .gioiTinh("Nu")
                 .diaChi("456 Đường XYZ")
                 .tenNguoiDung("Tran Thi B")
                 .email("user2@example.com")
-                .matKhau("password2")
                 .trangThai(true)
                 .build();
 
@@ -67,12 +66,11 @@ public class LichHenTiemChungController {
                 .hinhAnh("image3.png")
                 .soDienThoai("0912345678")
                 .cccd("111122223333")
-                .ngayThangNamSinh(Timestamp.valueOf("1995-07-20 00:00:00"))
+                .ngayThangNamSinh(LocalDate.of(2003, 6, 15))
                 .gioiTinh("Nam")
                 .diaChi("789 Đường QWE")
                 .tenNguoiDung("Le Van C")
                 .email("user3@example.com")
-                .matKhau("password3")
                 .trangThai(false)
                 .build();
 
