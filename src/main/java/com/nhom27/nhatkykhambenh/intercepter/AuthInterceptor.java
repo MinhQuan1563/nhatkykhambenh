@@ -12,7 +12,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HttpSession session = request.getSession();
-        Object taiKhoan = session.getAttribute("taiKhoan");
+        Object taiKhoan = session.getAttribute("taikhoan");
 
         String requestURI = request.getRequestURI();
         if (taiKhoan != null && (requestURI.equals("/login") || requestURI.equals("/register"))) {

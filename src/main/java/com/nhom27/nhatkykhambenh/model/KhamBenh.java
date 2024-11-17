@@ -26,7 +26,6 @@ public class KhamBenh {
     private String benhVien;
 
     @Column(name = "NgayKham")
-//    @Temporal(TemporalType.TIMESTAMP)
     private LocalDate ngayKham;
 
     @Column(name = "TrangThai")

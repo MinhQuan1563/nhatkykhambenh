@@ -1,7 +1,7 @@
 package com.nhom27.nhatkykhambenh.service.interfaces;
 
+import com.nhom27.nhatkykhambenh.dto.TiemChungDetailDTO;
 import com.nhom27.nhatkykhambenh.model.ChiTietTiemChung;
-import com.nhom27.nhatkykhambenh.model.TiemChung;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -19,4 +19,7 @@ public interface IChiTietTiemChungService {
 
     void deleteAllByIds(Integer maTiemChung, List<Integer> maNguoiDung);
 
+    List<ChiTietTiemChung> getAllByNguoiDung(Integer maNguoiDung);
+
+    List<TiemChungDetailDTO> getAllTiemChungDetails(Integer maNguoiDung);
 }

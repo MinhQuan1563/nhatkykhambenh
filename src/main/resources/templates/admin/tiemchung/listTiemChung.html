@@ -114,8 +114,6 @@
                                         <label th:for="'checkbox' + ${tiemchung.maTiemChung}"></label>
                                     </span>
                                 </td>
-<!--                                <td th:text="${tiemchung.maTiemChung}"></td>-->
-
                                 <td th:text="'TC' + ${@stringUtils.padWithZeros(tiemchung.maTiemChung, 3)}"></td>
                                 <td th:text="${tiemchung.noiTiemChung}"></td>
                                 <td th:text="${tiemchung.ngayTiem}"></td>
@@ -123,9 +121,11 @@
                                 <td th:text="${tiemchung.soMuiTiem}"></td>
                                 <td>
                                     <a th:href="@{/admin/tiemchung/update(id=${tiemchung.maTiemChung})}" class="edit">
-                                        <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                        <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
+                                    </a>
                                     <a href="#" class="delete" data-toggle="modal" th:data-id="${tiemchung.maTiemChung}">
-                                        <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                        <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+                                    </a>
                                     <a th:href="@{/admin/tiemchung/chitiet(maTiemChung=${tiemchung.maTiemChung})}" class="details">
                                         <i class="material-icons" data-toggle="tooltip" title="Detail">visibility</i>
                                     </a>

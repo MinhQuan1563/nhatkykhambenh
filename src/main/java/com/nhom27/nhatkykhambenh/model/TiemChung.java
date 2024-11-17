@@ -3,8 +3,7 @@ package com.nhom27.nhatkykhambenh.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Timestamp;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,7 +26,7 @@ public class TiemChung {
     private String noiTiemChung;
 
     @Column(name = "NgayTiem")
-    private LocalDate ngayTiem;
+    private LocalDateTime ngayTiem;
 
     @Column(name = "NguoiTiem", length = 250)
     private String nguoiTiem;
@@ -37,8 +36,5 @@ public class TiemChung {
 
     @Column(name = "TrangThai")
     private Boolean trangThai;
-
-//    @OneToMany(mappedBy = "tiemChung",cascade = CascadeType.ALL)
-//    private Set<ChiTietTiemChung> danhSachChiTietTiemChung = new HashSet<>();
 
 }

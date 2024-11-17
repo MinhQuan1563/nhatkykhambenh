@@ -1,5 +1,6 @@
 package com.nhom27.nhatkykhambenh.service.implementation;
 
+import com.nhom27.nhatkykhambenh.service.interfaces.ICloudinaryService;
 import org.springframework.stereotype.Service;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
@@ -10,18 +11,14 @@ import java.io.IOException;
 import java.util.Map;
 
 @Service
-public class CloudinaryService {
+public class CloudinaryService implements ICloudinaryService {
 
     @Autowired
     private Cloudinary cloudinary;
 
-    public String uploadFile(MultipartFile file) {
-        try {
-            Map uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
-            return uploadResult.get("url").toString(); // Trả về URL của ảnh đã tải lên
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+    @Override
+    public String uploadImage(MultipartFile file) throws IOException {
+        Map uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
+        return uploadResult.get("url").toString();
     }
 }

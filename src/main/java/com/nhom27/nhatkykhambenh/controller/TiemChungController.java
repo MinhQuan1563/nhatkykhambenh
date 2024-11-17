@@ -1,8 +1,16 @@
 package com.nhom27.nhatkykhambenh.controller;
 
+import com.nhom27.nhatkykhambenh.dto.ChiTietTiemChungDTO;
 import com.nhom27.nhatkykhambenh.dto.TiemChungDTO;
+import com.nhom27.nhatkykhambenh.dto.TiemChungDetailDTO;
 import com.nhom27.nhatkykhambenh.exception.SaveDataException;
-import com.nhom27.nhatkykhambenh.service.implementation.TiemChungService;
+import com.nhom27.nhatkykhambenh.mapper.ChiTietTiemChungMapper;
+import com.nhom27.nhatkykhambenh.model.ChiTietTiemChung;
+import com.nhom27.nhatkykhambenh.model.NguoiDung;
+import com.nhom27.nhatkykhambenh.service.interfaces.IChiTietTiemChungService;
+import com.nhom27.nhatkykhambenh.service.interfaces.INguoiDungService;
+import com.nhom27.nhatkykhambenh.service.interfaces.ITiemChungService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,13 +24,23 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
 public class TiemChungController {
 
     @Autowired
-    private TiemChungService tiemChungService;
+    private ITiemChungService tiemChungService;
+
+    @Autowired
+    private IChiTietTiemChungService chiTietTiemChungService;
+
+    @Autowired
+    private INguoiDungService nguoiDungService;
+
+    @Autowired
+    private ChiTietTiemChungMapper chiTietTiemChungMapper;
 
     @GetMapping("/admin/tiemchung")
     public String GetListTiemChung(Model model,
@@ -31,14 +49,6 @@ public class TiemChungController {
                                    @RequestParam(defaultValue = "") String query) {
         Pageable pageable = PageRequest.of(page, size);
         Page<TiemChungDTO> tiemChungPage = tiemChungService.getDSTiemChung(pageable, query);
-
-        int count = 0;
-        System.out.println("Lan " + count++);
-
-        for(TiemChungDTO tiemChungDTO : tiemChungPage.getContent()){
-            System.out.println("Lan " + count++);
-            System.out.println(tiemChungDTO.getMaTiemChung());
-        }
 
         model.addAttribute("dsTiemChung", tiemChungPage.getContent());
         model.addAttribute("currentPage", page);
@@ -53,12 +63,6 @@ public class TiemChungController {
         model.addAttribute("startItem", startItem);
         model.addAttribute("endItem", endItem);
         model.addAttribute("currentCount", endItem - startItem + 1);
-
-        System.out.println("currentPage: " + page);
-        System.out.println("currentPage: " + size);
-        System.out.println("currentPage: " + tiemChungPage.getTotalPages());
-        System.out.println("currentPage: " + tiemChungPage.getTotalElements());
-        System.out.println("currentPage: " + query);
 
         return "admin/tiemchung/listTiemChung";
     }
@@ -78,14 +82,14 @@ public class TiemChungController {
     }
 
     @PostMapping("/admin/tiemchung/save")
-    public String saveTiemChung(@ModelAttribute("tiemchung") TiemChungDTO tiemchung,
+    public String saveTiemChung(@ModelAttribute("tiemchung") TiemChungDTO tiemchungDTO,
                                 BindingResult bindingResult,
                                 Model model) {
         if (bindingResult.hasErrors()) {
             return "admin/tiemchung/addTiemChung";
         }
         try {
-            tiemChungService.saveTiemChung(tiemchung);
+            tiemChungService.saveTiemChung(tiemchungDTO);
             return "redirect:/admin/tiemchung";
         } catch (SaveDataException e) {
             model.addAttribute("error", e.getMessage());
@@ -113,6 +117,24 @@ public class TiemChungController {
             redirectAttributes.addFlashAttribute("error", "Có lỗi xảy ra khi xóa.");
         }
         return "redirect:/admin/tiemchung";
+    }
+
+    @GetMapping("/users/tiemchung")
+    public String getAllTiemChung(Model model,
+                                  HttpSession session,
+                                  @RequestParam("maNguoiDung") Integer maNguoiDung) {
+        List<String> pageName = new ArrayList<>();
+        pageName.add("Tiêm chủng");
+
+        NguoiDung nguoiDung = nguoiDungService.getById(maNguoiDung);
+        session.setAttribute("nguoidung", nguoiDung);
+
+        List<TiemChungDetailDTO> dsTiemChungDetailDTO = chiTietTiemChungService.getAllTiemChungDetails(maNguoiDung);
+
+        session.setAttribute("pageName", pageName);
+        model.addAttribute("dsTiemChungDetail", dsTiemChungDetailDTO);
+
+        return "users/danhsachtiemchung";
     }
 
 

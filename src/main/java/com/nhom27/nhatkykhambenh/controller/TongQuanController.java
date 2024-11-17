@@ -30,20 +30,6 @@ public class TongQuanController {
     @Autowired
     private INguoiDungService nguoiDungService;
 
-//    private void populateTongQuanModel(Model model, int page, int size, String query) {
-//        Pageable pageable = PageRequest.of(page, size);
-//        Page<TongQuanDTO> tongQuanPage = tongQuanService.getDSTongQuan(pageable, query);
-//
-//        System.out.println(tongQuanPage.getTotalElements());
-//
-//        model.addAttribute("dsTongQuan", tongQuanPage.getContent());
-//        model.addAttribute("currentPage", page);
-//        model.addAttribute("pageSize", size);
-//        model.addAttribute("totalPages", tongQuanPage.getTotalPages());
-//        model.addAttribute("totalItems", tongQuanPage.getTotalElements());
-//        model.addAttribute("query", query);
-//    }
-
     @GetMapping("users/tongquan")
     public String GetAllTongQuan(Model model, HttpSession session,
                     @RequestParam("maNguoiDung") Integer maNguoiDung) {
@@ -65,15 +51,4 @@ public class TongQuanController {
 
         return "users/tongquan";
     }
-
-//    @GetMapping("/admin/tongquan")
-//    public String showTongQuan(Model model,
-//                               @RequestParam(defaultValue = "0") int page,
-//                               @RequestParam(defaultValue = "5") int size,
-//                               @RequestParam(defaultValue = "") String query) {
-//
-//        populateTongQuanModel(model, page, size, query);
-//
-//        return "admin/listTongQuan";
-//    }
 }

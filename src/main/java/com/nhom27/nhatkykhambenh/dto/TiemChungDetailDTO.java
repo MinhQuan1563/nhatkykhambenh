@@ -1,8 +1,10 @@
 package com.nhom27.nhatkykhambenh.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
@@ -11,18 +13,19 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TiemChungDTO {
+public class TiemChungDetailDTO {
 
     private Integer maTiemChung;
 
+    private Integer maNguoiDung;
+
     private String noiTiemChung;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime ngayTiem;
 
     private String nguoiTiem;
 
     private Integer soMuiTiem;
 
-    private Boolean trangThai;
+    private String tenVacXin;
 }

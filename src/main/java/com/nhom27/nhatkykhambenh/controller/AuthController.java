@@ -56,7 +56,7 @@ public class AuthController {
             return "login";
         }
 
-        session.setAttribute("taiKhoan", tk);
+        session.setAttribute("taikhoan", tk);
         return "redirect:/";
     }
 

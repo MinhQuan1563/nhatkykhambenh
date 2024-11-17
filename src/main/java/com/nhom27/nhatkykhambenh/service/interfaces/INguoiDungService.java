@@ -2,6 +2,7 @@ package com.nhom27.nhatkykhambenh.service.interfaces;
 
 import com.nhom27.nhatkykhambenh.model.GiaDinh;
 import com.nhom27.nhatkykhambenh.model.NguoiDung;
+import com.nhom27.nhatkykhambenh.model.TaiKhoan;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -11,6 +12,8 @@ public interface INguoiDungService {
     List<NguoiDung> getAllNguoiDung();
 
     List<NguoiDung> getDsNguoiDungByGiaDinh(GiaDinh giaDinh);
+
+    void saveNguoiDung(NguoiDung nguoiDung, TaiKhoan taiKhoan);
 
     void deleteById(Integer id);
 

@@ -19,13 +19,13 @@
                                     <div class="form-group">
                                         <label for="noiTiemChung">Nơi Tiêm Chủng:</label>
                                         <input type="text" class="form-control" id="noiTiemChung" th:field="*{noiTiemChung}" required>
-                                        <span th:if="${#fields.hasErrors('noiTiemChung')}" th:errors="*{noiTiemChung}" class="text-danger"></span>
+                                        <span th:if="${#fields.hasErrors('noiTiemChung')}" th:e  rrors="*{noiTiemChung}" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="ngayTiem">Ngày Tiêm:</label>
-                                        <input type="date" class="form-control" id="ngayTiem" th:field="*{ngayTiem}" required>
+                                        <input type="datetime-local" class="form-control" id="ngayTiem" th:field="*{ngayTiem}" required>
                                         <span th:if="${#fields.hasErrors('ngayTiem')}" th:errors="*{ngayTiem}" class="text-danger"></span>
                                     </div>
                                 </div>

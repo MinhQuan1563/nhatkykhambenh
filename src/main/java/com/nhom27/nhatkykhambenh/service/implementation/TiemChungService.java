@@ -57,6 +57,11 @@ public class TiemChungService implements ITiemChungService {
     }
 
     @Override
+    public List<TiemChungDTO> getAllTiemChung() {
+        return tiemChungMapper.toTiemChungDtoList(tiemChungRepo.findAll());
+    }
+
+    @Override
     public void saveTiemChung(TiemChungDTO tiemChungDTO) {
         TiemChung tiemChung = tiemChungMapper.toTiemChung(tiemChungDTO);
         tiemChung.setTrangThai(true);
