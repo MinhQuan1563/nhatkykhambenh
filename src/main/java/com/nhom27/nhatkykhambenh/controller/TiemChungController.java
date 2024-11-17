@@ -118,6 +118,14 @@ public class TiemChungController {
         }
         return "redirect:/admin/tiemchung";
     }
+    @PostMapping("/admin/tiemchung/deleteMutil")
+    public String deleteMutil(@RequestParam("test") Integer[] str) {
+
+        for (Integer s : str) {
+            tiemChungService.deleteById(s);
+        }
+        return "redirect:/admin/tiemchung";
+    }
 
     @GetMapping("/users/tiemchung")
     public String getAllTiemChung(Model model,
