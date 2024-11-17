@@ -117,7 +117,11 @@
                     <label th:for="'checkbox' + ${ctkhambenh.maChiTietKhamBenh}"></label>
                 </span>
               </td>
-              <td th:text="'CTKB' + ${@stringUtils.padWithZeros(ctkhambenh.maChiTietKhamBenh, 3)}"></td>
+              <td th:text="'CTKB' + ${@stringUtils.padWithZeros(ctkhambenh.maChiTietKhamBenh, 3)}"
+                  th:style="'color: red;'">
+              </td>
+
+              <!--              <td th:text="'CTKB' + ${@stringUtils.padWithZeros(ctkhambenh.maChiTietKhamBenh, 3)}"></td>-->
 <!--              <td th:text="${ctkhambenh.maChiTietKhamBenh}"></td>-->
               <td th:text="${ctkhambenh.khoaKham}"></td>
               <td th:text="${ctkhambenh.bacSiKham}"></td>
@@ -148,8 +152,8 @@
               </td>
 
               <td>
-                <!-- Nút Thêm Xét Nghiệm -->
-                <a th:href="@{/admin/khambenh/themXetNghiem(maChiTietKhamBenh=${ctkhambenh.maChiTietKhamBenh})}"
+                <!-- Nút list Xét Nghiệm -->
+                <a th:href="@{/admin/khambenh/chitiet/xetnghiem(maChiTietKhamBenh=${ctkhambenh.maChiTietKhamBenh})}"
                    class="btn btn-warning btn-sm"
                    style="background-color: #f39c12; border-color: #f39c12; color: white; padding: 3px 8px; font-size: 12px; text-decoration: none; border-radius: 3px; margin-right: 8px; display: inline-flex; align-items: center; justify-content: center;">
                   <i class="material-icons" data-toggle="tooltip" title="Add Test" style="font-size: 16px; margin-right: 5px;">medical_services</i> Xét Nghiệm

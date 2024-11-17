@@ -45,7 +45,7 @@ public class KhamBenhService implements IKhamBenhService {
         String columns = (String) columnNativeQuery.getSingleResult();
 
         // Tạo truy vấn động với LIMIT và OFFSET
-        String sql = "SELECT * FROM kham_benh WHERE CONCAT(" + columns + ") LIKE :searchTerm " +
+        String sql = "SELECT * FROM kham_benh WHERE trang_thai = 1 AND CONCAT(" + columns + ") LIKE :searchTerm " +
                 "LIMIT :limit OFFSET :offset";
         Query nativeQuery = entityManager.createNativeQuery(sql, KhamBenh.class);
         nativeQuery.setParameter("searchTerm", searchTerm);

@@ -1,6 +1,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/admin/dashboard}">
 <head>
-    <title>Quản lý Khám Bệnh</title>
+    <title>Chi tiết Khám Bệnh</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
@@ -32,8 +32,8 @@
                 <div class="col-md-5 col-lg-3 order-3 order-md-2">
                     <div class="xp-searchbar">
                         <div class="input-group">
-                            <input id="searchInput" th:value="${query}" type="search" class="form-control"
-                                   placeholder="Search">
+                            <input id="searchInput" th:value="${query}" type="search" class="form-control" placeholder="Search">
+                            <input id="maKhamBenh" hidden th:value="${maKhamBenh}" >
                             <div class="input-group-append">
                                 <button class="btn" id="searchButton">Tìm</button>
                             </div>
@@ -54,14 +54,14 @@
                     <div class="table-title">
                         <div class="row">
                             <div class="col-sm-6 p-0 d-flex justify-content-lg-start justify-content-center">
-                                <h2 class="ml-lg-2">Quản lý Khám Bệnh</h2>
+                                <h2 class="ml-lg-2">Chi tiết Khám Bệnh</h2>
                             </div>
                             <div class="col-sm-6 p-0 d-flex justify-content-lg-end justify-content-center">
-                                <a th:href="@{/admin/khambenh/add}" class="btn btn-success">
+                                <a th:href="@{/admin/khambenh/chitiet/xetnghiem/add(maChiTietKhamBenh=${maChiTietKhamBenh})}" class="btn btn-success">
                                     <i class="material-icons">&#xE147;</i>
                                     <span>Thêm mới</span>
                                 </a>
-                                <a href="#" data-toggle="modal" class="btn btn-danger delete-all">
+                                <a href="#" data-toggle="modal" class="btn btn-danger delete-all" >
                                     <i class="material-icons">&#xE15C;</i>
                                     <span>Xóa</span>
                                 </a>
@@ -84,52 +84,60 @@
                                 th:if="${param.success}"
                                 class="alert alert-success alert-dismissible"
                         >
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close" >&times;</a>
                             <span th:text="${param.success}"></span>
                         </div>
                     </div>
 
-                    <table class="table table-striped table-hover">
+                    <table class="table table-striped table-hover" >
                         <thead>
                         <tr>
                             <th>
-                                    <span class="custom-checkbox">
-                                        <input type="checkbox" id="selectAll">
-                                        <label for="selectAll"></label>
-                                    </span>
+                                <span class="custom-checkbox">
+                                    <input type="checkbox" id="selectAll">
+                                    <label for="selectAll"></label>
+                                </span>
                             </th>
-                            <th>Mã Khám Bệnh</th>
-                            <th>Mã Người Dùng</th>
-                            <th>Bệnh Viện</th>
-                            <th>Ngày Khám</th>
-                            <th>Thao tác</th>
+                            <th>Mã Xét Nghiệm</th>
+                            <th>Kết Quả Xét Ngiệm</th>
+                            <th>Thao Tác</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="khambenh : ${dsKhamBenh}">
+                        <tr th:each="xetnghiem : ${dsXetNghiem}">
                             <td>
-                                    <span class="custom-checkbox">
-                                        <input type="checkbox" th:id="${khambenh.maKhamBenh}"
-                                               th:value="${khambenh.maKhamBenh}"
-                                               name="selectedIds">
-                                        <label th:for="'checkbox' + ${khambenh.maKhamBenh}"></label>
-                                    </span>
+                                <span class="custom-checkbox">
+                                    <input type="checkbox" th:id="${xetnghiem.maXetNghiem}" th:value="${xetnghiem.maXetNghiem}"
+                                           name="selectedIds">
+                                    <label th:for="'checkbox' + ${xetnghiem.maXetNghiem}"></label>
+                                </span>
                             </td>
-                            <td th:text="'KB' + ${@stringUtils.padWithZeros(khambenh.maKhamBenh, 3)}"></td>
-                            <td th:text="${khambenh.nguoiDung.maNguoiDung + ' - ' + khambenh.nguoiDung.tenNguoiDung}"></td>
-                            <td th:text="${khambenh.benhVien}"></td>
-                            <td th:text="${khambenh.ngayKham}"></td>
+                            <td th:text="'XN' + ${@stringUtils.padWithZeros(xetnghiem.maXetNghiem, 3)}"
+                                th:style="'color: red;'">
+                            </td>
 
+                            <!--              <td th:text="'CTKB' + ${@stringUtils.padWithZeros(ctkhambenh.maChiTietKhamBenh, 3)}"></td>-->
+                            <!--              <td th:text="${ctkhambenh.maChiTietKhamBenh}"></td>-->
+                            <td th:text="${xetnghiem.ketQuaXetNghiem}"></td>
+                            <!--            <td>-->
+                            <!--                <a th:href="@{/admin/khambenh/chitiet/update(id=${ctkhambenh.maChiTietKhamBenh})}" class="edit">-->
+                            <!--                  <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>-->
+                            <!--                </a>-->
+                            <!--                <a href="#" class="delete" data-toggle="modal"-->
+                            <!--                   th:data-id1="${ctkhambenh.maChiTietKhamBenh}"-->
+                            <!--                   th:data-id2="${ctkhambenh.maChiTietKhamBenh}">-->
+                            <!--                  <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>-->
+                            <!--                </a>-->
+                            <!--              </td>-->
 
                             <td>
-                                <a th:href="@{/admin/khambenh/update(id=${khambenh.maKhamBenh})}" class="edit">
+                                <!-- Nút Chỉnh sửa -->
+                                <a th:href="@{/admin/khambenh/chitiet/xetnghiem/update(maXetNghiem=${xetnghiem.maXetNghiem}, maXetNghiem=${maXetNghiem})}" class="edit">
                                     <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
                                 </a>
-                                <a href="#" class="delete" data-toggle="modal" th:data-id="${khambenh.maKhamBenh}">
+                                <a href="#" class="delete" data-toggle="modal"
+                                   th:data-id="${xetnghiem.maXetNghiem}">
                                     <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
-                                </a>
-                                <a th:href="@{/admin/khambenh/chitiet(maKhamBenh=${khambenh.maKhamBenh})}" class="details">
-                                    <i class="material-icons" data-toggle="tooltip" title="Detail">visibility</i>
                                 </a>
 
                             </td>
@@ -138,27 +146,22 @@
                         </tbody>
                     </table>
 
-
                     <!-- Pagination -->
                     <div class="clearfix">
                         <div class="hint-text">Hiển thị <b th:text="${currentPage * pageSize + 1}"></b> đến
-                            <b th:text="${currentPage * pageSize + dsKhamBenh.size()}"></b> trong số <b th:text="${totalItems}"></b> mục
+                            <b th:text="${currentPage * pageSize + dsXetNghiem.size()}"></b> trong số <b th:text="${totalItems}"></b> mục
                         </div>
                         <ul class="pagination">
-                            <li th:if="${currentPage > 0}"
-                                th:class="${currentPage == 0 ? 'page-item disabled' : 'page-item'}">
-                                <a th:href="@{/admin/khambenh(page=${currentPage - 1}, size=${pageSize}, query=${query})}"
-                                   class="page-link">Trước</a>
+                            <li th:if="${currentPage > 0}" th:class="${currentPage == 0 ? 'page-item disabled' : 'page-item'}">
+                                <a th:href="@{/admin/khambenh/chitiet/xetnghiem/(maXetNghiem=${maXetNghiem}, page=${currentPage - 1}, size=${pageSize}, query=${query})}" class="page-link">Trước</a>
                             </li>
                             <li class="page-item" th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
                                 th:classappend="${pageNum == currentPage} ? active">
-                                <a th:href="@{/admin/khambenh(page=${pageNum}, size=${pageSize}, query=${query})}"
+                                <a th:href="@{/admin/khambenh/chitiet/xetnghiem(maXetNghiem=${maXetNghiem}, page=${pageNum}, size=${pageSize}, query=${query})}"
                                    class="page-link" th:text="${pageNum + 1}"></a>
                             </li>
-                            <li th:if="${currentPage < totalPages - 1}"
-                                th:class="${currentPage == totalPages - 1 ? 'page-item disabled' : 'page-item'}">
-                                <a th:href="@{/admin/khambenh(page=${currentPage + 1}, size=${pageSize}, query=${query})}"
-                                   class="page-link">Sau</a>
+                            <li th:if="${currentPage < totalPages - 1}" th:class="${currentPage == totalPages - 1 ? 'page-item disabled' : 'page-item'}">
+                                <a th:href="@{/admin/khambenh/chitiet/xetnghiem(maXetNghiem=${maXetNghiem}, page=${currentPage + 1}, size=${pageSize}, query=${query})}" class="page-link">Sau</a>
                             </li>
                         </ul>
                     </div>
@@ -169,12 +172,11 @@
             <div id="deleteModal" class="modal fade">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <form th:action="@{/admin/khambenh/delete}" method="POST">
-                            <input type="hidden" name="maKhamBenh" id="maKhamBenh">
+                        <form th:action="@{/admin/khambenh/chitiet/xetnghiem/delete(maXetNghiem=${maXetNghiem})}" method="POST">
+                            <input type="hidden" name="maXetNghiem" id="maXetNghiem">
                             <div class="modal-header">
                                 <h4 class="modal-title">Xóa thông tin Khám Bệnh</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
-                                </button>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                             </div>
                             <div class="modal-body">
                                 <p>Bạn có chắc chắn muốn xóa thông tin này không?</p>
@@ -193,12 +195,14 @@
             <div id="deleteAllModal" class="modal fade">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <form th:action="@{/admin/khambenh/deleteall}" method="POST">
+                        <form th:action="@{/admin/khambenh/chitiet/xetnghiem/deleteall}" method="POST">
                             <input type="hidden" name="selectedIds" id="selectedIds">
+                            <!--              thêm-->
+                            <input type="hidden" name="maChiTietKhamBenh" th:value="${maChiTietKhamBenh}">
+                            <!--              End-->
                             <div class="modal-header">
                                 <h4 class="modal-title">Xóa thông tin Khám Bệnh</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
-                                </button>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                             </div>
                             <div class="modal-body">
                                 <p>Bạn có chắc chắn muốn xóa tất cả thông tin đã chọn không?</p>
@@ -224,9 +228,8 @@
         </div>
     </footer>
 
-    <script th:src="@{/js/admin/jquery-3.3.1.min.js}"></script>
-    <script th:src="@{../../js/admin/khambenh.js}"></script>
 </div>
 </body>
 </html>
 
+<script th:src="@{../../js/admin/xetnghiem.js}"></script>

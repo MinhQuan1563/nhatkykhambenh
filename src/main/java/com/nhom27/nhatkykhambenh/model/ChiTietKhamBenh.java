@@ -43,6 +43,9 @@ public class ChiTietKhamBenh {
     @JoinColumn(name = "MaKhamBenh", nullable = true)
     private KhamBenh khamBenh;
 
+    @OneToOne(mappedBy = "chiTietKhamBenh")
+    private DonThuoc donThuoc;
+
     @OneToMany(mappedBy = "chiTietKhamBenh",cascade = CascadeType.ALL)
     private Set<HinhAnh> danhSachHinhAnh = new HashSet<>();
 

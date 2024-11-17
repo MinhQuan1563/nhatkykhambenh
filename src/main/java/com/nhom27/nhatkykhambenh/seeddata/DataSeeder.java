@@ -44,6 +44,9 @@ public class DataSeeder implements CommandLineRunner {
     @Autowired
     private  IChiTietKhamBenhRepo chiTietKhamBenhRepo;
 
+    @Autowired
+    private IXetNghiemRepo xetNghiemRepo;
+
 
     @Override
     public void run(String... args) throws Exception {
@@ -202,23 +205,13 @@ public class DataSeeder implements CommandLineRunner {
         // Seed data cho KhamBenh
         if (khamBenhRepo.count() == 0) {
             List<KhamBenh> khamBenhList = List.of(
-                    new KhamBenh(null, "Bệnh viện Đa khoa TP.HCM", LocalDate.of(2024, 12, 10), true, nguoiDungRepo.findById(1).orElse(null), new HashSet<>(), new HashSet<>(), null),
-                    new KhamBenh(null, "Bệnh viện Y học Cổ truyền", LocalDate.of(2024, 12, 10), true, nguoiDungRepo.findById(2).orElse(null), new HashSet<>(), new HashSet<>(), null),
-                    new KhamBenh(null, "Bệnh viện Nhi Đồng", LocalDate.of(2024, 12, 10), true, nguoiDungRepo.findById(3).orElse(null), new HashSet<>(), new HashSet<>(), null)
+                    new KhamBenh(null, "Bệnh viện Đa khoa TP.HCM", LocalDate.of(2024, 12, 10), true, nguoiDungRepo.findById(1).orElse(null), new HashSet<>(), new HashSet<>()),
+                    new KhamBenh(null, "Bệnh viện Y học Cổ truyền", LocalDate.of(2024, 12, 10), true, nguoiDungRepo.findById(2).orElse(null), new HashSet<>(), new HashSet<>()),
+                    new KhamBenh(null, "Bệnh viện Nhi Đồng", LocalDate.of(2024, 12, 10), true, nguoiDungRepo.findById(3).orElse(null), new HashSet<>(), new HashSet<>())
             );
 
             khamBenhRepo.saveAll(khamBenhList);
             System.out.println("Saved " + khamBenhList.size() + " KhamBenh records to the database.");
-        }
-
-        if (khamBenhRepo.count() == 0) {
-            List<KhamBenh> khamBenhList = List.of(
-                    new KhamBenh(null, "Bệnh viện Đa khoa TP.HCM", LocalDate.of(2024, 12, 10), true, nguoiDungRepo.findById(1).orElse(null), new HashSet<>(), new HashSet<>(), null),
-                    new KhamBenh(null, "Bệnh viện Y học Cổ truyền", LocalDate.of(2024, 12, 10), true, nguoiDungRepo.findById(2).orElse(null), new HashSet<>(), new HashSet<>(), null),
-                    new KhamBenh(null, "Bệnh viện Nhi Đồng", LocalDate.of(2024, 12, 10), true, nguoiDungRepo.findById(3).orElse(null), new HashSet<>(), new HashSet<>(), null)
-            );
-
-            khamBenhRepo.saveAll(khamBenhList);
         }
 
         // Seed ChiTietKhamBenh
@@ -226,14 +219,32 @@ public class DataSeeder implements CommandLineRunner {
             KhamBenh khamBenh = khamBenhRepo.findAll().stream().findFirst().orElse(null);
 
             List<ChiTietKhamBenh> chiTietKhamBenhList = List.of(
-                    new ChiTietKhamBenh(null, "Khoa Nội", "BS. Nguyễn Văn A", "Xét nghiệm máu", "Cảm cúm", "O", true, khamBenh, new HashSet<>(), new HashSet<>()),
-                    new ChiTietKhamBenh(null, "Khoa Nhi", "BS. Trần Văn B", "Siêu âm bụng", "Viêm ruột", "A", true, khamBenh, new HashSet<>(), new HashSet<>()),
-                    new ChiTietKhamBenh(null, "Khoa Ngoại", "BS. Lê Thị C", "CT Scan", "Chấn thương đầu", "B", true, khamBenh, new HashSet<>(), new HashSet<>())
+                    new ChiTietKhamBenh(null, "Khoa Nội", "BS. Nguyễn Văn A", "Xét nghiệm máu", "Cảm cúm", "O", true, khamBenh, null, new HashSet<>(), new HashSet<>()),
+                    new ChiTietKhamBenh(null, "Khoa Nhi", "BS. Trần Văn B", "Siêu âm bụng", "Viêm ruột", "A", true, khamBenh, null, new HashSet<>(), new HashSet<>()),
+                    new ChiTietKhamBenh(null, "Khoa Ngoại", "BS. Lê Thị C", "CT Scan", "Chấn thương đầu", "B", true, khamBenh, null, new HashSet<>(), new HashSet<>())
             );
 
             chiTietKhamBenhRepo.saveAll(chiTietKhamBenhList);
             System.out.println("Saved " + chiTietKhamBenhList.size() + " ChiTietKhamBenh records to the database.");
         }
+
+        if (xetNghiemRepo.count() == 0) {
+            List<ChiTietKhamBenh> chiTietKhamBenhList = chiTietKhamBenhRepo.findAll();
+
+            if (!chiTietKhamBenhList.isEmpty()) {
+                List<XetNghiem> xetNghiemList = List.of(
+                        new XetNghiem(null, "Positive for influenza", true, chiTietKhamBenhList.get(0)),
+                        new XetNghiem(null, "No abnormalities detected", true, chiTietKhamBenhList.get(1)),
+                        new XetNghiem(null, "Minor swelling observed", false, chiTietKhamBenhList.get(2))
+                );
+
+                xetNghiemRepo.saveAll(xetNghiemList);
+                System.out.println("Saved " + xetNghiemList.size() + " XetNghiem records to the database.");
+            } else {
+                System.out.println("No ChiTietKhamBenh records found. Cannot seed XetNghiem data.");
+            }
+        }
+
 
     }
 }

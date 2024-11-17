@@ -29,8 +29,8 @@ public class DonThuoc {
     private Boolean trangThai;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MaKhamBenh", referencedColumnName = "MaKhamBenh")
-    private KhamBenh khamBenh;
+    @JoinColumn(name = "MaChiTietKhamBenh", referencedColumnName = "MaChiTietKhamBenh")
+    private ChiTietKhamBenh chiTietKhamBenh;
 
     @OneToMany(mappedBy = "donThuoc", fetch = FetchType.LAZY)
     private Set<ChiTietDonThuoc> danhSachChiTietDonThuoc = new HashSet<>();
