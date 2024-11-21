@@ -106,7 +106,6 @@ public class LichHenTiemChungController {
     @PostMapping("delete")
     public String DeleteLichHenTiemChung(@RequestParam("deletedIds") List<Integer> deletedIds) {
         this.lichHenTiemChungService.DeleteLichHenTiemChungList(deletedIds);
-
         return "redirect:/admin/lichhentiemchung";
     }
 

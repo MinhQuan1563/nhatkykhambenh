@@ -24,7 +24,7 @@ public class NguoiDungTiemChung {
     @Column(name = "MaNguoiDungTiemChung")
     private Integer maNguoiDungTiemChung;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "MaNguoiDung", referencedColumnName = "MaNguoiDung")
     private NguoiDung nguoiDung;
 

@@ -14,6 +14,8 @@ import jakarta.transaction.Transactional;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
 import java.util.Set;
 
 import java.util.ArrayList;
@@ -79,7 +81,8 @@ public class LichHenTiemChungService implements ILichHenTiemChungService {
     public LichHenTiemChungDTO GetLichHenTiemChungById(Integer id) {
         LichHenTiemChung lichHenTiemChung = lichHenTiemChungRepo.findById(id).orElse(null);
 
-        Set<NguoiDungTiemChung> nguoiDungTiemChungSet = nguoiDungTiemChungRepo.findAllByLichHenTiemChung(lichHenTiemChung);
+        List<NguoiDungTiemChung> nguoiDungTiemChungList = nguoiDungTiemChungRepo.findAllByLichHenTiemChung(lichHenTiemChung);
+        Set<NguoiDungTiemChung> nguoiDungTiemChungSet = new HashSet<>(nguoiDungTiemChungList);
         Set<NguoiDungTiemChungDTO> nguoiDungTiemChungDTOSet = nguoiDungTiemChungMapper.toNguoiDungTiemChungDTOSet(nguoiDungTiemChungSet);
         LichHenTiemChungDTO lichHenTiemChungDTO = lichHenTiemChungMapper.toLichHenTiemChungDTO(lichHenTiemChung);
         lichHenTiemChungDTO.setNguoiDungTiemChungList(nguoiDungTiemChungDTOSet);
