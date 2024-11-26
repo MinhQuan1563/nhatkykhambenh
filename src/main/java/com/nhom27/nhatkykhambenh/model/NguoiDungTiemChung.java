@@ -28,7 +28,7 @@ public class NguoiDungTiemChung {
     @JoinColumn(name = "MaNguoiDung", referencedColumnName = "MaNguoiDung")
     private NguoiDung nguoiDung;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "MaLichHenTiemChung", referencedColumnName = "MaLichHenTiemChung")
     @JsonBackReference
     private LichHenTiemChung lichHenTiemChung;

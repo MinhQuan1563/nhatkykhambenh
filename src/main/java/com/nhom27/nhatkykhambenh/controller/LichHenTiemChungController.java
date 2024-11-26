@@ -3,11 +3,16 @@ package com.nhom27.nhatkykhambenh.controller;
 import com.nhom27.nhatkykhambenh.dto.LichHenTiemChungDTO;
 import com.nhom27.nhatkykhambenh.dto.NguoiDungDTO;
 import com.nhom27.nhatkykhambenh.dto.NguoiDungTiemChungDTO;
+import com.nhom27.nhatkykhambenh.mapper.NguoiDungMapper;
 import com.nhom27.nhatkykhambenh.model.NguoiDung;
 import com.nhom27.nhatkykhambenh.model.NguoiDungTiemChung;
 import com.nhom27.nhatkykhambenh.model.NguoiDungTiemChungId;
+import com.nhom27.nhatkykhambenh.model.TaiKhoan;
+import com.nhom27.nhatkykhambenh.repository.INguoiDungRepo;
+import com.nhom27.nhatkykhambenh.service.implementation.NguoiDungService;
 import com.nhom27.nhatkykhambenh.service.interfaces.ILichHenTiemChungService;
 import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.stereotype.Controller;
@@ -31,7 +36,10 @@ public class LichHenTiemChungController {
     private ILichHenTiemChungService lichHenTiemChungService;
     @Autowired
     private DataSourceTransactionManagerAutoConfiguration dataSourceTransactionManagerAutoConfiguration;
-
+    @Autowired
+    private NguoiDungService nguoiDungService;
+    @Autowired
+    private NguoiDungMapper nguoiDungMapper;
     private List<NguoiDung> getMembers(){
         List<NguoiDung> members = new ArrayList<>();
 
@@ -81,12 +89,14 @@ public class LichHenTiemChungController {
     }
 
     @GetMapping("add")
-    public String AddLichHenTiemChung(Model model) {
+    public String AddLichHenTiemChung(Model model, HttpSession session) {
         LichHenTiemChungDTO lichHenTiemChungDTO = new LichHenTiemChungDTO();
         lichHenTiemChungDTO.setNguoiDungTiemChungList(new HashSet<>());
         model.addAttribute("lichHenTiemChungDTO", lichHenTiemChungDTO);
-
-        model.addAttribute("members", this.getMembers());
+        TaiKhoan taiKhoan = (TaiKhoan) session.getAttribute("taikhoan");
+        List<NguoiDung> nguoiDungs = this.nguoiDungService.getDsNguoiDungByGiaDinh(taiKhoan.getGiaDinh());
+        List<NguoiDungDTO> nguoiDungDTOs = nguoiDungMapper.toNguoiDungDtoList(nguoiDungs);
+        model.addAttribute("members", nguoiDungDTOs);
         return "/admin/lichhentiemchung/addLichHenTiemChung";
     }
 
@@ -117,11 +127,14 @@ public class LichHenTiemChungController {
     }
 
     @GetMapping("{id}")
-    public String GetLichHenTiemChungById(@PathVariable("id") Integer id, Model model) {
+    public String GetLichHenTiemChungById(@PathVariable("id") Integer id, Model model, HttpSession session) {
         LichHenTiemChungDTO lichHenTiemChungDTO = this.lichHenTiemChungService.GetLichHenTiemChungById(id);
         System.out.println(lichHenTiemChungDTO.getNgayHenTiem());
         model.addAttribute("lichHenTiemChung",lichHenTiemChungDTO);
-        model.addAttribute("members", this.getMembers());
+        TaiKhoan taiKhoan = (TaiKhoan) session.getAttribute("taikhoan");
+        List<NguoiDung> nguoiDungs = this.nguoiDungService.getDsNguoiDungByGiaDinh(taiKhoan.getGiaDinh());
+        List<NguoiDungDTO> nguoiDungDTOs = nguoiDungMapper.toNguoiDungDtoList(nguoiDungs);
+        model.addAttribute("members", nguoiDungDTOs);
         System.out.println(lichHenTiemChungDTO.getNgayHenTiem());
         return "/admin/lichhentiemchung/updateLichHenTiemChung";
     }
