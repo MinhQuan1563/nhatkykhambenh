@@ -82,19 +82,36 @@ public class XetNghiemService implements IXetNghiemService {
         return XetNghiemRepo.findById(id).get();
     }
 
+//    @Override
+//    public void deleteById(Integer id) {
+//        XetNghiem xetNghiem = findById(id);
+//        xetNghiem.setTrangThai(false);
+//        XetNghiemRepo.save(xetNghiem);
+//    }
+//
+//    @Override
+//    public void deleteAllByIds(List<Integer> ids) {
+//        List<XetNghiem> xetNghiemList = XetNghiemRepo.findAllById(ids);
+//        for (XetNghiem xetNghiem : xetNghiemList) {
+//            xetNghiem.setTrangThai(false);
+//        }
+//        XetNghiemRepo.saveAll(xetNghiemList);
+//    }
+
     @Override
     public void deleteById(Integer id) {
         XetNghiem xetNghiem = findById(id);
-        xetNghiem.setTrangThai(false);
-        XetNghiemRepo.save(xetNghiem);
+        xetNghiem.setTrangThai(false);  // Ẩn bản ghi thay vì xóa hoàn toàn
+        XetNghiemRepo.save(xetNghiem);  // Lưu lại sự thay đổi
     }
 
     @Override
     public void deleteAllByIds(List<Integer> ids) {
         List<XetNghiem> xetNghiemList = XetNghiemRepo.findAllById(ids);
         for (XetNghiem xetNghiem : xetNghiemList) {
-            xetNghiem.setTrangThai(false);
+            xetNghiem.setTrangThai(false);  // Ẩn bản ghi thay vì xóa
         }
-        XetNghiemRepo.saveAll(xetNghiemList);
+        XetNghiemRepo.saveAll(xetNghiemList);  // Lưu lại sự thay đổi
     }
+
 }

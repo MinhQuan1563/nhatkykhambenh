@@ -1,4 +1,4 @@
-// Handle single delete
+// Xử lý nút xóa một item
 $('.delete').click(function() {
     const id = $(this).data('id');
     if (id) {
@@ -9,7 +9,7 @@ $('.delete').click(function() {
     }
 });
 
-// Handle select all checkbox
+// Xử lý checkbox "Chọn tất cả" sử dụng vanilla JavaScript
 document.getElementById('selectAll').addEventListener('change', function() {
     const checkboxes = document.querySelectorAll('input[name="selectedIds"]');
     checkboxes.forEach((checkbox) => {
@@ -17,21 +17,23 @@ document.getElementById('selectAll').addEventListener('change', function() {
     });
 });
 
-// Handle multiple delete
+// Xử lý nút xóa nhiều items
 $('.delete-all').click(function() {
     const selectedIds = [];
     $('input[name="selectedIds"]:checked').each(function() {
         selectedIds.push($(this).val());
     });
-    $('#selectedIds').val(selectedIds.join(','));
+
     if (selectedIds.length === 0) {
         alert('Vui lòng chọn ít nhất một mục để xóa.');
         return false;
     }
+
+    $('#selectedIds').val(selectedIds.join(','));
     $('#deleteAllModal').modal('show');
 });
 
-// Handle search functionality
+// Xử lý tìm kiếm
 $("#searchButton").click(function() {
     performSearch();
 });
@@ -44,7 +46,7 @@ $("#searchInput").keypress(function(event) {
 });
 
 function performSearch() {
-    const query = $("#searchInput").val().trim();
-    const maChiTietKhamBenh = $("#maChiTietKhamBenh").val();
-    window.location.href = "/admin/khambenh/chitiet/xetnghiem?maChiTietKhamBenh=" + maChiTietKhamBenh + "&query=" + encodeURIComponent(query);
+    var query = $("#searchInput").val();
+    var maChiTietKhamBenh = $("#maKhamBenh").val();
+    window.location.href = "/admin/khambenh/chitiet/xetnghiem?maChiTietKhamBenh=" + maChiTietKhamBenh + "&query=" + query;
 }

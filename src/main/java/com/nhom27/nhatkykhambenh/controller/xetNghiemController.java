@@ -119,6 +119,41 @@ public class xetNghiemController {
     }
 
 
+//    @PostMapping("/admin/khambenh/chitiet/xetnghiem/delete")
+//    public String deleteXetNghiem(@RequestParam("maXetNghiem") Integer maXetNghiem,
+//                                  @RequestParam("maChiTietKhamBenh") Integer maChiTietKhamBenh,
+//                                  RedirectAttributes redirectAttributes) {
+//        try {
+//            xetNghiemService.deleteById(maXetNghiem);
+//            redirectAttributes.addFlashAttribute("success", "Xóa thành công");
+//        } catch (Exception e) {
+//            redirectAttributes.addFlashAttribute("error", "Lỗi!! Xóa thông tin Xét Nghiệm thất bại");
+//        }
+//        redirectAttributes.addAttribute("maChiTietKhamBenh", maChiTietKhamBenh);
+//        return "redirect:/admin/khambenh/chitiet/xetnghiem";
+//    }
+
+//    @PostMapping("/admin/khambenh/chitiet/xetnghiem/deleteall")
+//    public String deleteAllByIds(@RequestParam(value = "selectedIds", required = false) List<Integer> ids,
+//                                 @RequestParam("maChiTietKhamBenh") Integer maChiTietKhamBenh,
+//                                 RedirectAttributes redirectAttributes) {
+//        if (ids == null || ids.isEmpty()) {
+//            redirectAttributes.addFlashAttribute("error", "Không có mục nào được chọn để xóa.");
+//            redirectAttributes.addAttribute("maChiTietKhamBenh", maChiTietKhamBenh);  // Thêm maKhamBenh vào redirect
+//            return "redirect:/admin/khambenh/chitiet/xetnghiem";
+//        }
+//
+//        try {
+//            xetNghiemService.deleteAllByIds(ids);
+//            redirectAttributes.addFlashAttribute("success", "Xóa thành công các mục đã chọn.");
+//        } catch (Exception e) {
+//            redirectAttributes.addFlashAttribute("error", "Có lỗi xảy ra khi xóa các mục đã chọn.");
+//        }
+//
+//        redirectAttributes.addAttribute("maChiTietKhamBenh", maChiTietKhamBenh);
+//        return "redirect:/admin/khambenh/chitiet/xetnghiem";
+//    }
+
     @PostMapping("/admin/khambenh/chitiet/xetnghiem/delete")
     public String deleteXetNghiem(@RequestParam("maXetNghiem") Integer maXetNghiem,
                                   @RequestParam("maChiTietKhamBenh") Integer maChiTietKhamBenh,
@@ -139,7 +174,7 @@ public class xetNghiemController {
                                  RedirectAttributes redirectAttributes) {
         if (ids == null || ids.isEmpty()) {
             redirectAttributes.addFlashAttribute("error", "Không có mục nào được chọn để xóa.");
-            redirectAttributes.addAttribute("maChiTietKhamBenh", maChiTietKhamBenh);  // Thêm maKhamBenh vào redirect
+            redirectAttributes.addAttribute("maChiTietKhamBenh", maChiTietKhamBenh);
             return "redirect:/admin/khambenh/chitiet/xetnghiem";
         }
 
