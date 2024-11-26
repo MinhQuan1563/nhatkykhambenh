@@ -65,7 +65,12 @@ public class LichHenTiemChungService implements ILichHenTiemChungService {
     }
 
     @Override
+    @Transactional
     public void DeleteLichHenTiemChungList(List<Integer> Ids){
+        for (Integer id : Ids) {
+            LichHenTiemChung lichHenTiemChung = lichHenTiemChungRepo.findById(id).get();
+            this.nguoiDungTiemChungRepo.deleteByLichHenTiemChung(lichHenTiemChung);
+        }
         this.lichHenTiemChungRepo.deleteAllByIdInBatch(Ids);
     }
 
