@@ -28,6 +28,13 @@ public class DonThuoc {
     @Column(name = "TrangThai")
     private Boolean trangThai;
 
+//    @Column(name = "MaChiTietKhamBenh")
+//    private Integer maChiTietKhamBenh;
+//
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "MaChiTietKhamBenh", referencedColumnName = "MaChiTietKhamBenh")
+//    private ChiTietKhamBenh chiTietKhamBenh;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MaChiTietKhamBenh", referencedColumnName = "MaChiTietKhamBenh")
     private ChiTietKhamBenh chiTietKhamBenh;
