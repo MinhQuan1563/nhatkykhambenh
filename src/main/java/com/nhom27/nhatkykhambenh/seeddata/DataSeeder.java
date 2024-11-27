@@ -48,6 +48,7 @@ public class DataSeeder implements CommandLineRunner {
     private IXetNghiemRepo xetNghiemRepo;
 
 
+
     @Override
     public void run(String... args) throws Exception {
         // Seed data cho GiaDinh
@@ -244,7 +245,6 @@ public class DataSeeder implements CommandLineRunner {
                 System.out.println("No ChiTietKhamBenh records found to associate with XetNghiem.");
             }
         }
-
 
 
     }

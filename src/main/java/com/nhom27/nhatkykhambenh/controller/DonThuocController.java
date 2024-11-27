@@ -51,7 +51,7 @@ public class DonThuocController {
         List<DonThuocDTO> donThuocDTOList = donThuocMapper.toDonThuocDtoList(donThuocPage.getContent());
 
 
-        model.addAttribute("dsXetNghiem", donThuocDTOList);
+        model.addAttribute("dsDonThuoc", donThuocDTOList);
         model.addAttribute("maChiTietKhamBenh", maChiTietKhamBenh);
         model.addAttribute("currentPage", page);
         model.addAttribute("pageSize", size);
@@ -77,7 +77,7 @@ public class DonThuocController {
         model.addAttribute("donthuoc", donThuocDTO);
         model.addAttribute("maChiTietKhamBenh2", maChiTietKhamBenh);
 
-        return "admin/donthuoc/addDonThuoc";
+        return "admin/khambenh/addDonThuoc";
     }
 
 

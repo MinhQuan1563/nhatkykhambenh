@@ -18,7 +18,7 @@
                 <input type="hidden" th:name="maChiTietKhamBenh" th:value="${maChiTietKhamBenh2}" />
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="chiTietKhamBenh">Mã Khám Bệnh:</label>
+                    <label for="chiTietKhamBenh">Mã Chi Tiết Khám Bệnh:</label>
                     <input disabled type="text" hidden class="form-control" name="chiTietKhamBenh" id="chiTietKhamBenh" th:value="${maChiTietKhamBenh}" required>
                     <div th:text="'CTKB' + ${@stringUtils.padWithZeros(maChiTietKhamBenh2 , 3)}"
                          th:style="'color: red;'">
