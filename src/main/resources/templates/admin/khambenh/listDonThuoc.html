@@ -88,6 +88,7 @@
               <th>Mã Đơn Thuốc</th>
               <th>Bác Sĩ Khám</th>
               <th>Thao Tác</th>
+              <td>Hành Động</td>
             </tr>
             </thead>
             <tbody>
@@ -113,7 +114,14 @@
                 <a href="#" class="delete" data-bs-toggle="modal" data-bs-target="#deleteModal" th:data-id="${donthuoc.maDonThuoc}">
                   <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
                 </a>
+              </td>
 
+              <td>
+                <a th:href="@{/admin/khambenh/chitiet/donthuoc/chitietdonthuoc(maDonThuoc=${donthuoc.maDonThuoc})}"
+                   class="btn btn-primary btn-sm"
+                   style="background-color: #007bff; border-color: #007bff; color: white; padding: 15px 8px; font-size: 12px; text-decoration: none; border-radius: 3px; margin-right: 8px; display: inline-flex; align-items: center; justify-content: center;">
+                  <i class="material-icons" data-toggle="tooltip" title="Add Prescription" style="font-size: 16px; margin-right: 5px;">local_hospital</i> Chi Tiết Đơn Thuốc
+                </a>
               </td>
 
             </tr>

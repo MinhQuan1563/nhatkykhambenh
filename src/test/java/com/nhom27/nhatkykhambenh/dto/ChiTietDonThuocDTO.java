@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.antlr.v4.runtime.misc.NotNull;
+
 
 @Getter
 @Setter
@@ -12,8 +14,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ChiTietDonThuocDTO {
+
     private Integer maChiTietDonThuoc;
-    private Integer maDonThuoc;
     private String tenThuoc;
     private Integer lieuLuong;
     private Integer soLuong;
