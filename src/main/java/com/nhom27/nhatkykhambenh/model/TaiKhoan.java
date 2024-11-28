@@ -3,6 +3,9 @@ package com.nhom27.nhatkykhambenh.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,9 +16,6 @@ public class TaiKhoan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MaNguoiDung")
     private Integer maNguoiDung;
-
-    @Column(name = "TaiKhoan")
-    private String taiKhoan;
 
     @Column(name = "MatKhau")
     private String matKhau;
@@ -32,13 +32,18 @@ public class TaiKhoan {
     @EqualsAndHashCode.Exclude
     private GiaDinh giaDinh;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MaQuyen",nullable = true)
-    private NhomQuyen nhomQuyen;
-
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "MaNguoiDung", referencedColumnName = "MaNguoiDung")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private NguoiDung nguoiDung;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "TaiKhoan_Roles",
+            joinColumns = {@JoinColumn(name = "maNguoiDung", referencedColumnName = "maNguoiDung")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
+    )
+    @ToString.Exclude
+    private List<Role> danhSachRole = new ArrayList<>();
 }

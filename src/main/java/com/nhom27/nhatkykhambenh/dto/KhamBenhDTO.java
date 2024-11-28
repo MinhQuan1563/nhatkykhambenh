@@ -25,8 +25,8 @@ public class KhamBenhDTO {
     private Integer maKhamBenh;
     private String benhVien;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate ngayKham;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime ngayKham;
     private Boolean trangThai;
     private NguoiDung nguoiDung;
     private Set<ChiTietKhamBenh> danhSachChiTietKhamBenh;

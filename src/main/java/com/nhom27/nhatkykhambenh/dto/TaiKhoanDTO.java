@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -13,8 +15,6 @@ import lombok.Setter;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TaiKhoanDTO {
     private Integer maNguoiDung;
-
-    private String taiKhoan;
 
     private String matKhau;
 
@@ -24,5 +24,5 @@ public class TaiKhoanDTO {
 
     private Integer maGiaDinh;
 
-    private Integer maQuyen;
+    private List<Integer> danhSachRoleIds;
 }

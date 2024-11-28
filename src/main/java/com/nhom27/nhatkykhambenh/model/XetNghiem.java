@@ -18,11 +18,17 @@ public class XetNghiem {
     @Column(name = "MaXetNghiem")
     private Integer maXetNghiem;
 
-    @Column(name = "KetQuaXetNghiem", length = 250)
+    @Column(name = "TenXetNghiem")
+    private String tenXetNghiem;
+
+    @Column(name = "KetQuaXetNghiem")
     private String ketQuaXetNghiem;
 
     @Column(name = "TrangThai")
     private Boolean trangThai;
+
+    @Column(name = "MaChiTietKhamBenh")
+    private Integer maChiTietKhamBenh;
 
     @ManyToOne
     @JoinColumn(name = "MaChiTietKhamBenh",referencedColumnName="MaChiTietKhamBenh", insertable = false, updatable = false)

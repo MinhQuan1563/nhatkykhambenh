@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ITaiKhoanRepo extends JpaRepository<TaiKhoan, Integer> {
     TaiKhoan findBySoDienThoai(String soDienThoai);
+
     TaiKhoan findBySoDienThoaiAndMatKhau(String soDienThoai, String matKhau);
 }

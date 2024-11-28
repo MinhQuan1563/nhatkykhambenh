@@ -1,9 +1,7 @@
 package com.nhom27.nhatkykhambenh.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -29,8 +27,10 @@ public class DonThuoc {
     private Boolean trangThai;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MaKhamBenh", referencedColumnName = "MaKhamBenh")
-    private KhamBenh khamBenh;
+    @JoinColumn(name = "MaChiTietKhamBenh", referencedColumnName = "MaChiTietKhamBenh")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private ChiTietKhamBenh chiTietKhamBenh;
 
     @OneToMany(mappedBy = "donThuoc", fetch = FetchType.LAZY)
     private Set<ChiTietDonThuoc> danhSachChiTietDonThuoc = new HashSet<>();

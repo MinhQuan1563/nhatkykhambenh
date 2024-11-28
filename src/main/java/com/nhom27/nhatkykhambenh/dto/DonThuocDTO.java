@@ -16,7 +16,8 @@ import lombok.Setter;
 public class DonThuocDTO {
     private Integer maDonThuoc;
     private String bacSiKham;
-    private String tenThuoc;
+//    private String tenThuoc;
     private Boolean trangThai;
-    private KhamBenh khamBenh;
+//    private KhamBenh khamBenh;
+    private Integer maChiTietKhamBenh;
 }

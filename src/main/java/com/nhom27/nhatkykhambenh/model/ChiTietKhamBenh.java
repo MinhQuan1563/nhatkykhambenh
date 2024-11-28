@@ -1,9 +1,7 @@
 package com.nhom27.nhatkykhambenh.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.List;
@@ -42,6 +40,11 @@ public class ChiTietKhamBenh {
     @ManyToOne
     @JoinColumn(name = "MaKhamBenh", nullable = true)
     private KhamBenh khamBenh;
+
+    @OneToOne(mappedBy = "chiTietKhamBenh")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private DonThuoc donThuoc;
 
     @OneToMany(mappedBy = "chiTietKhamBenh",cascade = CascadeType.ALL)
     private Set<HinhAnh> danhSachHinhAnh = new HashSet<>();

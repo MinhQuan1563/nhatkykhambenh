@@ -11,11 +11,11 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface XetNghiemMapper {
-    public XetNghiem toXetNghiem(XetNghiemDTO xetNghiemDTO);
+     XetNghiem toXetNghiem(XetNghiemDTO xetNghiemDTO);
 
-    public XetNghiemDTO toXetNghiemDTO(XetNghiem xetNghiem);
+     XetNghiemDTO toXetNghiemDTO(XetNghiem xetNghiem);
 
-    public List<XetNghiemDTO> toXetNghiemDtoList(List<XetNghiem> xetNghiemList);
+     List<XetNghiemDTO> toXetNghiemDtoList(List<XetNghiem> xetNghiemList);
 
     @Mapping(target = "maXetNghiem", ignore = true)
     void updateXetNghiemFromDTO(XetNghiemDTO xetNghiemDTO, @MappingTarget XetNghiem xetNghiem);

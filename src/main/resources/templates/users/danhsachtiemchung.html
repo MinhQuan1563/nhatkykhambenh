@@ -15,14 +15,9 @@
                 <div class="card">
                     <div class="card-body d-flex align-items-center text-dark">
                         <div class="date-box">
-<!--                            <div class="day" th:text="${tiemchung.ngayTiem}">26</div>-->
-<!--                            <div class="month-year" th:text="${tiemchung.ngayTiem}">11/2021</div>-->
-<!--                            <div class="time" th:text="${tiemchung.ngayTiem}">01:00</div>-->
-
                             <div class="day" th:text="${@stringUtils.formatDate(tiemchung.ngayTiem, 'dd')}">26</div>
                             <div class="month-year" th:text="${@stringUtils.formatDate(tiemchung.ngayTiem, 'MM/yyyy')}">11/2021</div>
                             <div class="time" th:text="${@stringUtils.formatDate(tiemchung.ngayTiem, 'HH:mm')}">01:00</div>
-
                         </div>
                         <div class="vaccine-info flex-grow-1">
                             <div>

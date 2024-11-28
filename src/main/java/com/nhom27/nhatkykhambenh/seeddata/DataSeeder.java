@@ -5,11 +5,11 @@ import com.nhom27.nhatkykhambenh.model.*;
 import com.nhom27.nhatkykhambenh.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.*;
 
 @Component
@@ -43,15 +43,20 @@ public class DataSeeder implements CommandLineRunner {
     private IKhamBenhRepo khamBenhRepo;
 
     @Autowired
-    private  IChiTietKhamBenhRepo chiTietKhamBenhRepo;
+    private IChiTietKhamBenhRepo chiTietKhamBenhRepo;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private IXetNghiemRepo xetNghiemRepo;
 
     @Override
     public void run(String... args) throws Exception {
         // Seed data cho GiaDinh
         if(giaDinhRepo.count() == 0) {
             List<GiaDinh> giaDinhList = List.of(
-                new GiaDinh(null, 3, true, null, new HashSet<>()),
+                new GiaDinh(null, 5, true, null, new HashSet<>()),
                 new GiaDinh(null, 3, true, null, new HashSet<>()),
                 new GiaDinh(null, 4, true, null, new HashSet<>())
             );
@@ -59,6 +64,7 @@ public class DataSeeder implements CommandLineRunner {
             giaDinhRepo.saveAll(giaDinhList);
             System.out.println("Save GiaDinh to Database size = " + giaDinhRepo.count());
         }
+
         // Seed data cho NguoiDung
         if (nguoiDungRepo.count() == 0) {
             List<NguoiDung> nguoiDungList = List.of(
@@ -76,7 +82,7 @@ public class DataSeeder implements CommandLineRunner {
             NguoiDung nguoiDungFirst = nguoiDungRepo.findAll().stream().findFirst().orElse(null);
             GiaDinh giaDinhFirst = giaDinhRepo.findAll().stream().findFirst().orElse(null);
 
-            TaiKhoan taiKhoan = new TaiKhoan(nguoiDungFirst.getMaNguoiDung(), "Do Minh Quan", "123", "123", true, giaDinhFirst, null, nguoiDungFirst);
+            TaiKhoan taiKhoan = new TaiKhoan(nguoiDungFirst.getMaNguoiDung(), passwordEncoder.encode("123"), "123", true, giaDinhFirst, nguoiDungFirst, null);
 
             taiKhoanRepo.save(taiKhoan);
             System.out.println("Save TaiKhoan to Database size = " + taiKhoanRepo.count());
@@ -84,31 +90,24 @@ public class DataSeeder implements CommandLineRunner {
 
         // Seed data cho TongQuan
         if (tongQuanRepo.count() == 0) {
-            List<NguoiDung> dsNguoiDung = nguoiDungRepo.findAll();
+            NguoiDung nguoiDung = nguoiDungRepo.findAll().stream().findFirst().orElse(null);
 
-            for(NguoiDung nguoiDung : dsNguoiDung) {
-                if(nguoiDung.getMaNguoiDung() == 1) {
-                    TongQuan tongQuan = new TongQuan();
-                    tongQuan.setDuongHuyet("120/80");
-                    tongQuan.setNhipTim("72");
-                    tongQuan.setHuyetAp("120/80");
-                    tongQuan.setNhietDo("37.5");
-                    tongQuan.setChieuCao("170");
-                    tongQuan.setCanNang("70");
-                    tongQuan.setChiSoBMI("24.2");
-                    tongQuan.setNhomMau("O+");
-                    tongQuan.setNguoiDung(nguoiDung);
+            if (nguoiDung != null) {
+                TongQuan tongQuan = new TongQuan();
+                tongQuan.setDuongHuyet("120/80");
+                tongQuan.setNhipTim("72");
+                tongQuan.setHuyetAp("120/80");
+                tongQuan.setNhietDo("37.5");
+                tongQuan.setChieuCao("170");
+                tongQuan.setCanNang("70");
+                tongQuan.setChiSoBMI("24.2");
+                tongQuan.setNhomMau("O+");
+                tongQuan.setNguoiDung(nguoiDung);
 
-                    tongQuanRepo.save(tongQuan);
-                    System.out.println("Seed TongQuan for user: " + nguoiDung.getMaNguoiDung());
-                }
-                else {
-                    TongQuan tongQuan = new TongQuan();
-                    tongQuan.setNguoiDung(nguoiDung);
-
-                    tongQuanRepo.save(tongQuan);
-                    System.out.println("Seed TongQuan for user: " + nguoiDung.getMaNguoiDung());
-                }
+                tongQuanRepo.save(tongQuan);
+                System.out.println("Seed TongQuan for user: " + nguoiDung.getMaNguoiDung());
+            } else {
+                System.out.println("No NguoiDung found to seed TongQuan.");
             }
         }
 
@@ -164,14 +163,13 @@ public class DataSeeder implements CommandLineRunner {
         // Seed data cho TiemChung
         if(tiemChungRepo.count() == 0) {
             List<TiemChung> tiemChungList = List.of(
-                    new TiemChung(null, "Bệnh viện Đa khoa", LocalDateTime.of(2024, 12, 10, 13, 20), "Y tá A", 1, true),
-                    new TiemChung(null, "Trung tâm Y tế Quận 1", LocalDateTime.of(2025, 1, 15, 3, 30), "Bác sĩ B", 2, true),
-                    new TiemChung(null, "Phòng khám tư nhân", LocalDateTime.of(2024, 11, 30, 12, 0), "Y tá B", 3, true),
-                    new TiemChung(null, "Bệnh viện Đa khoa", LocalDateTime.of(2024, 12, 11, 9, 0), "Bác sĩ A", 1, true),
-                    new TiemChung(null, "Bệnh viện Đa khoa", LocalDateTime.of(2024, 12, 12, 10, 0), "Y tá E", 1, true),
-                    new TiemChung(null, "Bệnh viện Đa khoa", LocalDateTime.of(2024, 12, 14, 15, 0), "Y tá F", 1, true),
-                    new TiemChung(null, "Trung tâm Y tế Quận 1", LocalDateTime.of(2024, 12, 20, 12, 0), "Y tá C", 1, true)
-
+                new TiemChung(null, "Bệnh viện Đa khoa", LocalDateTime.of(2024, 12, 10, 13, 20), "Y tá A", 1, true),
+                new TiemChung(null, "Trung tâm Y tế Quận 1", LocalDateTime.of(2025, 1, 15, 3, 30), "Bác sĩ B", 2, true),
+                new TiemChung(null, "Phòng khám tư nhân", LocalDateTime.of(2024, 11, 30, 12, 0), "Y tá B", 3, true),
+                new TiemChung(null, "Bệnh viện Đa khoa", LocalDateTime.of(2024, 12, 11, 9, 0), "Bác sĩ A", 1, true),
+                new TiemChung(null, "Bệnh viện Đa khoa", LocalDateTime.of(2024, 12, 12, 10, 0), "Y tá E", 1, true),
+                new TiemChung(null, "Bệnh viện Đa khoa", LocalDateTime.of(2024, 12, 14, 15, 0), "Y tá F", 1, true),
+                new TiemChung(null, "Trung tâm Y tế Quận 1", LocalDateTime.of(2024, 12, 20, 12, 0), "Y tá C", 1, true)
             );
 
             tiemChungRepo.saveAll(tiemChungList);
@@ -184,11 +182,10 @@ public class DataSeeder implements CommandLineRunner {
 
             if(nguoiDung.getMaNguoiDung() != null && tiemChung.getMaTiemChung() != null) {
                 List<ChiTietTiemChung> chiTietTiemChungList = List.of(
-                    new ChiTietTiemChung(tiemChung.getMaTiemChung(), nguoiDung.getMaNguoiDung(), "COVID-19 Vaccine AstraZeneca", true, null, null),
-                    new ChiTietTiemChung(tiemChung.getMaTiemChung(), nguoiDung.getMaNguoiDung(), "COVID-19 Vaccine Pfizer", true, null, null),
-                    new ChiTietTiemChung(tiemChung.getMaTiemChung(), nguoiDung.getMaNguoiDung(), "COVID-19 Vaccine Moderna", true, null, null),
-                    new ChiTietTiemChung(2, nguoiDung.getMaNguoiDung(), "Cúm Vaccine", true, null, null),
-                    new ChiTietTiemChung(7, nguoiDung.getMaNguoiDung(), "Uốn ván Vaccine", true, null, null)
+                    new ChiTietTiemChung(tiemChung.getMaTiemChung(), nguoiDung.getMaNguoiDung(), "Vắc-xin AstraZeneca - COVID-19", true, null, null),
+                    new ChiTietTiemChung(tiemChung.getMaTiemChung(), nguoiDung.getMaNguoiDung(), "Vắc-xin Pfizer - COVID-19", true, null, null),
+                    new ChiTietTiemChung(tiemChung.getMaTiemChung(), nguoiDung.getMaNguoiDung(), "Vắc-xin Moderna - COVID-19", true, null, null),
+                    new ChiTietTiemChung(tiemChung.getMaTiemChung(), nguoiDung.getMaNguoiDung(), "Vắc-xin Sinovac - COVID-19", true, null, null)
                 );
 
                 chiTietTiemChungRepo.saveAll(chiTietTiemChungList);
@@ -200,23 +197,13 @@ public class DataSeeder implements CommandLineRunner {
         // Seed data cho KhamBenh
         if (khamBenhRepo.count() == 0) {
             List<KhamBenh> khamBenhList = List.of(
-                new KhamBenh(null, "Bệnh viện Đa khoa TP.HCM", LocalDate.of(2024, 12, 10), true, nguoiDungRepo.findById(1).orElse(null), new HashSet<>(), new HashSet<>(), null),
-                new KhamBenh(null, "Bệnh viện Y học Cổ truyền", LocalDate.of(2024, 12, 10), true, nguoiDungRepo.findById(2).orElse(null), new HashSet<>(), new HashSet<>(), null),
-                new KhamBenh(null, "Bệnh viện Nhi Đồng", LocalDate.of(2024, 12, 10), true, nguoiDungRepo.findById(3).orElse(null), new HashSet<>(), new HashSet<>(), null)
+                new KhamBenh(null, "Bệnh viện Đa khoa TP.HCM", LocalDateTime.of(2024, 12, 10, 13, 20), true, nguoiDungRepo.findById(1).orElse(null), new HashSet<>(), new HashSet<>()),
+                new KhamBenh(null, "Bệnh viện Y học Cổ truyền", LocalDateTime.of(2025, 1, 15, 3, 30), true, nguoiDungRepo.findById(2).orElse(null), new HashSet<>(), new HashSet<>()),
+                new KhamBenh(null, "Bệnh viện Nhi Đồng", LocalDateTime.of(2024, 11, 30, 12, 0), true, nguoiDungRepo.findById(3).orElse(null), new HashSet<>(), new HashSet<>())
             );
 
             khamBenhRepo.saveAll(khamBenhList);
             System.out.println("Saved " + khamBenhList.size() + " KhamBenh records to the database.");
-        }
-
-        if (khamBenhRepo.count() == 0) {
-            List<KhamBenh> khamBenhList = List.of(
-                    new KhamBenh(null, "Bệnh viện Đa khoa TP.HCM", LocalDate.of(2024, 12, 10), true, nguoiDungRepo.findById(1).orElse(null), new HashSet<>(), new HashSet<>(), null),
-                    new KhamBenh(null, "Bệnh viện Y học Cổ truyền", LocalDate.of(2024, 12, 10), true, nguoiDungRepo.findById(2).orElse(null), new HashSet<>(), new HashSet<>(), null),
-                    new KhamBenh(null, "Bệnh viện Nhi Đồng", LocalDate.of(2024, 12, 10), true, nguoiDungRepo.findById(3).orElse(null), new HashSet<>(), new HashSet<>(), null)
-            );
-
-            khamBenhRepo.saveAll(khamBenhList);
         }
 
         // Seed ChiTietKhamBenh
@@ -224,14 +211,33 @@ public class DataSeeder implements CommandLineRunner {
             KhamBenh khamBenh = khamBenhRepo.findAll().stream().findFirst().orElse(null);
 
             List<ChiTietKhamBenh> chiTietKhamBenhList = List.of(
-                    new ChiTietKhamBenh(null, "Khoa Nội", "BS. Nguyễn Văn A", "Xét nghiệm máu", "Cảm cúm", "O", true, khamBenh, new HashSet<>(), new HashSet<>()),
-                    new ChiTietKhamBenh(null, "Khoa Nhi", "BS. Trần Văn B", "Siêu âm bụng", "Viêm ruột", "A", true, khamBenh, new HashSet<>(), new HashSet<>()),
-                    new ChiTietKhamBenh(null, "Khoa Ngoại", "BS. Lê Thị C", "CT Scan", "Chấn thương đầu", "B", true, khamBenh, new HashSet<>(), new HashSet<>())
+                    new ChiTietKhamBenh(null, "Khoa Nội", "BS. Nguyễn Văn A", "Xét nghiệm máu", "Cảm cúm", "O", true, khamBenh, null, new HashSet<>(), new HashSet<>()),
+                    new ChiTietKhamBenh(null, "Khoa Nhi", "BS. Trần Văn B", "Siêu âm bụng", "Viêm ruột", "A", true, khamBenh, null, new HashSet<>(), new HashSet<>()),
+                    new ChiTietKhamBenh(null, "Khoa Ngoại", "BS. Lê Thị C", "CT Scan", "Chấn thương đầu", "B", true, khamBenh, null, new HashSet<>(), new HashSet<>())
             );
 
             chiTietKhamBenhRepo.saveAll(chiTietKhamBenhList);
             System.out.println("Saved " + chiTietKhamBenhList.size() + " ChiTietKhamBenh records to the database.");
         }
+
+        // Seed XetNghiem
+        if (xetNghiemRepo.count() == 0) {
+            ChiTietKhamBenh chiTietKhamBenh = chiTietKhamBenhRepo.findAll().stream().findFirst().orElse(null);
+
+            if (chiTietKhamBenh != null) {
+                List<XetNghiem> xetNghiemList = List.of(
+                        new XetNghiem(null, "Xét nghiệm máu", "Bình thường", true, chiTietKhamBenh.getMaChiTietKhamBenh(), chiTietKhamBenh),
+                        new XetNghiem(null, "Xét nghiệm nước tiểu", "Không phát hiện bất thường", true, chiTietKhamBenh.getMaChiTietKhamBenh(), chiTietKhamBenh),
+                        new XetNghiem(null, "Chụp X-quang", "Có dấu hiệu viêm", false, chiTietKhamBenh.getMaChiTietKhamBenh(), chiTietKhamBenh)
+                );
+
+                xetNghiemRepo.saveAll(xetNghiemList);
+                System.out.println("Saved " + xetNghiemList.size() + " XetNghiem records to the database.");
+            } else {
+                System.out.println("No ChiTietKhamBenh records found to associate with XetNghiem.");
+            }
+        }
+
 
     }
 }
