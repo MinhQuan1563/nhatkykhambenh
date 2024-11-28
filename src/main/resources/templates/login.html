@@ -74,10 +74,25 @@
                 <div class="row">
                     <small>Bạn chưa có tài khoản? <a th:href="@{/register}">Đăng ký</a></small>
                 </div>
-                <div class="row">
-                    <a href="/oauth2/authorization/google">Login with Google</a>
-                    <br>
-                    <a href="/oauth2/authorization/facebook">Login with Facebook</a>
+<!--                <div class="row">-->
+<!--                    <a href="/oauth2/authorization/google">Login with Google</a>-->
+<!--                    <br>-->
+<!--                    <a href="/oauth2/authorization/facebook">Login with Facebook</a>-->
+<!--                </div>-->
+
+                <div class="row social-login mt-3">
+                    <div class="col-12 mb-2">
+                        <a href="/oauth2/authorization/google" class="btn btn-light w-100 social-btn">
+                            <img src="https://banner2.cleanpng.com/20240111/yb/transparent-google-logo-google-logo-with-blue-green-red-1710929422836.webp" alt="Google logo" class="social-icon">
+                            Đăng nhập với Google
+                        </a>
+                    </div>
+                    <div class="col-12">
+                        <a href="/oauth2/authorization/facebook" class="btn btn-light w-100 social-btn">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook logo" class="social-icon">
+                            Đăng nhập với Facebook
+                        </a>
+                    </div>
                 </div>
 
             </form>
