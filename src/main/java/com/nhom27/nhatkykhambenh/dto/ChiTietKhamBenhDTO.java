@@ -1,6 +1,7 @@
 package com.nhom27.nhatkykhambenh.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nhom27.nhatkykhambenh.model.ChiTietKhamBenh;
 import com.nhom27.nhatkykhambenh.model.HinhAnh;
 import com.nhom27.nhatkykhambenh.model.KhamBenh;
 import com.nhom27.nhatkykhambenh.model.XetNghiem;

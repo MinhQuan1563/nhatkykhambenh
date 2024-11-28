@@ -135,17 +135,6 @@ public class ChiTietKhamBenhController {
         return "redirect:/admin/khambenh/chitiet";
     }
 
-//    @PostMapping("/admin/khambenh/chitiet/deleteall")
-//    public String deleteAllByIds(@RequestParam("selectedIds") List<Integer> ids, RedirectAttributes redirectAttributes) {
-//        try {
-//            chiTietKhamBenhService.deleteAllByIds(ids);
-//            redirectAttributes.addFlashAttribute("success", "Xóa thành công các mục đã chọn.");
-//        } catch (Exception e) {
-//            redirectAttributes.addFlashAttribute("error", "Có lỗi xảy ra khi xóa.");
-//        }
-//
-//        return "redirect:/admin/khambenh/chitiet";
-//    }
 
     @PostMapping("/admin/khambenh/chitiet/deleteall")
     public String deleteAllByIds(@RequestParam(value = "selectedIds", required = false) List<Integer> ids,
@@ -167,9 +156,4 @@ public class ChiTietKhamBenhController {
         redirectAttributes.addAttribute("maKhamBenh", maKhamBenh);
         return "redirect:/admin/khambenh/chitiet";
     }
-
-
-
-
-
 }

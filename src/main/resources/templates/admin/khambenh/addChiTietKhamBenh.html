@@ -20,12 +20,45 @@
                   <div class="form-group">
                     <label for="khamBenh">Mã Khám Bệnh:</label>
                     <input disabled type="text" hidden class="form-control" id="khamBenh" th:value="*{maKhamBenh}" th:field="*{maKhamBenh}" required>
-                    <div th:text="'KB' + ${@stringUtils.padWithZeros(maKhamBenh2, 3)}">
-
+                    <div th:text="'KB' + ${@stringUtils.padWithZeros(maKhamBenh2, 3)}"
+                         th:style="'color: red;'">
                     </div>
                     <span th:if="${#fields.hasErrors('maKhamBenh')}" th:errors="*{maKhamBenh}" class="text-danger"></span>
                   </div>
                 </div>
+
+<!--                <input type="hidden" th:name="maKhamBenh" th:value="${maKhamBenh2}" />-->
+<!--                <div class="col-md-6">-->
+<!--                  <div class="form-group">-->
+<!--                    <label for="khamBenh">Mã Khám Bệnh:</label>-->
+<!--                    <input disabled type="text" class="form-control" id="khamBenh"-->
+<!--                           th:value="'KB' + ${@stringUtils.padWithZeros(maKhamBenh2, 3)}"-->
+<!--                           th:style="'color: red;'" required>-->
+<!--                    <span th:if="${#fields.hasErrors('maKhamBenh')}" th:errors="*{maKhamBenh}" class="text-danger"></span>-->
+<!--                  </div>-->
+<!--                </div>-->
+
+<!--                <input type="number"  class="form-control form-control-lg bg-light fs-6" th:field="*{maChiTietKhamBenh}" hidden />-->
+<!--                <div class="col-md-6">-->
+<!--                  <div class="form-group">-->
+<!--                    <label for="maChiTietKhamBenh">Mã Chi Tiết Khám Bệnh:</label>-->
+<!--                    &lt;!&ndash; Đã thay id ở đây để tránh trùng lặp &ndash;&gt;-->
+<!--                    <input disabled type="text" class="form-control" id="maChiTietKhamBenh" th:value="*{maChiTietKhamBenh}" th:field="*{maChiTietKhamBenh}" required>-->
+<!--                    <span th:if="${#fields.hasErrors('maChiTietKhamBenh')}" th:errors="*{maChiTietKhamBenh}" class="text-danger"></span>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--note-->
+<!--                <div class="col-md-6">-->
+<!--                  <div class="form-group">-->
+<!--                    <label for="maChiTietKhamBenh">Mã Chi Tiết Khám Bệnh:</label>-->
+<!--                    <input disabled type="text" hidden class="form-control" id="maChiTietKhamBenh" th:value="*{maChiTietKhamBenh}" th:field="*{maChiTietKhamBenh}" required>-->
+<!--                    <div th:text="'KB' + ${@stringUtils.padWithZeros(maChiTietKhamBenh, 3)}"-->
+<!--                         th:style="'color: red;'">-->
+<!--                    </div>-->
+<!--                    <span th:if="${#fields.hasErrors('maChiTietKhamBenh')}" th:errors="*{maChiTietKhamBenh}" class="text-danger"></span>-->
+<!--                  </div>-->
+<!--                </div>-->
+
 
 
                 <div class="col-md-6">

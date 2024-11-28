@@ -48,4 +48,9 @@ public class IndexController {
     public String base(Model theModel) {
         return "base";
     }
+
+    @GetMapping("admin/thongke")
+    public String thongKe(Model theModel) {
+        return "admin/thongke";
+    }
 }

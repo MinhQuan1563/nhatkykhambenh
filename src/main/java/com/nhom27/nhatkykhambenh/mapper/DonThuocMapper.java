@@ -13,11 +13,11 @@ import java.util.List;
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 
 public interface DonThuocMapper {
-    public DonThuoc toDonThuoc(DonThuocDTO donThuocDTO);
+     DonThuoc toDonThuoc(DonThuocDTO donThuocDTO);
 
-    public DonThuocDTO toDonThuocDTO(DonThuoc donThuoc);
+     DonThuocDTO toDonThuocDTO(DonThuoc donThuoc);
 
-    public List<DonThuocDTO> toDonThuocDtoList(List<DonThuoc> donThuocList);
+     List<DonThuocDTO> toDonThuocDtoList(List<DonThuoc> donThuocList);
 
     @Mapping(target = "maDonThuoc", ignore = true)
     void updateDonThuocFromDTO(DonThuocDTO donThuocDTO, @MappingTarget DonThuoc donThuoc);

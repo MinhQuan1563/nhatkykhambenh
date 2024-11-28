@@ -1,7 +1,9 @@
 package com.nhom27.nhatkykhambenh.mapper;
 
 import com.nhom27.nhatkykhambenh.dto.ChiTietDonThuocDTO;
+import com.nhom27.nhatkykhambenh.dto.XetNghiemDTO;
 import com.nhom27.nhatkykhambenh.model.ChiTietDonThuoc;
+import com.nhom27.nhatkykhambenh.model.XetNghiem;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -12,12 +14,12 @@ import java.util.List;
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 
 public interface ChiTietDonThuocMapper {
-    public ChiTietDonThuoc toChiTietDonThuoc(ChiTietDonThuocDTO chitietdonThuocDTO);
+    ChiTietDonThuoc toChiTietDonThuoc(ChiTietDonThuocDTO chiTietDonThuocDTO);
 
-    public ChiTietDonThuocDTO toChiTietDonThuocDTO(ChiTietDonThuoc chitietdonThuoc);
+    ChiTietDonThuocDTO toChiTietDonThuocDTO(ChiTietDonThuoc chiTietDonThuoc);
 
-    public List<ChiTietDonThuocDTO> toChiTietDonThuocDtoList(List<ChiTietDonThuoc> chitietdonThuocList);
+    List<ChiTietDonThuocDTO> toChiTietDonThuocDtoList(List<ChiTietDonThuoc> chiTietDonThuocList);
 
     @Mapping(target = "maChiTietDonThuoc", ignore = true)
-    void updateChiTietDonThuocFromDTO(ChiTietDonThuocDTO chitietdonThuocDTO, @MappingTarget ChiTietDonThuoc chitietdonThuoc);
+    void updateChiTietDonThuocFromDTO(ChiTietDonThuocDTO chiTietDonThuocDTO, @MappingTarget ChiTietDonThuoc chiTietDonThuoc);
 }
