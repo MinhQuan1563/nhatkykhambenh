@@ -39,53 +39,6 @@ public class LichHenTiemChungController {
     private NguoiDungService nguoiDungService;
     @Autowired
     private NguoiDungMapper nguoiDungMapper;
-    private List<NguoiDung> getMembers(){
-        List<NguoiDung> members = new ArrayList<>();
-
-        NguoiDung user1 = NguoiDung.builder()
-                .maNguoiDung(1)
-                .hinhAnh("image1.png")
-                .soDienThoai("0123456789")
-                .cccd("123456789012")
-                .ngayThangNamSinh(LocalDate.of(2003, 6, 15))
-                .gioiTinh("Nam")
-                .diaChi("123 Đường ABC")
-                .tenNguoiDung("Nguyen Van A")
-                .email("user1@example.com")
-                .trangThai(true)
-                .build();
-
-        NguoiDung user2 = NguoiDung.builder()
-                .maNguoiDung(2)
-                .hinhAnh("image2.png")
-                .soDienThoai("0987654321")
-                .cccd("987654321098")
-                .ngayThangNamSinh(LocalDate.of(2003, 6, 15))
-                .gioiTinh("Nu")
-                .diaChi("456 Đường XYZ")
-                .tenNguoiDung("Tran Thi B")
-                .email("user2@example.com")
-                .trangThai(true)
-                .build();
-
-        NguoiDung user3 = NguoiDung.builder()
-                .maNguoiDung(3)
-                .hinhAnh("image3.png")
-                .soDienThoai("0912345678")
-                .cccd("111122223333")
-                .ngayThangNamSinh(LocalDate.of(2003, 6, 15))
-                .gioiTinh("Nam")
-                .diaChi("789 Đường QWE")
-                .tenNguoiDung("Le Van C")
-                .email("user3@example.com")
-                .trangThai(false)
-                .build();
-
-        members.add(user1);
-        members.add(user2);
-        members.add(user3);
-        return members;
-    }
 
     @GetMapping("/admin/lichhentiemchung/add")
     public String AddLichHenTiemChung(Model model, HttpSession session) {

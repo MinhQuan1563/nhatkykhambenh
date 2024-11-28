@@ -18,7 +18,6 @@
 
     <!--google material icon-->
     <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
-
 </head>
 <body>
 
@@ -32,115 +31,6 @@
     <div id="content">
         <div th:replace="~{${contentAdmin} :: contentAdmin}"></div>
     </div>
-
-<!--    <div class="container-fluid">-->
-<!--        <div class="row">-->
-<!--            &lt;!&ndash; Main Content &ndash;&gt;-->
-<!--            <div class="col-md-10 main-content p-4">-->
-<!--                &lt;!&ndash; Filter Section &ndash;&gt;-->
-<!--                <div class="filter-section mb-4">-->
-<!--                    <div class="row">-->
-<!--                        <div class="col-md-3">-->
-<!--                            <div class="filter-group">-->
-<!--                                <label>Từ ngày:</label>-->
-<!--                                <input type="text" class="date-picker" id="dateFrom" placeholder="Chọn ngày bắt đầu">-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="col-md-3">-->
-<!--                            <div class="filter-group">-->
-<!--                                <label>Đến ngày:</label>-->
-<!--                                <input type="text" class="date-picker" id="dateTo" placeholder="Chọn ngày kết thúc">-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="col-md-3">-->
-<!--                            <div class="filter-group">-->
-<!--                                <label>Bệnh viện:</label>-->
-<!--                                <select class="form-select" id="hospitalFilter">-->
-<!--                                    <option value="">Tất cả bệnh viện</option>-->
-<!--                                    <option value="bv1">Bệnh viện A</option>-->
-<!--                                    <option value="bv2">Bệnh viện B</option>-->
-<!--                                    <option value="bv3">Bệnh viện C</option>-->
-<!--                                </select>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="col-md-3">-->
-<!--                            <div class="filter-group">-->
-<!--                                <label>&nbsp;</label>-->
-<!--                                <div class="d-flex gap-2">-->
-<!--                                    <button class="btn btn-filter w-100" onclick="applyFilters()">Lọc dữ liệu</button>-->
-<!--                                    <button class="btn btn-reset w-100" onclick="resetFilters()">Đặt lại</button>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-<!--                &lt;!&ndash; Overview Cards &ndash;&gt;-->
-<!--                <div class="row mb-4">-->
-<!--                    <div class="col-md-3">-->
-<!--                        <div class="card stats-card">-->
-<!--                            <div class="card-body">-->
-<!--                                <h5>Tổng lượt khám</h5>-->
-<!--                                <h2 id="totalVisits">1,234</h2>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="col-md-3">-->
-<!--                        <div class="card stats-card">-->
-<!--                            <div class="card-body">-->
-<!--                                <h5>Xét nghiệm trong khoảng</h5>-->
-<!--                                <h2 id="totalTests">45</h2>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="col-md-3">-->
-<!--                        <div class="card stats-card">-->
-<!--                            <div class="card-body">-->
-<!--                                <h5>Tiêm chủng trong khoảng</h5>-->
-<!--                                <h2 id="totalVaccinations">89</h2>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="col-md-3">-->
-<!--                        <div class="card stats-card">-->
-<!--                            <div class="card-body">-->
-<!--                                <h5>Bệnh nhân trong khoảng</h5>-->
-<!--                                <h2 id="totalPatients">23</h2>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-<!--                &lt;!&ndash; Charts &ndash;&gt;-->
-<!--                <div class="row">-->
-<!--                    <div class="col-md-6">-->
-<!--                        <div class="chart-container">-->
-<!--                            <canvas id="visitsChart"></canvas>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="col-md-6">-->
-<!--                        <div class="chart-container">-->
-<!--                            <canvas id="testsChart"></canvas>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-<!--                <div class="row">-->
-<!--                    <div class="col-md-6">-->
-<!--                        <div class="chart-container">-->
-<!--                            <canvas id="vaccinationChart"></canvas>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="col-md-6">-->
-<!--                        <div class="chart-container">-->
-<!--                            <canvas id="symptomsChart"></canvas>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-
 </div>
 
 <!----------html code compleate----------->
@@ -163,8 +53,6 @@
             $('#sidebar,.body-overlay').toggleClass('show-nav');
         });
     });
-
-
 </script>
 
 </body>
