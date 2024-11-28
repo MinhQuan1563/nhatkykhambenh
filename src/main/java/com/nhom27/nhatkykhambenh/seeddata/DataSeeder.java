@@ -5,6 +5,7 @@ import com.nhom27.nhatkykhambenh.model.*;
 import com.nhom27.nhatkykhambenh.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -45,6 +46,11 @@ public class DataSeeder implements CommandLineRunner {
     @Autowired
     private  IChiTietKhamBenhRepo chiTietKhamBenhRepo;
 
+    @Autowired
+    private IRoleRepo roleRepo;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) throws Exception {
@@ -62,9 +68,9 @@ public class DataSeeder implements CommandLineRunner {
         // Seed data cho NguoiDung
         if (nguoiDungRepo.count() == 0) {
             List<NguoiDung> nguoiDungList = List.of(
-                new NguoiDung(null, "image1.jpg", "0912345678", "123456789", LocalDate.of(2003, 6, 15), "Nam", "123 Address St", "Nguyen Van A", "nguyenvana@gmail.com", MoiQuanHe.TOI, true, giaDinhRepo.findAll().get(0), null, null, new HashSet<>(), null, null),
-                new NguoiDung(null, "image2.jpg", "0912345679", "123456780", LocalDate.of(1972, 4, 29), "Nữ", "456 Address St", "Le Thi B", "lethib@gmail.com", MoiQuanHe.ME, true, giaDinhRepo.findAll().get(0), null, null, new HashSet<>(), null, null),
-                new NguoiDung(null, "image3.jpg", "0912345680", "123456781", LocalDate.of(1963, 9, 12), "Nam", "789 Address St", "Tran Van C", "tranvanc@gmail.com", MoiQuanHe.CHA, true, giaDinhRepo.findAll().get(0), null, null, new HashSet<>(), null, null)
+                new NguoiDung(null, "image1.jpg", "0912345678", "123456789", LocalDate.of(2003, 6, 15), "Nam", "123 Address St", "Nguyen Van A", "nguyenvana@gmail.com", MoiQuanHe.TOI, true, giaDinhRepo.findAll().get(0), null, null, new HashSet<>(), null, null)
+//                new NguoiDung(null, "image2.jpg", "0912345679", "123456780", LocalDate.of(1972, 4, 29), "Nữ", "456 Address St", "Le Thi B", "lethib@gmail.com", MoiQuanHe.ME, true, giaDinhRepo.findAll().get(0), null, null, new HashSet<>(), null, null),
+//                new NguoiDung(null, "image3.jpg", "0912345680", "123456781", LocalDate.of(1963, 9, 12), "Nam", "789 Address St", "Tran Van C", "tranvanc@gmail.com", MoiQuanHe.CHA, true, giaDinhRepo.findAll().get(0), null, null, new HashSet<>(), null, null)
             );
 
             nguoiDungRepo.saveAll(nguoiDungList);
@@ -76,10 +82,21 @@ public class DataSeeder implements CommandLineRunner {
             NguoiDung nguoiDungFirst = nguoiDungRepo.findAll().stream().findFirst().orElse(null);
             GiaDinh giaDinhFirst = giaDinhRepo.findAll().stream().findFirst().orElse(null);
 
-            TaiKhoan taiKhoan = new TaiKhoan(nguoiDungFirst.getMaNguoiDung(), "Do Minh Quan", "123", "123", true, giaDinhFirst, null, nguoiDungFirst);
+            TaiKhoan taiKhoan = new TaiKhoan(nguoiDungFirst.getMaNguoiDung(), passwordEncoder.encode("123"), "123", true, giaDinhFirst, nguoiDungFirst, null);
 
             taiKhoanRepo.save(taiKhoan);
             System.out.println("Save TaiKhoan to Database size = " + taiKhoanRepo.count());
+        }
+
+        // Seed data cho Role
+        if (roleRepo.count() == 0) {
+            List<Role> roleList = List.of(
+                new Role(null, "USER", null),
+                new Role(null, "ADMIN", null)
+            );
+
+            roleRepo.saveAll(roleList);
+            System.out.println("Save Role to Database size = " + roleRepo.count());
         }
 
         // Seed data cho TongQuan

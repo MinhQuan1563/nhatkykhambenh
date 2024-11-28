@@ -14,7 +14,6 @@ public class Validation {
     }
 
     public static boolean checkPassword(String password) {
-        // Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và số
         String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$";
         Pattern pattern = Pattern.compile(passwordRegex);
         if (password == null) {

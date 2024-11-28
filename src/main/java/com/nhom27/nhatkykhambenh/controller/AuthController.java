@@ -1,25 +1,24 @@
 package com.nhom27.nhatkykhambenh.controller;
 
-import com.nhom27.nhatkykhambenh.dto.NguoiDungDTO;
-import com.nhom27.nhatkykhambenh.dto.RegistrationDTO;
-import com.nhom27.nhatkykhambenh.dto.ResetPasswordDTO;
-import com.nhom27.nhatkykhambenh.dto.TaiKhoanDTO;
+import com.nhom27.nhatkykhambenh.dto.*;
 import com.nhom27.nhatkykhambenh.model.PasswordResetToken;
+import com.nhom27.nhatkykhambenh.model.Role;
 import com.nhom27.nhatkykhambenh.repository.ITokenRepository;
+import com.nhom27.nhatkykhambenh.security.JwtUtil;
 import com.nhom27.nhatkykhambenh.service.implementation.TaiKhoanService;
 import com.nhom27.nhatkykhambenh.model.NguoiDung;
 import com.nhom27.nhatkykhambenh.model.TaiKhoan;
 import com.nhom27.nhatkykhambenh.service.interfaces.IEmailService;
 import com.nhom27.nhatkykhambenh.service.interfaces.INguoiDungService;
+import com.nhom27.nhatkykhambenh.service.interfaces.IRoleService;
 import com.nhom27.nhatkykhambenh.service.interfaces.ITaiKhoanService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class AuthController {
@@ -36,47 +35,63 @@ public class AuthController {
     @Autowired
     private ITokenRepository tokenRepository;
 
+    @Autowired
+    private IRoleService roleService;
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
     @GetMapping("/logout")
     public String logout(HttpSession session) {
-        session.invalidate();
         return "redirect:/login?logout";
     }
 
     @GetMapping("/login")
-    public String login(Model model) {
-        TaiKhoanDTO taiKhoanDTO = new TaiKhoanDTO();
-        model.addAttribute("taiKhoan", taiKhoanDTO);
+    public String login() {
         return "login";
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute("taiKhoan") TaiKhoan taiKhoan, HttpSession session) {
-        TaiKhoan tk = taiKhoanService.findBySoDienThoaiAndMatKhau(taiKhoan.getSoDienThoai(), taiKhoan.getMatKhau());
-        if (tk == null) {
-            return "login";
+    public ResponseEntity<?> login(@RequestBody TaiKhoanDTO taiKhoanDTO) {
+        TaiKhoan taiKhoan = taiKhoanService.findBySoDienThoai(taiKhoanDTO.getSoDienThoai());
+        if (taiKhoan == null || !taiKhoan.getMatKhau().equals(taiKhoanDTO.getMatKhau())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
 
-        session.setAttribute("taikhoan", tk);
-        return "redirect:/";
+        // Tạo JWT token
+        String jwtToken = jwtUtil.generateToken(taiKhoanDTO.getSoDienThoai());
+
+        // Trả về token JWT trong response
+        return ResponseEntity.ok(new JwtResponse(jwtToken));
     }
 
     @GetMapping("/register")
     public String register(Model model) {
-        TaiKhoanDTO taikhoanDTO = new TaiKhoanDTO();
-        NguoiDungDTO nguoiDungDTO = new NguoiDungDTO();
         RegistrationDTO registrationDTO = new RegistrationDTO();
-        registrationDTO.setNguoidung(nguoiDungDTO);
-        registrationDTO.setTaikhoan(taikhoanDTO);
+        registrationDTO.setNguoidung(new NguoiDungDTO());
+        registrationDTO.setTaikhoan(new TaiKhoanDTO());
+
         model.addAttribute("registration", registrationDTO);
         return "register";
     }
 
     @PostMapping("/register")
-    public String SaveTaiKhoan(@ModelAttribute("taikhoan")TaiKhoan taikhoan, HttpSession session) {
-        NguoiDung nguoiDung = taiKhoanService.registerUser(taikhoan);
+    public String saveTaiKhoan(@ModelAttribute("registration") RegistrationDTO registrationDTO, Model model) {
+        try {
+            if (!registrationDTO.getTaikhoan().getMatKhau().equals(registrationDTO.getRePassword())) {
+                throw new IllegalArgumentException("Mật khẩu nhập lại không khớp!");
+            }
 
-        session.setAttribute("nguoidung", nguoiDung);
-        return "redirect:/";
+            Role role = roleService.findByRoleName("USER");
+            NguoiDung nguoiDung = taiKhoanService.registerUser(registrationDTO, role);
+
+            String jwtToken = jwtUtil.generateToken(nguoiDung.getSoDienThoai());
+
+            return "redirect:/login?registerSuccess=true&jwt=" + jwtToken;
+        } catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+            return "register";
+        }
     }
 
     @GetMapping("/users/thongtinkhac")
@@ -103,7 +118,8 @@ public class AuthController {
             if (output.equals("success"))
                 return "redirect:/forgotpassword?success&email=" + nguoiDungDTO.getEmail();
             else {
-                return "redirect:/login?error=This email does not exist";
+                String error = "Email này không tồn tại trong hệ thống";
+                return "redirect:/login?error=" + error;
             }
         }
         catch (Exception e) {
@@ -131,6 +147,8 @@ public class AuthController {
             taiKhoan.setMatKhau(resetPasswordDTO.getPassword());
             taiKhoanService.saveTaiKhoan(taiKhoan);
         }
-        return "redirect:/login?success=Password changed successfully";
+
+        String success = "Đổi mật khẩu thành công";
+        return "redirect:/login?success=" + success;
     }
 }

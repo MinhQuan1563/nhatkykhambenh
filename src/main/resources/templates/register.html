@@ -20,8 +20,8 @@
                 <div class="header-text mb-2 w-100 d-flex flex-column justify-content-center">
                     <h2 class="text-center fw-bold">Đăng ký</h2>
                 </div>
-                <div th:if="${errorMessage}">
-                    <div class="alert alert-danger" th:text="${errorMessage}">...</div>
+                <div th:if="${error}" class="alert alert-danger" role="alert">
+                    <div th:text="${error}"></div>
                 </div>
                 <div class="mb-3">
                     <label for="usernameForm" class="form-label">Họ tên</label>
@@ -30,7 +30,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="phoneForm" class="form-label">Số điện thoại</label>
-                    <input type="text" id="phoneForm" th:field="*{nguoidung.soDienThoai}" class="form-control form-control-lg bg-light fs-6"
+                    <input type="text" id="phoneForm" th:field="*{taikhoan.soDienThoai}" class="form-control form-control-lg bg-light fs-6"
                            placeholder="Nhập số" />
                 </div>
                 <div class="mb-3">
