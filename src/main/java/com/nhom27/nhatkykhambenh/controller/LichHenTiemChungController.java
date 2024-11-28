@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Set;
 
 @Controller
-@RequestMapping("/admin/lichhentiemchung")
 public class LichHenTiemChungController {
 
     @Autowired
@@ -88,7 +87,7 @@ public class LichHenTiemChungController {
         return members;
     }
 
-    @GetMapping("add")
+    @GetMapping("/admin/lichhentiemchung/add")
     public String AddLichHenTiemChung(Model model, HttpSession session) {
         LichHenTiemChungDTO lichHenTiemChungDTO = new LichHenTiemChungDTO();
         lichHenTiemChungDTO.setNguoiDungTiemChungList(new HashSet<>());
@@ -100,7 +99,7 @@ public class LichHenTiemChungController {
         return "/admin/lichhentiemchung/addLichHenTiemChung";
     }
 
-    @PostMapping("/save")
+    @PostMapping("/admin/lichhentiemchung/save")
     public String CreateLichHenTiemChung(@ModelAttribute("lichhentiemchung") LichHenTiemChungDTO lichHenTiemChungDTO, @RequestParam("memberIds") List<Integer> memberIds, @RequestParam("tenVaccins") List<String> tenVaccins) {
         Set<NguoiDungTiemChung> nguoiDungTiemChungSet = new HashSet<>();
         for (int i = 0; i < memberIds.size(); i++) {
@@ -113,20 +112,20 @@ public class LichHenTiemChungController {
         return "redirect:/admin/lichhentiemchung";
     }
 
-    @PostMapping("delete")
+    @PostMapping("/admin/lichhentiemchung/delete")
     public String DeleteLichHenTiemChung(@RequestParam("deletedIds") List<Integer> deletedIds) {
         this.lichHenTiemChungService.DeleteLichHenTiemChungList(deletedIds);
         return "redirect:/admin/lichhentiemchung";
     }
 
-    @GetMapping("")
+    @GetMapping("/admin/lichhentiemchung")
     public String ListLichHenTiemChung(Model model) {
         List<LichHenTiemChungDTO> listLichHenTiemChungDTO = this.lichHenTiemChungService.GetAllLichHenTiemChung();
         model.addAttribute("listLichHenTiemChung", listLichHenTiemChungDTO);
         return "/admin/lichhentiemchung/listLichHenTiemChung";
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/admin/lichhentiemchung/{id}")
     public String GetLichHenTiemChungById(@PathVariable("id") Integer id, Model model, HttpSession session) {
         LichHenTiemChungDTO lichHenTiemChungDTO = this.lichHenTiemChungService.GetLichHenTiemChungById(id);
         System.out.println(lichHenTiemChungDTO.getNgayHenTiem());
@@ -139,7 +138,7 @@ public class LichHenTiemChungController {
         return "/admin/lichhentiemchung/updateLichHenTiemChung";
     }
 
-    @PostMapping("/update")
+    @PostMapping("/admin/lichhentiemchung/update")
     public String UpdateLichHenTiemChungById(@ModelAttribute("lichHenTiemChung") LichHenTiemChungDTO lichHenTiemChungDTO, @RequestParam("memberIds") List<Integer> memberIds, @RequestParam("tenVaccins") List<String> tenVaccins){
         Set<NguoiDungTiemChung> nguoiDungTiemChungSet = new HashSet<>();
         for (int i = 0; i < memberIds.size(); i++) {
@@ -150,5 +149,24 @@ public class LichHenTiemChungController {
         }
         this.lichHenTiemChungService.UpdateLichHenTiemChung(lichHenTiemChungDTO, nguoiDungTiemChungSet);
         return "redirect:/admin/lichhentiemchung";
+    }
+
+    @GetMapping("/users/tiemchung/lichhen")
+    public String GetLichHenTiemChung(Model model, @RequestParam("maNguoiDung") Integer maNguoiDung, HttpSession session) {
+        NguoiDung nguoiDung = this.nguoiDungService.getById(maNguoiDung);
+        List<LichHenTiemChungDTO> lichHenTiemChungDTOList = this.lichHenTiemChungService.GetLichHenTiemChungByNguoiDung(maNguoiDung);
+        for (LichHenTiemChungDTO lichHen : lichHenTiemChungDTOList) {
+            LocalDateTime now = LocalDateTime.now();
+            if (lichHen.getNgayHenTiem().isBefore(now)) {
+                lichHen.setTrangThai("opacity-50"); // Đã qua
+            } else if (lichHen.getNgayHenTiem().toLocalDate().equals(now.toLocalDate())) {
+                lichHen.setTrangThai("bg-primary text-white"); // Hôm nay
+            } else {
+                lichHen.setTrangThai(""); // Bình thường
+            }
+        }
+        model.addAttribute("lichHenTiemChungList", lichHenTiemChungDTOList);
+        session.setAttribute("nguoidung", nguoiDung);
+        return "users/lichhentiemchung";
     }
 }

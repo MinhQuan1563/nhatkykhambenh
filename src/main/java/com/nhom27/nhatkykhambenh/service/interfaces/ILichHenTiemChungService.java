@@ -17,5 +17,6 @@ public interface ILichHenTiemChungService {
     public void DeleteLichHenTiemChungList(List<Integer> Ids);
     public List<LichHenTiemChungDTO> GetAllLichHenTiemChung();
     public LichHenTiemChungDTO GetLichHenTiemChungById(Integer id);
+    public List<LichHenTiemChungDTO> GetLichHenTiemChungByNguoiDung(Integer nguoiDungId);
 }
 

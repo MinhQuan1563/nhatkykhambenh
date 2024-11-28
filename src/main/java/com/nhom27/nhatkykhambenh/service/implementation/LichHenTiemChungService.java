@@ -8,6 +8,7 @@ import com.nhom27.nhatkykhambenh.model.LichHenTiemChung;
 import com.nhom27.nhatkykhambenh.model.NguoiDung;
 import com.nhom27.nhatkykhambenh.model.NguoiDungTiemChung;
 import com.nhom27.nhatkykhambenh.repository.ILichHenTiemChungRepo;
+import com.nhom27.nhatkykhambenh.repository.INguoiDungRepo;
 import com.nhom27.nhatkykhambenh.repository.INguoiDungTiemChung;
 import com.nhom27.nhatkykhambenh.service.interfaces.ILichHenTiemChungService;
 import jakarta.transaction.Transactional;
@@ -34,6 +35,9 @@ public class LichHenTiemChungService implements ILichHenTiemChungService {
 
     @Autowired
     private NguoiDungTiemChungMapper nguoiDungTiemChungMapper;
+
+    @Autowired
+    private INguoiDungRepo nguoiDungRepo;
 
     @Override
     public void CreateLichHenTiemChung(LichHenTiemChungDTO lichHenTiemChungDTO, Set<NguoiDungTiemChung> nguoiDungTiemChungSet) {
@@ -79,6 +83,16 @@ public class LichHenTiemChungService implements ILichHenTiemChungService {
         List<LichHenTiemChung> listLichHenTiemChung = lichHenTiemChungRepo.findAll();
         List<LichHenTiemChungDTO> listLichHenTiemChungDTO = this.lichHenTiemChungMapper.toListLichHenTiemChungDTO(listLichHenTiemChung);
         return listLichHenTiemChungDTO;
+    }
+
+    public List<LichHenTiemChungDTO> GetLichHenTiemChungByNguoiDung(Integer nguoiDungId){
+        NguoiDung nguoiDung = this.nguoiDungRepo.findById(nguoiDungId).get();
+        List<NguoiDungTiemChung> nguoiDungTiemChungList = this.nguoiDungTiemChungRepo.findNguoiDungTiemChungByNguoiDungOrderByNgayHenTiem(nguoiDung);
+        List<LichHenTiemChungDTO> lichHenTiemChungDTOList = new ArrayList<>();
+        for(NguoiDungTiemChung nguoiDungTiemChung: nguoiDungTiemChungList){
+            lichHenTiemChungDTOList.add(this.lichHenTiemChungMapper.toLichHenTiemChungDTO(nguoiDungTiemChung.getLichHenTiemChung()));
+        }
+        return lichHenTiemChungDTOList;
     }
 
     @Override
