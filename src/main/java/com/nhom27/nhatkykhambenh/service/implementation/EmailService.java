@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -54,6 +55,18 @@ public class EmailService implements IEmailService {
             return"error";
         }
     }
+
+    @Async
+    public void sendSimpleEmail(String email, String subject, String content){
+        System.out.println(email);
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(fromEmail);
+        message.setTo(email);
+        message.setSubject(subject);
+        message.setText(content);
+        javaMailSender.send(message);
+    }
+
 
     public String generateResetToken(NguoiDung nguoiDung) {
         UUID uuid = UUID.randomUUID();
