@@ -27,16 +27,15 @@
             </div>
 
             <div class="image-container">
-                <img id="mainImage" src="https://via.placeholder.com/300x200" alt="Hình ảnh bệnh" class="main-image">
+                <img id="mainImage" th:src="${hinhAnhList[0].hinhAnh}" alt="Hình ảnh bệnh" class="main-image">
                 <div class="thumbnail-navigation">
                     <div class="nav-buttons">
                         <button class="prev" onclick="prevImage()">&lt;</button>
                     </div>
-                    <div class="thumbnail-container" id="thumbnailContainer">
-                        <img src="https://via.placeholder.com/60" alt="Ảnh nhỏ 1" data-src="https://via.placeholder.com/300x200">
-                        <img src="https://via.placeholder.com/60" alt="Ảnh nhỏ 2" data-src="https://via.placeholder.com/300x200/FF0000/FFFFFF">
-                        <img src="https://via.placeholder.com/60" alt="Ảnh nhỏ 3" data-src="https://via.placeholder.com/300x200/00FF00/FFFFFF">
-                        <img src="https://via.placeholder.com/60" alt="Ảnh nhỏ 4" data-src="https://via.placeholder.com/300x200/0000FF/FFFFFF">
+                    <div class="thumbnail-container" style="max-width: 300px; overflow-y: auto" id="thumbnailContainer">
+
+                        <img th:each="hinhAnh : ${hinhAnhList}" th:src="${hinhAnh.hinhAnh}"
+                             th:attr="data-src=${hinhAnh.hinhAnh}"  alt="Ảnh nhỏ 1" >
                     </div>
                     <div class="nav-buttons">
                         <button class="next" onclick="nextImage()">&gt;</button>

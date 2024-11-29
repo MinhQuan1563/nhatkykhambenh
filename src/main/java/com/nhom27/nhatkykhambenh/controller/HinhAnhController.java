@@ -27,9 +27,11 @@ public class HinhAnhController {
     }
 
     @PostMapping("admin/khambenh/chitiet/hinhanh/add")
-    public String addHinhAnh(@RequestParam("image") MultipartFile imageFile,
+    public String addHinhAnh(@RequestParam("image") MultipartFile[] imageFiles,
                              @RequestParam("maChiTietKhamBenh") int maChiTietKhamBenh) throws IOException {
-        hinhAnhService.createHinhAnh(imageFile, maChiTietKhamBenh);
+        for (MultipartFile imageFile : imageFiles) {
+            hinhAnhService.createHinhAnh(imageFile, maChiTietKhamBenh);
+        }
         return String.format("redirect:/admin/khambenh/chitiet/hinhanh?maChiTietKhamBenh=%d", maChiTietKhamBenh);
     }
 
