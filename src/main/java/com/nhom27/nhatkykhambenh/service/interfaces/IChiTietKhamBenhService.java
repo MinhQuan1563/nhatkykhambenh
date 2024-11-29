@@ -15,8 +15,8 @@ public interface IChiTietKhamBenhService {
 
     void deleteAllByIds(List<Integer> ids);
 
-    Page<ChiTietKhamBenh> getDSChiTietKhamBenh(Pageable pageable,
-                                                  String query,
-                                                  Integer maKhamBenh);
+    Page<ChiTietKhamBenh> getDSChiTietKhamBenh(Pageable pageable, String query, Integer maKhamBenh);
+
+    List<ChiTietKhamBenh> getDSChiTietKhamBenh(Integer maKhamBenh);
 
 }

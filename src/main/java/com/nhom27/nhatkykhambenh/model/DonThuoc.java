@@ -20,8 +20,8 @@ public class DonThuoc {
     @Column(name = "MaDonThuoc")
     private Integer maDonThuoc;
 
-    @Column(name = "BacSiKham")
-    private String bacSiKham;
+    @Column(name = "TinhTrang")
+    private String tinhTrang;
 
     @Column(name = "TrangThai")
     private Boolean trangThai;

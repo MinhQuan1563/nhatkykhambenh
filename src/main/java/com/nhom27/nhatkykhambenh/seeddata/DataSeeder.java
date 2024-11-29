@@ -211,9 +211,9 @@ public class DataSeeder implements CommandLineRunner {
             KhamBenh khamBenh = khamBenhRepo.findAll().stream().findFirst().orElse(null);
 
             List<ChiTietKhamBenh> chiTietKhamBenhList = List.of(
-                    new ChiTietKhamBenh(null, "Khoa Nội", "BS. Nguyễn Văn A", "Xét nghiệm máu", "Cảm cúm", "O", true, khamBenh, null, new HashSet<>(), new HashSet<>()),
-                    new ChiTietKhamBenh(null, "Khoa Nhi", "BS. Trần Văn B", "Siêu âm bụng", "Viêm ruột", "A", true, khamBenh, null, new HashSet<>(), new HashSet<>()),
-                    new ChiTietKhamBenh(null, "Khoa Ngoại", "BS. Lê Thị C", "CT Scan", "Chấn thương đầu", "B", true, khamBenh, null, new HashSet<>(), new HashSet<>())
+                new ChiTietKhamBenh(null, "Khoa Nội", LocalDateTime.of(2024, 12, 10, 14, 0), "BS. Nguyễn Văn A", "Xét nghiệm máu", "Cảm cúm", "O", "Đã kê đơn", true, khamBenh, null, new HashSet<>(), new HashSet<>()),
+                new ChiTietKhamBenh(null, "Khoa Nhi", LocalDateTime.of(2024, 12, 10, 14, 30), "BS. Trần Văn B", "Siêu âm bụng", "Viêm ruột", "A", "Đã kê đơn", true, khamBenh, null, new HashSet<>(), new HashSet<>()),
+                new ChiTietKhamBenh(null, "Khoa Ngoại", LocalDateTime.of(2024, 12, 10, 15, 16), "BS. Lê Thị C", "CT Scan", "Chấn thương đầu", "B", "Đã kê đơn", true, khamBenh, null, new HashSet<>(), new HashSet<>())
             );
 
             chiTietKhamBenhRepo.saveAll(chiTietKhamBenhList);

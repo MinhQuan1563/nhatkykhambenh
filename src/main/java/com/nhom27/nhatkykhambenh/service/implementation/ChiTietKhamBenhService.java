@@ -21,13 +21,10 @@ import java.util.Optional;
 @Service
 public class ChiTietKhamBenhService implements IChiTietKhamBenhService {
     @Autowired
-    private IChiTietKhamBenhRepo ChiTietKhamBenhRepo;
+    private IChiTietKhamBenhRepo chiTietKhamBenhRepo;
 
     @Autowired
     private IKhamBenhRepo khamBenhRepo;
-
-    @Autowired
-    private ChiTietKhamBenhMapper chiTietKhamBenhMapper;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -61,12 +58,19 @@ public class ChiTietKhamBenhService implements IChiTietKhamBenhService {
     }
 
     @Override
+    public List<ChiTietKhamBenh> getDSChiTietKhamBenh(Integer maKhamBenh) {
+        KhamBenh khamBenh = khamBenhRepo.findById(maKhamBenh).get();
+
+        return chiTietKhamBenhRepo.findAllByKhamBenh(khamBenh);
+    }
+
+    @Override
     public void saveChiTietKhamBenh(ChiTietKhamBenh ctKhamBenh, Integer maKhamBenh) {
         KhamBenh khamBenh = khamBenhRepo.findById(maKhamBenh).get();
         ctKhamBenh.setTrangThai(true);
         ctKhamBenh.setKhamBenh(khamBenh);
         try {
-            ChiTietKhamBenhRepo.save(ctKhamBenh);
+            chiTietKhamBenhRepo.save(ctKhamBenh);
         } catch (Exception e) {
             throw new SaveDataException("ChiTietKhamBenh");
         }
@@ -74,22 +78,22 @@ public class ChiTietKhamBenhService implements IChiTietKhamBenhService {
 
     @Override
     public ChiTietKhamBenh findById(Integer id) {
-        return ChiTietKhamBenhRepo.findById(id).get();
+        return chiTietKhamBenhRepo.findById(id).get();
     }
 
     @Override
     public void deleteById(Integer id) {
         ChiTietKhamBenh chiTietKhamBenh = findById(id);
         chiTietKhamBenh.setTrangThai(false);
-        ChiTietKhamBenhRepo.save(chiTietKhamBenh);
+        chiTietKhamBenhRepo.save(chiTietKhamBenh);
     }
 
     @Override
     public void deleteAllByIds(List<Integer> ids) {
-        List<ChiTietKhamBenh> chitietdonThuocList = ChiTietKhamBenhRepo.findAllById(ids);
+        List<ChiTietKhamBenh> chitietdonThuocList = chiTietKhamBenhRepo.findAllById(ids);
         for (ChiTietKhamBenh chitietdonThuoc : chitietdonThuocList) {
             chitietdonThuoc.setTrangThai(false);
         }
-        ChiTietKhamBenhRepo.saveAll(chitietdonThuocList);
+        chiTietKhamBenhRepo.saveAll(chitietdonThuocList);
     }
 }

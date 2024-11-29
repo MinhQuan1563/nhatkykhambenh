@@ -10,7 +10,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,6 +28,9 @@ public class ChiTietKhamBenhDTO {
 
     private String khoaKham;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime thoiGianVaoKham;
+
     private String bacSiKham;
 
     private String chiDinh;
@@ -33,6 +38,8 @@ public class ChiTietKhamBenhDTO {
     private String chuanDoan;
 
     private String nhomMau;
+
+    private String tinhTrang;
 
     private Boolean trangThai;
 }

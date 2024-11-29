@@ -142,7 +142,7 @@
                         </a>
                         <ul class="treeview-menu">
                             <li>
-                                <a th:href="@{/users/danhsachbenh}">Danh Sách Bệnh</a>
+                                <a th:href="@{/users/khambenh(maNguoiDung=${session.nguoidung.maNguoiDung})}">Danh Sách Bệnh</a>
                             </li>
                             <li>
                                 <a href="patient-dashboard.html">Chi Tiết Bệnh</a>
@@ -153,7 +153,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="/users/danhsachbenh">
+                        <a href="/users/khambenh">
                             <i class="ri-dossier-line"></i>
                             <span class="menu-text">Đơn Thuốc</span>
                         </a>

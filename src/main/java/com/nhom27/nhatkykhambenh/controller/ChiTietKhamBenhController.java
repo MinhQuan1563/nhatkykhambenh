@@ -4,10 +4,12 @@ import com.nhom27.nhatkykhambenh.dto.ChiTietKhamBenhDTO;
 import com.nhom27.nhatkykhambenh.exception.SaveDataException;
 import com.nhom27.nhatkykhambenh.mapper.ChiTietKhamBenhMapper;
 import com.nhom27.nhatkykhambenh.model.ChiTietKhamBenh;
+import com.nhom27.nhatkykhambenh.model.NguoiDung;
 import com.nhom27.nhatkykhambenh.repository.IChiTietKhamBenhRepo;
 import com.nhom27.nhatkykhambenh.service.implementation.ChiTietKhamBenhService;
 import com.nhom27.nhatkykhambenh.service.implementation.ChiTietKhamBenhService;
 import com.nhom27.nhatkykhambenh.service.interfaces.IChiTietKhamBenhService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -155,5 +157,50 @@ public class ChiTietKhamBenhController {
 
         redirectAttributes.addAttribute("maKhamBenh", maKhamBenh);
         return "redirect:/admin/khambenh/chitiet";
+    }
+
+    @GetMapping("/users/khambenh/chitiet")
+    public String renderListCTKhamBenh(HttpSession session,
+                              @RequestParam("maKhamBenh") Integer maKhamBenh,
+                              Model model) {
+
+        List<String> pageName = (List<String>) session.getAttribute("pageName");
+        if(!pageName.contains("Chi tiết")) {
+            pageName.add("Chi tiết");
+        }
+        session.setAttribute("pageName", pageName);
+
+        List<ChiTietKhamBenhDTO> dsChiTietKhamBenhDTO = chiTietKhamBenhMapper.toChiTietKhamBenhDtoList(
+            chiTietKhamBenhService.getDSChiTietKhamBenh(maKhamBenh)
+        );
+
+        System.out.println("dsChiTietKhamBenhDTO = " + dsChiTietKhamBenhDTO.size());
+
+        model.addAttribute("dsChiTietKhamBenh", dsChiTietKhamBenhDTO);
+
+        return "users/chitietbenh";
+    }
+
+    @GetMapping("/users/khambenh/thongtinbenh")
+    public String renderThongTinBenh(HttpSession session,
+                              @RequestParam("maKhamBenh") Integer maKhamBenh,
+                              @RequestParam("maChiTietKhamBenh") Integer maChiTietKhamBenh,
+                              Model model) {
+
+        List<String> pageName = (List<String>) session.getAttribute("pageName");
+        if(!pageName.contains("Chi tiết")) {
+            pageName.add("Chi tiết");
+        }
+        session.setAttribute("pageName", pageName);
+
+        List<ChiTietKhamBenhDTO> dsChiTietKhamBenhDTO = chiTietKhamBenhMapper.toChiTietKhamBenhDtoList(
+                chiTietKhamBenhService.getDSChiTietKhamBenh(maKhamBenh)
+        );
+
+        System.out.println("dsChiTietKhamBenhDTO = " + dsChiTietKhamBenhDTO.size());
+
+        model.addAttribute("dsChiTietKhamBenh", dsChiTietKhamBenhDTO);
+
+        return "users/thongtinbenh";
     }
 }
