@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IChiTietDonThuocRepo extends JpaRepository<ChiTietDonThuoc, Integer> {
-    ChiTietDonThuoc findByDonThuoc_MaDonThuoc(Integer maDonThuoc);
+//    ChiTietDonThuoc findByDonThuoc_MaDonThuoc(Integer maDonThuoc);
 }

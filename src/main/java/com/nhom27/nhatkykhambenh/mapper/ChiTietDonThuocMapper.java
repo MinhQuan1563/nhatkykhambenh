@@ -20,6 +20,4 @@ public interface ChiTietDonThuocMapper {
 
     List<ChiTietDonThuocDTO> toChiTietDonThuocDtoList(List<ChiTietDonThuoc> chiTietDonThuocList);
 
-    @Mapping(target = "maChiTietDonThuoc", ignore = true)
-    void updateChiTietDonThuocFromDTO(ChiTietDonThuocDTO chiTietDonThuocDTO, @MappingTarget ChiTietDonThuoc chiTietDonThuoc);
 }

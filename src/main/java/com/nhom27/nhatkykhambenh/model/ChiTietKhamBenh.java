@@ -41,11 +41,6 @@ public class ChiTietKhamBenh {
     @JoinColumn(name = "MaKhamBenh", nullable = true)
     private KhamBenh khamBenh;
 
-    @OneToOne(mappedBy = "chiTietKhamBenh")
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    private DonThuoc donThuoc;
-
     @OneToMany(mappedBy = "chiTietKhamBenh",cascade = CascadeType.ALL)
     private Set<HinhAnh> danhSachHinhAnh = new HashSet<>();
 

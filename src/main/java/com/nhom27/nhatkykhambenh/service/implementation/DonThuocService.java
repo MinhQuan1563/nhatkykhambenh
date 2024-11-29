@@ -72,7 +72,7 @@ public class DonThuocService implements IDonThuocService {
                 .orElseThrow(() -> new EntityNotFoundException("Không tìm thấy ChiTietKhamBenh với ID: " + maChiTietKhamBenh));
 
         donThuoc.setTrangThai(true);
-        donThuoc.setChiTietKhamBenh(chiTietKhamBenh);
+//        donThuoc.setChiTietKhamBenh(chiTietKhamBenh);
 
         try {
             donThuocRepo.save(donThuoc);

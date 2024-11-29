@@ -51,6 +51,11 @@ public class DataSeeder implements CommandLineRunner {
     @Autowired
     private IXetNghiemRepo xetNghiemRepo;
 
+    @Autowired
+    private IDonThuocRepo donThuocRepo;
+
+    @Autowired IChiTietDonThuocRepo chiTietDonThuocRepo;
+
     @Override
     public void run(String... args) throws Exception {
         // Seed data cho GiaDinh
@@ -211,9 +216,9 @@ public class DataSeeder implements CommandLineRunner {
             KhamBenh khamBenh = khamBenhRepo.findAll().stream().findFirst().orElse(null);
 
             List<ChiTietKhamBenh> chiTietKhamBenhList = List.of(
-                    new ChiTietKhamBenh(null, "Khoa Nội", "BS. Nguyễn Văn A", "Xét nghiệm máu", "Cảm cúm", "O", true, khamBenh, null, new HashSet<>(), new HashSet<>()),
-                    new ChiTietKhamBenh(null, "Khoa Nhi", "BS. Trần Văn B", "Siêu âm bụng", "Viêm ruột", "A", true, khamBenh, null, new HashSet<>(), new HashSet<>()),
-                    new ChiTietKhamBenh(null, "Khoa Ngoại", "BS. Lê Thị C", "CT Scan", "Chấn thương đầu", "B", true, khamBenh, null, new HashSet<>(), new HashSet<>())
+                    new ChiTietKhamBenh(null, "Khoa Nội", "BS. Nguyễn Văn A", "Xét nghiệm máu", "Cảm cúm", "O", true, khamBenh, new HashSet<>(), new HashSet<>()),
+                    new ChiTietKhamBenh(null, "Khoa Nhi", "BS. Trần Văn B", "Siêu âm bụng", "Viêm ruột", "A", true, khamBenh, new HashSet<>(), new HashSet<>()),
+                    new ChiTietKhamBenh(null, "Khoa Ngoại", "BS. Lê Thị C", "CT Scan", "Chấn thương đầu", "B", true, khamBenh, new HashSet<>(), new HashSet<>())
             );
 
             chiTietKhamBenhRepo.saveAll(chiTietKhamBenhList);
@@ -237,6 +242,65 @@ public class DataSeeder implements CommandLineRunner {
                 System.out.println("No ChiTietKhamBenh records found to associate with XetNghiem.");
             }
         }
+
+        // Seed DonThuoc
+        if (donThuocRepo.count() == 0) {
+            List<DonThuoc> donThuocList = List.of(
+                    new DonThuoc(null, "Paracetamol", 500, "Viên", true),
+                    new DonThuoc(null, "Ibuprofen", 200, "Viên", true),
+                    new DonThuoc(null, "Amoxicillin", 500, "Viên", true),
+                    new DonThuoc(null, "Vitamin C", 100, "Viên", true),
+                    new DonThuoc(null, "Metformin", 850, "Viên", true),
+                    new DonThuoc(null, "Aspirin", 81, "Viên", true),
+                    new DonThuoc(null, "Ciprofloxacin", 500, "Viên", true),
+                    new DonThuoc(null, "Diclofenac", 50, "Viên", true),
+                    new DonThuoc(null, "Omeprazole", 20, "Viên", true),
+                    new DonThuoc(null, "Loratadine", 10, "Viên", true),
+                    new DonThuoc(null, "Atorvastatin", 10, "Viên", true),
+                    new DonThuoc(null, "Cetirizine", 10, "Viên", true),
+                    new DonThuoc(null, "Azithromycin", 500, "Viên", true),
+                    new DonThuoc(null, "Levothyroxine", 50, "Viên", true),
+                    new DonThuoc(null, "Hydroxychloroquine", 200, "Viên", true),
+                    new DonThuoc(null, "Furosemide", 40, "Viên", true),
+                    new DonThuoc(null, "Spironolactone", 25, "Viên", true),
+                    new DonThuoc(null, "Losartan", 50, "Viên", true),
+                    new DonThuoc(null, "Captopril", 25, "Viên", true),
+                    new DonThuoc(null, "Doxycycline", 100, "Viên", true)
+            );
+
+            donThuocRepo.saveAll(donThuocList);
+            System.out.println("Saved " + donThuocList.size() + " DonThuoc records to the database.");
+        }
+
+        // Seed ChiTietDonThuoc
+        if (chiTietDonThuocRepo.count() == 0) {
+            List<ChiTietKhamBenh> chiTietKhamBenhList = chiTietKhamBenhRepo.findAll();
+            List<DonThuoc> donThuocList = donThuocRepo.findAll();
+
+            List<ChiTietDonThuoc> chiTietDonThuocList = new ArrayList<>();
+
+            for (int i = 0; i < chiTietKhamBenhList.size(); i++) {
+                ChiTietKhamBenh chiTietKhamBenh = chiTietKhamBenhList.get(i);
+
+                List<DonThuoc> randomDonThuoc = donThuocList.subList(i % donThuocList.size(), Math.min((i % donThuocList.size()) + 3, donThuocList.size()));
+
+                for (DonThuoc donThuoc : randomDonThuoc) {
+                    ChiTietDonThuoc chiTietDonThuoc = new ChiTietDonThuoc();
+                    chiTietDonThuoc.setMaChiTietKhamBenh(chiTietKhamBenh.getMaChiTietKhamBenh());
+                    chiTietDonThuoc.setMaDonThuoc(donThuoc.getMaDonThuoc());
+                    chiTietDonThuoc.setSoLuongThuoc(5 + (int) (Math.random() * 10));
+                    chiTietDonThuoc.setLieuLuong(2);
+                    chiTietDonThuoc.setTinhTrang(1);
+                    chiTietDonThuoc.setTrangThai(true);
+
+                    chiTietDonThuocList.add(chiTietDonThuoc);
+                }
+            }
+
+            chiTietDonThuocRepo.saveAll(chiTietDonThuocList);
+            System.out.println("Saved " + chiTietDonThuocList.size() + " ChiTietDonThuoc records to the database.");
+        }
+
 
 
     }
