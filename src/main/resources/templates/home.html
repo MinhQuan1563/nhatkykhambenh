@@ -23,6 +23,86 @@
 
     <!-- Scrollbar CSS -->
     <link rel="stylesheet" th:href="@{/vendor/overlay-scroll/OverlayScrollbars.min.css}">
+
+    <style>
+        df-messenger {
+            --df-messenger-bot-message: #103cbe;
+            --df-messenger-button-titlebar-color: #103cbe;
+            --df-messenger-chat-background-color: #fafafa;
+            --df-messenger-font-color: white;
+            --df-messenger-send-icon: #103cbe;
+            --df-messenger-user-message: #479b3d;
+            z-index: 999;
+        }
+
+        .messenger-wrapper {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+    }
+
+    .messenger-button {
+        display: flex;
+        align-items: center;
+        width: 60px;
+        height: 60px;
+        justify-content: center;
+        color: white;
+        padding: 5px;
+        border-radius: 50%;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        background-color: white;
+        position: relative;
+        animation: shakeAnimation 1s infinite;
+    }
+
+    .messenger-button img {
+        width: 40px;
+        margin-right: 0px;
+    }
+
+    /* Hiệu ứng rung */
+    @keyframes shakeAnimation {
+        0% { transform: rotate(0deg); }
+        10% { transform: rotate(-10deg); }
+        20% { transform: rotate(10deg); }
+        30% { transform: rotate(-10deg); }
+        40% { transform: rotate(10deg); }
+        50% { transform: rotate(0deg); }
+        100% { transform: rotate(0deg); }
+    }
+
+    /* Hiệu ứng sóng loang */
+    .messenger-button::before,
+    .messenger-button::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background-color: rgba(255, 0, 0, 0.3);
+        animation: rippleAnimation 2s infinite;
+    }
+
+    .messenger-button::after {
+        animation-delay: 1s;
+    }
+
+    @keyframes rippleAnimation {
+        0% {
+            transform: scale(1);
+            opacity: 0.4;
+        }
+        100% {
+            transform: scale(2.5);
+            opacity: 0;
+        }
+    }
+    </style>
 </head>
 
 <body>
@@ -105,6 +185,72 @@
 
 </div>
 <!-- Page wrapper ends -->
+
+
+<script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+
+
+<!--fix-->
+<!-- Container chứa tất cả các nút-->
+<div class="messenger-wrapper" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000; height: 150px ; display: flex; flex-direction: column; gap: 20px; align-items: flex-end;">
+    <!-- Dialogflow Messenger -->
+
+    <df-messenger
+            intent="WELCOME"
+            chat-title="Thợ_Code_Ít_$"
+            agent-id="3d2ad013-0fca-4512-aea2-4cb4147056cf"
+            language-code="en">
+    </df-messenger>
+
+    <!-- Nút Messenger -->
+    <div>
+        <a href="https://m.me/522900964234359" target="_blank" style="text-decoration: none;">
+            <div class="messenger-button">
+                <img
+                        th:src="@{/image/mess.png}"
+                        alt="Messenger Icon"
+                        style="width: 40px; margin-right: 0px;"
+                />
+            </div>
+        </a>
+    </div>
+
+
+</div>
+
+
+<!--chưa fix-->
+<!--<df-messenger-->
+<!--        intent="WELCOME"-->
+<!--        chat-title="Thợ_Code_Ít_$"-->
+<!--        agent-id="3d2ad013-0fca-4512-aea2-4cb4147056cf"-->
+<!--        language-code="en"-->
+<!--&gt;</df-messenger>-->
+
+<!--&lt;!&ndash; Nút Messenger &ndash;&gt;-->
+<!--<div style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">-->
+<!--    <a href="https://m.me/522900964234359" target="_blank" style="text-decoration: none;">-->
+<!--        <div style="-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            color: white;-->
+<!--            padding: 13px 2px;-->
+<!--            border-radius: 50px;-->
+<!--            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);-->
+<!--            cursor: pointer;-->
+<!--            font-family: Arial, sans-serif;-->
+<!--            font-size: 16px;-->
+<!--        ">-->
+<!--            <img-->
+<!--                    th:src="@{/image/mess.png}"-->
+<!--                    alt="Messenger Icon"-->
+<!--                    style="width: 40px; height: 30px; margin-right: 10px;"-->
+<!--            />-->
+<!--        </div>-->
+<!--    </a>-->
+<!--</div>-->
+
+
 
 <!-- *************
         ************ JavaScript Files *************

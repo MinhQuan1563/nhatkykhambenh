@@ -88,6 +88,7 @@
               <th>Mã Đơn Thuốc</th>
               <th>Bác Sĩ Khám</th>
               <th>Thao Tác</th>
+              <th>Tình Trạng</th>
               <td>Hành Động</td>
             </tr>
             </thead>
@@ -114,6 +115,17 @@
                 <a href="#" class="delete" data-bs-toggle="modal" data-bs-target="#deleteModal" th:data-id="${donthuoc.maDonThuoc}">
                   <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
                 </a>
+              </td>
+
+              <td>
+                <div class="action-container" th:id="'action-' + ${donthuoc.maDonThuoc}">
+                  <a
+                     class="btn btn-success btn-sm"
+                     style="background-color: #28a745; border-color: #28a745; color: white; padding: 15px 8px; font-size: 12px; text-decoration: none; border-radius: 3px; margin-right: 8px; display: inline-flex; align-items: center; justify-content: center;"
+                     onclick="markAsPrescribed(event, 'action-' + [[${donthuoc.maDonThuoc}]])">
+                    <i class="material-icons" style="font-size: 16px; margin-right: 5px;">check_circle</i> Đã Kê Đơn
+                  </a>
+                </div>
               </td>
 
               <td>
@@ -217,4 +229,22 @@
 </body>
 </html>
 
+<script>
+  function markAsPrescribed(event, containerId) {
+
+    event.preventDefault();
+
+    const actionContainer = document.getElementById(containerId);
+
+    if (actionContainer) {
+      actionContainer.innerHTML = `
+        <span style="color: #28a745; font-size: 14px; display: flex; align-items: center;">
+          <i class="material-icons" style="font-size: 18px; margin-right: 5px; color: #28a745;">check_circle</i>
+          Đã Kê Đơn
+        </span>
+      `;
+    }
+  }
+</script>
 <script th:src="@{../../js/admin/donthuoc.js}"></script>
+
