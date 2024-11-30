@@ -10,6 +10,7 @@ import com.nhom27.nhatkykhambenh.model.KhamBenh;
 import com.nhom27.nhatkykhambenh.model.NguoiDung;
 import com.nhom27.nhatkykhambenh.model.TiemChung;
 import com.nhom27.nhatkykhambenh.repository.IKhamBenhRepo;
+import com.nhom27.nhatkykhambenh.repository.INguoiDungRepo;
 import com.nhom27.nhatkykhambenh.service.interfaces.IKhamBenhService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -31,6 +32,9 @@ public class KhamBenhService implements IKhamBenhService {
 
     @Autowired
     private NguoiDungMapper nguoiDungMapper;
+
+    @Autowired
+    private INguoiDungRepo nguoiDungRepo;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -60,6 +64,11 @@ public class KhamBenhService implements IKhamBenhService {
         long totalElements = ((Number) countNativeQuery.getSingleResult()).longValue();
 
         return new PageImpl<>(khamBenhMapper.toKhamBenhDtoList(results), pageable, totalElements);
+    }
+
+    @Override
+    public List<KhamBenh> getAllByNguoiDung(NguoiDung nguoiDung) {
+        return khamBenhRepo.findAllByNguoiDung(nguoiDung);
     }
 
     @Override

@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -41,7 +40,4 @@ public class KhamBenh {
 
     @OneToMany(mappedBy = "khamBenh", fetch = FetchType.LAZY)
     private Set<LichHenKham> danhSachLichHenKham = new HashSet<>() ;
-
-//    @OneToOne(mappedBy = "khamBenh")
-//    private DonThuoc donThuoc;
 }

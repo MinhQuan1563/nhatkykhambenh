@@ -54,7 +54,11 @@ public class DataSeeder implements CommandLineRunner {
     @Autowired
     private IDonThuocRepo donThuocRepo;
 
-    @Autowired IChiTietDonThuocRepo chiTietDonThuocRepo;
+    @Autowired
+    private IChiTietDonThuocRepo chiTietDonThuocRepo;
+
+    @Autowired
+    private IRoleRepo roleRepo;
 
     @Override
     public void run(String... args) throws Exception {
@@ -73,47 +77,72 @@ public class DataSeeder implements CommandLineRunner {
         // Seed data cho NguoiDung
         if (nguoiDungRepo.count() == 0) {
             List<NguoiDung> nguoiDungList = List.of(
-                new NguoiDung(null, "image1.jpg", "0912345678", "123456789", LocalDate.of(2003, 6, 15), "Nam", "123 Address St", "Nguyen Van A", "nguyenvana@gmail.com", MoiQuanHe.TOI, true, giaDinhRepo.findAll().get(0), null, null, new HashSet<>(), null, null),
-                new NguoiDung(null, "image2.jpg", "0912345679", "123456780", LocalDate.of(1972, 4, 29), "Nữ", "456 Address St", "Le Thi B", "lethib@gmail.com", MoiQuanHe.ME, true, giaDinhRepo.findAll().get(0), null, null, new HashSet<>(), null, null),
-                new NguoiDung(null, "image3.jpg", "0912345680", "123456781", LocalDate.of(1963, 9, 12), "Nam", "789 Address St", "Tran Van C", "tranvanc@gmail.com", MoiQuanHe.CHA, true, giaDinhRepo.findAll().get(0), null, null, new HashSet<>(), null, null)
+                new NguoiDung(null, "image1.jpg", "admin", "ADMIN-CCCD", LocalDate.of(2003, 1, 1), "Nam", "123 Address ADMIN", "Đại diện phía Bệnh viện", "benhvien@gmail.com", MoiQuanHe.TOI, true, null, null, null, new HashSet<>(), null, null),
+                new NguoiDung(null, "image2.jpg", "0912345678", "123456789", LocalDate.of(2003, 6, 15), "Nam", "123 Address St", "Nguyen Van A", "nguyenvana@gmail.com", MoiQuanHe.TOI, true, giaDinhRepo.findAll().get(0), null, null, new HashSet<>(), null, null),
+                new NguoiDung(null, "image3.jpg", "0912345679", "123456780", LocalDate.of(1972, 4, 29), "Nữ", "456 Address St", "Le Thi B", "lethib@gmail.com", MoiQuanHe.ME, true, giaDinhRepo.findAll().get(0), null, null, new HashSet<>(), null, null),
+                new NguoiDung(null, "image4.jpg", "0912345680", "123456781", LocalDate.of(1963, 9, 12), "Nam", "789 Address St", "Tran Van C", "tranvanc@gmail.com", MoiQuanHe.CHA, true, giaDinhRepo.findAll().get(0), null, null, new HashSet<>(), null, null)
             );
 
             nguoiDungRepo.saveAll(nguoiDungList);
             System.out.println("Save NguoiDung to Database size = " + nguoiDungRepo.count());
         }
 
+        // Seed Role
+        if(roleRepo.count() == 0) {
+            List<Role> roleList = List.of(
+                new Role(null, "USER", new ArrayList<>()),
+                new Role(null, "ADMIN", new ArrayList<>())
+            );
+
+            roleRepo.saveAll(roleList);
+            System.out.println("Save Role to Database size = " + roleRepo.count());
+        }
+
         // Seed data cho TaiKhoan
         if (taiKhoanRepo.count() == 0) {
+            Role adminRole = roleRepo.findByName("ADMIN");
+            Role userRole = roleRepo.findByName("USER");
             NguoiDung nguoiDungFirst = nguoiDungRepo.findAll().stream().findFirst().orElse(null);
+            NguoiDung nguoiDungSecond = nguoiDungRepo.findById(2).orElse(null);
             GiaDinh giaDinhFirst = giaDinhRepo.findAll().stream().findFirst().orElse(null);
 
-            TaiKhoan taiKhoan = new TaiKhoan(nguoiDungFirst.getMaNguoiDung(), passwordEncoder.encode("123"), "123", true, giaDinhFirst, nguoiDungFirst, null);
+            List<TaiKhoan> taiKhoanList = List.of(
+                new TaiKhoan(nguoiDungFirst.getMaNguoiDung(), passwordEncoder.encode("admin"), "111", true, null, nguoiDungFirst, new ArrayList<>(List.of(adminRole))),
+                new TaiKhoan(nguoiDungSecond.getMaNguoiDung(), passwordEncoder.encode("123"), "123", true, giaDinhFirst, nguoiDungSecond, new ArrayList<>(List.of(userRole)))
+            );
 
-            taiKhoanRepo.save(taiKhoan);
+            taiKhoanRepo.saveAll(taiKhoanList);
             System.out.println("Save TaiKhoan to Database size = " + taiKhoanRepo.count());
         }
 
         // Seed data cho TongQuan
         if (tongQuanRepo.count() == 0) {
-            NguoiDung nguoiDung = nguoiDungRepo.findAll().stream().findFirst().orElse(null);
+            List<NguoiDung> nguoiDungList = nguoiDungRepo.findAll();
 
-            if (nguoiDung != null) {
-                TongQuan tongQuan = new TongQuan();
-                tongQuan.setDuongHuyet("120/80");
-                tongQuan.setNhipTim("72");
-                tongQuan.setHuyetAp("120/80");
-                tongQuan.setNhietDo("37.5");
-                tongQuan.setChieuCao("170");
-                tongQuan.setCanNang("70");
-                tongQuan.setChiSoBMI("24.2");
-                tongQuan.setNhomMau("O+");
-                tongQuan.setNguoiDung(nguoiDung);
+            for(NguoiDung nguoiDung : nguoiDungList) {
+                if(nguoiDung.getGiaDinh() == null) {
+                    TongQuan tongQuan = new TongQuan();
+                    tongQuan.setNguoiDung(nguoiDung);
 
-                tongQuanRepo.save(tongQuan);
-                System.out.println("Seed TongQuan for user: " + nguoiDung.getMaNguoiDung());
-            } else {
-                System.out.println("No NguoiDung found to seed TongQuan.");
+                    tongQuanRepo.save(tongQuan);
+                }
+                else {
+                    TongQuan tongQuan = new TongQuan();
+                    tongQuan.setDuongHuyet("120/80");
+                    tongQuan.setNhipTim("72");
+                    tongQuan.setHuyetAp("120/80");
+                    tongQuan.setNhietDo("37.5");
+                    tongQuan.setChieuCao("170");
+                    tongQuan.setCanNang("70");
+                    tongQuan.setChiSoBMI("24.2");
+                    tongQuan.setNhomMau("O+");
+                    tongQuan.setNguoiDung(nguoiDung);
+
+                    tongQuanRepo.save(tongQuan);
+                }
             }
+
+            System.out.println("Seed TongQuan with size: " + tongQuanRepo.count());
         }
 
         // Seed data cho ChiSo
@@ -165,7 +194,7 @@ public class DataSeeder implements CommandLineRunner {
             }
         }
 
-        // Seed data cho TiemChung
+        // Seed TiemChung
         if(tiemChungRepo.count() == 0) {
             List<TiemChung> tiemChungList = List.of(
                 new TiemChung(null, "Bệnh viện Đa khoa", LocalDateTime.of(2024, 12, 10, 13, 20), "Y tá A", 1, true),
@@ -181,8 +210,9 @@ public class DataSeeder implements CommandLineRunner {
             System.out.println("Save TiemChung to Database size = " + tiemChungRepo.count());
         }
 
+        // Seed ChiTietTiemChung
         if(chiTietTiemChungRepo.count() == 0) {
-            NguoiDung nguoiDung = nguoiDungRepo.findAll().stream().findFirst().orElse(null);
+            NguoiDung nguoiDung = nguoiDungRepo.findById(2).orElse(null);
             TiemChung tiemChung = tiemChungRepo.findAll().stream().findFirst().orElse(null);
 
             if(nguoiDung.getMaNguoiDung() != null && tiemChung.getMaTiemChung() != null) {
@@ -216,9 +246,9 @@ public class DataSeeder implements CommandLineRunner {
             KhamBenh khamBenh = khamBenhRepo.findAll().stream().findFirst().orElse(null);
 
             List<ChiTietKhamBenh> chiTietKhamBenhList = List.of(
-                    new ChiTietKhamBenh(null, "Khoa Nội", "BS. Nguyễn Văn A", "Xét nghiệm máu", "Cảm cúm", "O", true, khamBenh, new HashSet<>(), new HashSet<>()),
-                    new ChiTietKhamBenh(null, "Khoa Nhi", "BS. Trần Văn B", "Siêu âm bụng", "Viêm ruột", "A", true, khamBenh, new HashSet<>(), new HashSet<>()),
-                    new ChiTietKhamBenh(null, "Khoa Ngoại", "BS. Lê Thị C", "CT Scan", "Chấn thương đầu", "B", true, khamBenh, new HashSet<>(), new HashSet<>())
+                    new ChiTietKhamBenh(null, "Khoa Nội", LocalDateTime.of(2024, 12, 10, 14, 0), "BS. Nguyễn Văn A", "Xét nghiệm máu", "Cảm cúm", "O", "Ở lại viện", true, khamBenh, new HashSet<>(), new HashSet<>()),
+                    new ChiTietKhamBenh(null, "Khoa Nhi", LocalDateTime.of(2024, 12, 10, 14, 30), "BS. Trần Văn B", "Siêu âm bụng", "Viêm ruột", "A", "Ở lại viện", true, khamBenh, new HashSet<>(), new HashSet<>()),
+                    new ChiTietKhamBenh(null, "Khoa Ngoại", LocalDateTime.of(2024, 12, 10, 15, 16), "BS. Lê Thị C", "CT Scan", "Chấn thương đầu", "B", "Ở lại viện", true, khamBenh, new HashSet<>(), new HashSet<>())
             );
 
             chiTietKhamBenhRepo.saveAll(chiTietKhamBenhList);
@@ -246,26 +276,26 @@ public class DataSeeder implements CommandLineRunner {
         // Seed DonThuoc
         if (donThuocRepo.count() == 0) {
             List<DonThuoc> donThuocList = List.of(
-                    new DonThuoc(null, "Paracetamol", 500, "Viên", true),
-                    new DonThuoc(null, "Ibuprofen", 200, "Viên", true),
-                    new DonThuoc(null, "Amoxicillin", 500, "Viên", true),
-                    new DonThuoc(null, "Vitamin C", 100, "Viên", true),
-                    new DonThuoc(null, "Metformin", 850, "Viên", true),
-                    new DonThuoc(null, "Aspirin", 81, "Viên", true),
-                    new DonThuoc(null, "Ciprofloxacin", 500, "Viên", true),
-                    new DonThuoc(null, "Diclofenac", 50, "Viên", true),
-                    new DonThuoc(null, "Omeprazole", 20, "Viên", true),
-                    new DonThuoc(null, "Loratadine", 10, "Viên", true),
-                    new DonThuoc(null, "Atorvastatin", 10, "Viên", true),
-                    new DonThuoc(null, "Cetirizine", 10, "Viên", true),
-                    new DonThuoc(null, "Azithromycin", 500, "Viên", true),
-                    new DonThuoc(null, "Levothyroxine", 50, "Viên", true),
-                    new DonThuoc(null, "Hydroxychloroquine", 200, "Viên", true),
-                    new DonThuoc(null, "Furosemide", 40, "Viên", true),
-                    new DonThuoc(null, "Spironolactone", 25, "Viên", true),
-                    new DonThuoc(null, "Losartan", 50, "Viên", true),
-                    new DonThuoc(null, "Captopril", 25, "Viên", true),
-                    new DonThuoc(null, "Doxycycline", 100, "Viên", true)
+                new DonThuoc(null, "Paracetamol", 500, "viên", true),
+                new DonThuoc(null, "Ibuprofen", 200, "viên", true),
+                new DonThuoc(null, "Amoxicillin", 250, "viên", true),
+                new DonThuoc(null, "Cefixime", 100, "viên", true),
+                new DonThuoc(null, "Vitamin C", 1000, "viên", true),
+                new DonThuoc(null, "Metformin", 500, "viên", true),
+                new DonThuoc(null, "Atorvastatin", 10, "viên", true),
+                new DonThuoc(null, "Omeprazole", 20, "viên", true),
+                new DonThuoc(null, "Losartan", 50, "viên", true),
+                new DonThuoc(null, "Aspirin", 81, "viên", true),
+                new DonThuoc(null, "Clopidogrel", 75, "gói", true),
+                new DonThuoc(null, "Furosemide", 40, "gói", true),
+                new DonThuoc(null, "Hydrochlorothiazide", 25, "gói", true),
+                new DonThuoc(null, "Captopril", 25, "gói", true),
+                new DonThuoc(null, "Diclofenac", 50, "gói", true),
+                new DonThuoc(null, "Prednisolone", 5, "gói", true),
+                new DonThuoc(null, "Azithromycin", 500, "gói", true),
+                new DonThuoc(null, "Levofloxacin", 500, "gói", true),
+                new DonThuoc(null, "Doxycycline", 100, "gói", true),
+                new DonThuoc(null, "Cetirizine", 10, "gói", true)
             );
 
             donThuocRepo.saveAll(donThuocList);
@@ -278,30 +308,25 @@ public class DataSeeder implements CommandLineRunner {
             List<DonThuoc> donThuocList = donThuocRepo.findAll();
 
             List<ChiTietDonThuoc> chiTietDonThuocList = new ArrayList<>();
+            for (int i = 0; i < 20; i++) {
+                ChiTietKhamBenh chiTietKhamBenh = chiTietKhamBenhList.get(i % chiTietKhamBenhList.size());
+                DonThuoc donThuoc = donThuocList.get(i % donThuocList.size());
 
-            for (int i = 0; i < chiTietKhamBenhList.size(); i++) {
-                ChiTietKhamBenh chiTietKhamBenh = chiTietKhamBenhList.get(i);
-
-                List<DonThuoc> randomDonThuoc = donThuocList.subList(i % donThuocList.size(), Math.min((i % donThuocList.size()) + 3, donThuocList.size()));
-
-                for (DonThuoc donThuoc : randomDonThuoc) {
-                    ChiTietDonThuoc chiTietDonThuoc = new ChiTietDonThuoc();
-                    chiTietDonThuoc.setMaChiTietKhamBenh(chiTietKhamBenh.getMaChiTietKhamBenh());
-                    chiTietDonThuoc.setMaDonThuoc(donThuoc.getMaDonThuoc());
-                    chiTietDonThuoc.setSoLuongThuoc(5 + (int) (Math.random() * 10));
-                    chiTietDonThuoc.setLieuLuong(2);
-                    chiTietDonThuoc.setTinhTrang(1);
-                    chiTietDonThuoc.setTrangThai(true);
-
-                    chiTietDonThuocList.add(chiTietDonThuoc);
-                }
+                chiTietDonThuocList.add(new ChiTietDonThuoc(
+                        chiTietKhamBenh.getMaChiTietKhamBenh(),
+                        donThuoc.getMaDonThuoc(),
+                        (int) (Math.random() * 10) + 1,
+                        (int) (Math.random() * 3) + 1,
+                        (int) (Math.random() * 2),
+                        true,
+                        chiTietKhamBenh,
+                        donThuoc
+                ));
             }
 
             chiTietDonThuocRepo.saveAll(chiTietDonThuocList);
             System.out.println("Saved " + chiTietDonThuocList.size() + " ChiTietDonThuoc records to the database.");
         }
-
-
 
     }
 }

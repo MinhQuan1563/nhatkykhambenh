@@ -42,7 +42,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="ngayKham">Ngày Khám:</label>
-                    <input type="date" class="form-control" id="ngayKham" th:field="*{ngayKham}" required>
+                    <input type="datetime-local" class="form-control" id="ngayKham" th:field="*{ngayKham}" required>
                     <span th:if="${#fields.hasErrors('ngayKham')}" th:errors="*{ngayKham}" class="text-danger"></span>
                   </div>
                 </div>

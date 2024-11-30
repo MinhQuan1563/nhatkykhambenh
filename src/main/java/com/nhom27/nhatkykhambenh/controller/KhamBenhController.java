@@ -1,14 +1,12 @@
 package com.nhom27.nhatkykhambenh.controller;
 
 import com.nhom27.nhatkykhambenh.dto.KhamBenhDTO;
-import com.nhom27.nhatkykhambenh.dto.NguoiDungDTO;
-import com.nhom27.nhatkykhambenh.dto.TiemChungDTO;
 import com.nhom27.nhatkykhambenh.exception.SaveDataException;
+import com.nhom27.nhatkykhambenh.mapper.KhamBenhMapper;
 import com.nhom27.nhatkykhambenh.model.NguoiDung;
-import com.nhom27.nhatkykhambenh.service.implementation.KhamBenhService;
-import com.nhom27.nhatkykhambenh.service.implementation.NguoiDungService;
 import com.nhom27.nhatkykhambenh.service.interfaces.IKhamBenhService;
 import com.nhom27.nhatkykhambenh.service.interfaces.INguoiDungService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,16 +21,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class KhamBenhController {
+
     @Autowired
     private IKhamBenhService khamBenhService;
 
     @Autowired
     private INguoiDungService nguoiDungService;
+
+    @Autowired
+    private KhamBenhMapper khamBenhMapper;
 
     @GetMapping("/admin/khambenh")
     public String GetListKhamBenh(Model model,
@@ -117,7 +120,6 @@ public class KhamBenhController {
         }
     }
 
-
     @PostMapping("/admin/khambenh/delete")
     public String deleteKhamBenh(@RequestParam("maKhamBenh") Integer maKhamBenh, RedirectAttributes redirectAttributes) {
         try {
@@ -138,5 +140,23 @@ public class KhamBenhController {
             redirectAttributes.addFlashAttribute("error", "Có lỗi xảy ra khi xóa.");
         }
         return "redirect:/admin/khambenh";
+    }
+
+    @GetMapping("/users/khambenh")
+    public String renderListKhamBenh(Model model,
+                                  HttpSession session,
+                                  @RequestParam("maNguoiDung") Integer maNguoiDung) {
+        List<String> pageName = new ArrayList<>();
+        pageName.add("Khám bệnh");
+
+        NguoiDung nguoiDung = nguoiDungService.getById(maNguoiDung);
+        session.setAttribute("nguoidung", nguoiDung);
+
+        List<KhamBenhDTO> dsKhamBenhDTO = khamBenhMapper.toKhamBenhDtoList(khamBenhService.getAllByNguoiDung(nguoiDung));
+
+        session.setAttribute("pageName", pageName);
+        model.addAttribute("dsKhamBenh", dsKhamBenhDTO);
+
+        return "users/danhsachbenh";
     }
 }

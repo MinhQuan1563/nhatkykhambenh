@@ -1,13 +1,16 @@
 package com.nhom27.nhatkykhambenh.controller;
 
 import com.nhom27.nhatkykhambenh.dto.ChiTietKhamBenhDTO;
+import com.nhom27.nhatkykhambenh.dto.ThongTinBenhDTO;
 import com.nhom27.nhatkykhambenh.exception.SaveDataException;
 import com.nhom27.nhatkykhambenh.mapper.ChiTietKhamBenhMapper;
 import com.nhom27.nhatkykhambenh.model.ChiTietKhamBenh;
+import com.nhom27.nhatkykhambenh.model.NguoiDung;
 import com.nhom27.nhatkykhambenh.repository.IChiTietKhamBenhRepo;
 import com.nhom27.nhatkykhambenh.service.implementation.ChiTietKhamBenhService;
 import com.nhom27.nhatkykhambenh.service.implementation.ChiTietKhamBenhService;
 import com.nhom27.nhatkykhambenh.service.interfaces.IChiTietKhamBenhService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,9 +36,6 @@ public class ChiTietKhamBenhController {
 
     @Autowired
     private ChiTietKhamBenhMapper chiTietKhamBenhMapper;
-
-    @Autowired
-    private IChiTietKhamBenhRepo chiTietKhamBenhRepo;
 
     @GetMapping("/admin/khambenh/chitiet")
     public String GetListChiTietKhamBenh(Model model,
@@ -155,5 +155,50 @@ public class ChiTietKhamBenhController {
 
         redirectAttributes.addAttribute("maKhamBenh", maKhamBenh);
         return "redirect:/admin/khambenh/chitiet";
+    }
+
+    @GetMapping("/users/khambenh/chitiet")
+    public String renderListCTKhamBenh(HttpSession session,
+                              @RequestParam("maKhamBenh") Integer maKhamBenh,
+                              Model model) {
+
+        List<String> pageName = (List<String>) session.getAttribute("pageName");
+        if(!pageName.contains("Chi tiết")) {
+            pageName.add("Chi tiết");
+        }
+        session.setAttribute("pageName", pageName);
+
+        List<ChiTietKhamBenhDTO> dsChiTietKhamBenhDTO = chiTietKhamBenhMapper.toChiTietKhamBenhDtoList(
+            chiTietKhamBenhService.getDSChiTietKhamBenh(maKhamBenh)
+        );
+
+        System.out.println("dsChiTietKhamBenhDTO = " + dsChiTietKhamBenhDTO.size());
+
+        model.addAttribute("dsChiTietKhamBenh", dsChiTietKhamBenhDTO);
+
+        return "users/chitietbenh";
+    }
+
+    @GetMapping("/users/khambenh/thongtinbenh")
+    public String renderThongTinBenh(HttpSession session,
+                              @RequestParam("maChiTietKhamBenh") Integer maChiTietKhamBenh,
+                              Model model) {
+
+        List<String> pageName = (List<String>) session.getAttribute("pageName");
+        if(!pageName.contains("Thông tin bệnh")) {
+            pageName.add("Thông tin bệnh");
+        }
+        session.setAttribute("pageName", pageName);
+
+        NguoiDung nguoiDung = (NguoiDung) session.getAttribute("nguoidung");
+
+        ChiTietKhamBenh chiTietKhamBenh = chiTietKhamBenhService.findById(maChiTietKhamBenh);
+
+        ThongTinBenhDTO thongTinBenhDTO = chiTietKhamBenhService.getAllThongTinBenh(chiTietKhamBenh);
+
+        model.addAttribute("thongTinBenh", thongTinBenhDTO);
+        model.addAttribute("nguoiDung", nguoiDung);
+
+        return "users/thongtinbenh";
     }
 }

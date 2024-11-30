@@ -16,9 +16,16 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class AuthController {
@@ -52,17 +59,26 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody TaiKhoanDTO taiKhoanDTO) {
+    public ResponseEntity<?> login(@RequestBody TaiKhoanDTO taiKhoanDTO, HttpSession session) {
         TaiKhoan taiKhoan = taiKhoanService.findBySoDienThoai(taiKhoanDTO.getSoDienThoai());
         if (taiKhoan == null || !taiKhoan.getMatKhau().equals(taiKhoanDTO.getMatKhau())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Thông tin đăng nhập không hợp lệ");
         }
 
-        // Tạo JWT token
-        String jwtToken = jwtUtil.generateToken(taiKhoanDTO.getSoDienThoai());
+        List<String> roles = taiKhoan.getDanhSachRole().stream()
+                .map(Role::getName)
+                .toList();
 
-        // Trả về token JWT trong response
-        return ResponseEntity.ok(new JwtResponse(jwtToken));
+        String jwtToken = jwtUtil.generateToken(taiKhoanDTO.getSoDienThoai(), roles);
+        session.setAttribute("roles", roles);
+
+//        return ResponseEntity.ok(new JwtResponse(jwtToken));
+        if (roles.contains("ADMIN")) {
+            return ResponseEntity.ok(new JwtResponse(jwtToken, "/admin/dashboard"));
+        }
+        else {
+            return ResponseEntity.ok(new JwtResponse(jwtToken, "/"));
+        }
     }
 
     @GetMapping("/register")
@@ -83,9 +99,12 @@ public class AuthController {
             }
 
             Role role = roleService.findByRoleName("USER");
+
             NguoiDung nguoiDung = taiKhoanService.registerUser(registrationDTO, role);
 
-            String jwtToken = jwtUtil.generateToken(nguoiDung.getSoDienThoai());
+            List<String> roles = Collections.singletonList(role.getName());
+
+            String jwtToken = jwtUtil.generateToken(nguoiDung.getSoDienThoai(), roles);
 
             return "redirect:/login?registerSuccess=true&jwt=" + jwtToken;
         } catch (Exception e) {

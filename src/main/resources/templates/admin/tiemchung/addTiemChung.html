@@ -19,7 +19,7 @@
                                     <div class="form-group">
                                         <label for="noiTiemChung">Nơi Tiêm Chủng:</label>
                                         <input type="text" class="form-control" id="noiTiemChung" th:field="*{noiTiemChung}" required>
-                                        <span th:if="${#fields.hasErrors('noiTiemChung')}" th:e  rrors="*{noiTiemChung}" class="text-danger"></span>
+                                        <span th:if="${#fields.hasErrors('noiTiemChung')}" th:errors="*{noiTiemChung}" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">

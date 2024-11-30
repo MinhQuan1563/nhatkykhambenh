@@ -1,6 +1,7 @@
 package com.nhom27.nhatkykhambenh.security;
 
 import com.nhom27.nhatkykhambenh.model.NguoiDung;
+import com.nhom27.nhatkykhambenh.model.Role;
 import com.nhom27.nhatkykhambenh.model.TaiKhoan;
 import com.nhom27.nhatkykhambenh.service.interfaces.INguoiDungService;
 import com.nhom27.nhatkykhambenh.service.interfaces.ITaiKhoanService;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
 
 @Data
 @Component
-public class CustomAuthenticationProvider implements AuthenticationProvider {
+public class CustomAuthenProvider implements AuthenticationProvider {
 
     @Autowired
     private ITaiKhoanService taiKhoanService;
@@ -49,12 +50,16 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
                 throw new BadCredentialsException("Số điện thoại hoặc mật khẩu không đúng!");
             }
 
+            List<String> roles = taiKhoan.getDanhSachRole().stream()
+                    .map(Role::getName)
+                    .toList();
+
+            String jwtToken = jwtUtil.generateToken(soDienThoai, roles);
+
             List<GrantedAuthority> authorities = taiKhoan.getDanhSachRole()
                     .stream()
                     .map(role -> new SimpleGrantedAuthority(role.getName()))
                     .collect(Collectors.toList());
-
-            String jwtToken = jwtUtil.generateToken(soDienThoai);
 
             return new UsernamePasswordAuthenticationToken(taiKhoan, jwtToken, authorities);
         }
@@ -74,7 +79,11 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
                     .map(role -> new SimpleGrantedAuthority(role.getName()))
                     .collect(Collectors.toList());
 
-            String jwtToken = jwtUtil.generateToken(email);
+            List<String> roles = taiKhoan.getDanhSachRole().stream()
+                    .map(Role::getName)
+                    .toList();
+
+            String jwtToken = jwtUtil.generateToken(email, roles);
 
             return new UsernamePasswordAuthenticationToken(taiKhoan, jwtToken, authorities);
         }

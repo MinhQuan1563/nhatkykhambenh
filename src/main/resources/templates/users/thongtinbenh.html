@@ -12,31 +12,34 @@
 
     <div class="card">
         <div class="header">
-            <div>Mã Khám Bệnh: <span class="pill pill-code">KB001</span></div>
-            <div>Mã Chi Tiết Khám Bệnh: <span class="pill pill-detail">CTKB001</span></div>
+            <div>Mã Chi Tiết Khám Bệnh: <span class="pill pill-code" th:text="'CTKB' + ${thongTinBenh.maChiTietKhamBenh}"></span></div>
+<!--            <div>Mã Chi Tiết Khám Bệnh: <span class="pill pill-detail">CTKB001</span></div>-->
         </div>
 
         <div class="info-section">
             <div class="info-text">
-                <p><strong>Bác Sĩ:</strong> Lê Ngọc Giàu</p>
-                <p><strong>Chuẩn Đoán:</strong> <span class="status-pill diagnosis-pill">Ho ra máu</span></p>
-                <p><strong>Chỉ Định:</strong> <span class="pill pill-diagnosis">Chụp X-quang</span></p>
-                <p><strong>Khoa Khám:</strong> K01</p>
-                <p><strong>Nhóm Máu:</strong> <span class="status-pill blood-group-pill">O</span></p>
-                <p><strong>Tình trạng:</strong> <span class="status-pill status-discharged">Ra viện</span></p>
+                <p><strong>Bác Sĩ:</strong> <span th:text="${thongTinBenh.bacSi}">Lê Ngọc Giàu</span></p>
+                <p><strong>Chuẩn Đoán:</strong> <span class="status-pill diagnosis-pill" th:text="${thongTinBenh.chuanDoan}">Ho ra máu</span></p>
+                <p><strong>Chỉ Định:</strong> <span class="pill pill-diagnosis" th:text="${thongTinBenh.chiDinh}">Chụp X-quang</span></p>
+                <p><strong>Khoa Khám:</strong> <span th:text="${thongTinBenh.khoaKham}">K01</span></p>
+                <p><strong>Nhóm Máu:</strong> <span class="status-pill blood-group-pill" th:text="${thongTinBenh.nhomMau}">O</span></p>
+                <p><strong>Tình trạng:</strong> <span class="status-pill status-discharged" th:text="${thongTinBenh.tinhTrang}">Ra viện</span></p>
             </div>
 
-            <div class="image-container">
-                <img id="mainImage" src="https://via.placeholder.com/300x200" alt="Hình ảnh bệnh" class="main-image">
+            <div class="image-container" th:if="${thongTinBenh.dsHinhAnh != null and !#lists.isEmpty(thongTinBenh.dsHinhAnh)}">
+                <img id="mainImage" th:src="${thongTinBenh.dsHinhAnh[0]?.hinhAnh}" alt="Hình ảnh bệnh" class="main-image">
                 <div class="thumbnail-navigation">
                     <div class="nav-buttons">
                         <button class="prev" onclick="prevImage()">&lt;</button>
                     </div>
+<!--                    <div class="thumbnail-container" id="thumbnailContainer">-->
+<!--                        <img src="https://via.placeholder.com/60" alt="Ảnh nhỏ 1" data-src="https://via.placeholder.com/300x200">-->
+<!--                        <img src="https://via.placeholder.com/60" alt="Ảnh nhỏ 2" data-src="https://via.placeholder.com/300x200/FF0000/FFFFFF">-->
+<!--                        <img src="https://via.placeholder.com/60" alt="Ảnh nhỏ 3" data-src="https://via.placeholder.com/300x200/00FF00/FFFFFF">-->
+<!--                        <img src="https://via.placeholder.com/60" alt="Ảnh nhỏ 4" data-src="https://via.placeholder.com/300x200/0000FF/FFFFFF">-->
+<!--                    </div>-->
                     <div class="thumbnail-container" id="thumbnailContainer">
-                        <img src="https://via.placeholder.com/60" alt="Ảnh nhỏ 1" data-src="https://via.placeholder.com/300x200">
-                        <img src="https://via.placeholder.com/60" alt="Ảnh nhỏ 2" data-src="https://via.placeholder.com/300x200/FF0000/FFFFFF">
-                        <img src="https://via.placeholder.com/60" alt="Ảnh nhỏ 3" data-src="https://via.placeholder.com/300x200/00FF00/FFFFFF">
-                        <img src="https://via.placeholder.com/60" alt="Ảnh nhỏ 4" data-src="https://via.placeholder.com/300x200/0000FF/FFFFFF">
+                        <img th:each="image : ${thongTinBenh.dsHinhAnh}" th:src="${image.hinhAnh}" th:alt="${image.chuanDoan}" data-src="${image.hinhAnh}">
                     </div>
                     <div class="nav-buttons">
                         <button class="next" onclick="nextImage()">&gt;</button>
@@ -51,14 +54,10 @@
                 <th>Kết Quả Xét Nghiệm</th>
             </tr>
             </thead>
-            <tbody>
-            <tr>
-                <td>Viêm Gan B</td>
-            </tr>
-            <tr>
-                <td>Ung Thư Máu</td>
-            </tr>
-
+            <tbody th:if="${thongTinBenh.dsXetNghiem != null and !#lists.isEmpty(thongTinBenh.dsXetNghiem)}">
+                <tr th:each="xetNghiem : ${thongTinBenh.dsXetNghiem}">
+                    <td th:text="${xetNghiem.ketQuaXetNghiem}"></td>
+                </tr>
             </tbody>
         </table>
 
@@ -69,37 +68,27 @@
         <div class="prescription">
             <h1>Đơn Thuốc</h1>
             <div class="info">
-                <p><strong>Mã đơn thuốc:</strong> DT001</p>
-                <p><strong>Mã khám bệnh:</strong> KB001</p>
-                <p><strong>Bác sĩ:</strong> Người iu Tui</p>
-                <p><strong>Người bệnh:</strong> Lê Ngọc Giàu</p>
-                <p><strong>Bệnh viện:</strong> <span class="hospital">Bệnh viện Đại học Y Dược TP HCM</span></p>
-                <p><strong>Ngày khám:</strong> 01/10/2024</p>
-                <p><strong>Trạng thái:</strong> <span class="status">Đã kê đơn</span></p>
+<!--                <p><strong>Mã đơn thuốc:</strong> DT001</p>-->
+<!--                <p><strong>Mã khám bệnh:</strong> KB001</p>-->
+                <p><strong>Bác sĩ:</strong> <span th:text="${thongTinBenh.bacSi}"></span></p>
+                <p><strong>Người bệnh:</strong> <span th:text="${nguoiDung.tenNguoiDung}">Lê Ngọc Giàu</span></p>
+                <p><strong>Bệnh viện:</strong> <span class="hospital" th:text="${thongTinBenh.benhVien}">Bệnh viện Đại học Y Dược TP HCM</span></p>
+                <p><strong>Ngày khám:</strong> <span th:text="${@stringUtils.formatDate(thongTinBenh.ngayKhamChiTietKhamBenh, 'dd/MM/yyyy')}">01/10/2024</span></p>
+                <p><strong>Trạng thái:</strong> <span class="status" th:text="${thongTinBenh.trangThaiKeDon}">Đã kê đơn</span></p>
             </div>
             <table>
                 <thead>
                 <tr>
                     <th>Tên thuốc</th>
-                    <th>Liều lượng</th>
                     <th>Số lượng</th>
+                    <th>Liều lượng</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr>
-                    <td>Paracetamol</td>
-                    <td>500mg</td>
-                    <td>20 viên</td>
-                </tr>
-                <tr>
-                    <td>Amoxicillin</td>
-                    <td>250mg</td>
-                    <td>30 viên</td>
-                </tr>
-                <tr>
-                    <td>Vitamin C</td>
-                    <td>1000mg</td>
-                    <td>10 viên</td>
+                <tbody th:if="${thongTinBenh.dsChiTietDonThuoc != null and !#lists.isEmpty(thongTinBenh.dsChiTietDonThuoc)}">
+                <tr th:each="chitietdonthuoc : ${thongTinBenh.dsChiTietDonThuoc}">
+                    <td th:text="${chitietdonthuoc.donThuoc.tenThuoc + ' (' + chitietdonthuoc.donThuoc.hamLuong + 'mg)'}"></td>
+                    <td th:text="${chitietdonthuoc.soLuongThuoc + ' ' + chitietdonthuoc.donThuoc.donViTinh}"></td>
+                    <td th:text="${chitietdonthuoc.lieuLuong + ' ' + chitietdonthuoc.donThuoc.donViTinh + '/ngày'}"></td>
                 </tr>
                 </tbody>
             </table>

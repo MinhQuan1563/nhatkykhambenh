@@ -38,19 +38,4 @@ public class IndexController {
 
         return "users/danhsachnguoidung";
     }
-
-    @GetMapping("admin")
-    public String home() {
-        return "admin/dashboard";
-    }
-
-    @GetMapping("base")
-    public String base(Model theModel) {
-        return "base";
-    }
-
-    @GetMapping("admin/thongke")
-    public String thongKe(Model theModel) {
-        return "admin/thongke";
-    }
 }

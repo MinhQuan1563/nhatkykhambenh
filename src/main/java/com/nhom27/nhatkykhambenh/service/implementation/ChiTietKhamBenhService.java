@@ -1,12 +1,12 @@
 package com.nhom27.nhatkykhambenh.service.implementation;
 
+import com.nhom27.nhatkykhambenh.dto.ThongTinBenhDTO;
 import com.nhom27.nhatkykhambenh.exception.SaveDataException;
 import com.nhom27.nhatkykhambenh.mapper.ChiTietKhamBenhMapper;
-import com.nhom27.nhatkykhambenh.model.ChiTietKhamBenh;
-import com.nhom27.nhatkykhambenh.model.KhamBenh;
-import com.nhom27.nhatkykhambenh.repository.IChiTietKhamBenhRepo;
-import com.nhom27.nhatkykhambenh.repository.IKhamBenhRepo;
+import com.nhom27.nhatkykhambenh.model.*;
+import com.nhom27.nhatkykhambenh.repository.*;
 import com.nhom27.nhatkykhambenh.service.interfaces.IChiTietKhamBenhService;
+import com.nhom27.nhatkykhambenh.service.interfaces.IKhamBenhService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
@@ -21,13 +21,22 @@ import java.util.Optional;
 @Service
 public class ChiTietKhamBenhService implements IChiTietKhamBenhService {
     @Autowired
-    private IChiTietKhamBenhRepo ChiTietKhamBenhRepo;
+    private IChiTietKhamBenhRepo chiTietKhamBenhRepo;
 
     @Autowired
     private IKhamBenhRepo khamBenhRepo;
 
     @Autowired
-    private ChiTietKhamBenhMapper chiTietKhamBenhMapper;
+    private IXetNghiemRepo xetNghiemRepo;
+
+    @Autowired
+    private IKhamBenhService khamBenhService;
+
+    @Autowired
+    private IHinhAnhRepo hinhAnhRepo;
+
+    @Autowired
+    private IChiTietDonThuocRepo chiTietDonThuocRepo;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -61,12 +70,19 @@ public class ChiTietKhamBenhService implements IChiTietKhamBenhService {
     }
 
     @Override
+    public List<ChiTietKhamBenh> getDSChiTietKhamBenh(Integer maKhamBenh) {
+        KhamBenh khamBenh = khamBenhRepo.findById(maKhamBenh).get();
+
+        return chiTietKhamBenhRepo.findAllByKhamBenh(khamBenh);
+    }
+
+    @Override
     public void saveChiTietKhamBenh(ChiTietKhamBenh ctKhamBenh, Integer maKhamBenh) {
         KhamBenh khamBenh = khamBenhRepo.findById(maKhamBenh).get();
         ctKhamBenh.setTrangThai(true);
         ctKhamBenh.setKhamBenh(khamBenh);
         try {
-            ChiTietKhamBenhRepo.save(ctKhamBenh);
+            chiTietKhamBenhRepo.save(ctKhamBenh);
         } catch (Exception e) {
             throw new SaveDataException("ChiTietKhamBenh");
         }
@@ -74,22 +90,47 @@ public class ChiTietKhamBenhService implements IChiTietKhamBenhService {
 
     @Override
     public ChiTietKhamBenh findById(Integer id) {
-        return ChiTietKhamBenhRepo.findById(id).get();
+        return chiTietKhamBenhRepo.findById(id).get();
     }
 
     @Override
     public void deleteById(Integer id) {
         ChiTietKhamBenh chiTietKhamBenh = findById(id);
         chiTietKhamBenh.setTrangThai(false);
-        ChiTietKhamBenhRepo.save(chiTietKhamBenh);
+        chiTietKhamBenhRepo.save(chiTietKhamBenh);
     }
 
     @Override
     public void deleteAllByIds(List<Integer> ids) {
-        List<ChiTietKhamBenh> chitietdonThuocList = ChiTietKhamBenhRepo.findAllById(ids);
+        List<ChiTietKhamBenh> chitietdonThuocList = chiTietKhamBenhRepo.findAllById(ids);
         for (ChiTietKhamBenh chitietdonThuoc : chitietdonThuocList) {
             chitietdonThuoc.setTrangThai(false);
         }
-        ChiTietKhamBenhRepo.saveAll(chitietdonThuocList);
+        chiTietKhamBenhRepo.saveAll(chitietdonThuocList);
+    }
+
+    @Override
+    public ThongTinBenhDTO getAllThongTinBenh(ChiTietKhamBenh chiTietKhamBenh) {
+        KhamBenh khamBenh = khamBenhRepo.findByChiTietKhamBenh(chiTietKhamBenh.getMaChiTietKhamBenh());
+        List<XetNghiem> dsXetNghiem = xetNghiemRepo.findByMaChiTietKhamBenh(chiTietKhamBenh.getMaChiTietKhamBenh());
+        List<HinhAnh> dsHinhAnh = hinhAnhRepo.findByMaChiTietKhamBenh(chiTietKhamBenh.getMaChiTietKhamBenh());
+        List<ChiTietDonThuoc> dsChiTietDonThuoc = chiTietDonThuocRepo.findByMaChiTietKhamBenh(chiTietKhamBenh.getMaChiTietKhamBenh());
+
+        ThongTinBenhDTO thongTinBenhDTO = new ThongTinBenhDTO();
+        thongTinBenhDTO.setMaChiTietKhamBenh(chiTietKhamBenh.getMaChiTietKhamBenh());
+        thongTinBenhDTO.setBacSi(chiTietKhamBenh.getBacSiKham());
+        thongTinBenhDTO.setChiDinh(chiTietKhamBenh.getChiDinh());
+        thongTinBenhDTO.setChuanDoan(chiTietKhamBenh.getChuanDoan());
+        thongTinBenhDTO.setKhoaKham(chiTietKhamBenh.getKhoaKham());
+        thongTinBenhDTO.setBenhVien(khamBenh.getBenhVien());
+        thongTinBenhDTO.setNhomMau(chiTietKhamBenh.getNhomMau());
+        thongTinBenhDTO.setTinhTrang(chiTietKhamBenh.getTinhTrang());
+        thongTinBenhDTO.setTrangThaiKeDon(dsChiTietDonThuoc.get(0).getTinhTrang() == 1 ? "Đã kê đơn" : "Chưa kê đơn");
+        thongTinBenhDTO.setNgayKhamChiTietKhamBenh(chiTietKhamBenh.getThoiGianVaoKham());
+        thongTinBenhDTO.setDsXetNghiem(dsXetNghiem);
+        thongTinBenhDTO.setDsHinhAnh(dsHinhAnh);
+        thongTinBenhDTO.setDsChiTietDonThuoc(dsChiTietDonThuoc);
+
+        return thongTinBenhDTO;
     }
 }

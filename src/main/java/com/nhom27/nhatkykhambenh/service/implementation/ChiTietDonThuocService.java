@@ -20,6 +20,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -84,12 +85,12 @@ public class ChiTietDonThuocService implements IChiTietDonThuocService {
 
     @Override
     public ChiTietDonThuoc findById(Integer id) {
-        return ChiTietDonThuocRepo.findById(id).get();
+        return ChiTietDonThuocRepo.findByMaDonThuocAndMaChiTietKhamBenh(id, 1).get();
     }
 
     @Override
     public void deleteById(Integer id) {
-        ChiTietDonThuoc chiTietDonThuoc = ChiTietDonThuocRepo.findById(id)
+        ChiTietDonThuoc chiTietDonThuoc = ChiTietDonThuocRepo.findByMaDonThuocAndMaChiTietKhamBenh(id, 1)
                 .orElseThrow(() -> new SaveDataException(ChiTietDonThuoc.OBJ_NAME + " không tồn tại với id: " + id));
 
         chiTietDonThuoc.setTrangThai(false);
@@ -99,8 +100,9 @@ public class ChiTietDonThuocService implements IChiTietDonThuocService {
 
     @Override
     public void deleteAllByIds(List<Integer> ids) {
-        List<ChiTietDonThuoc> chiTietDonThuocList = ChiTietDonThuocRepo.findAllById(ids);
+//        List<ChiTietDonThuoc> chiTietDonThuocList = ChiTietDonThuocRepo.findAllById(ids);
 
+        List<ChiTietDonThuoc> chiTietDonThuocList = new ArrayList<>();
         for (ChiTietDonThuoc chiTietDonThuoc : chiTietDonThuocList) {
             chiTietDonThuoc.setTrangThai(false);
         }
