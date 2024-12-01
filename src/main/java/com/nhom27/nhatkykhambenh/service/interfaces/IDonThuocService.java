@@ -22,4 +22,6 @@ public interface IDonThuocService {
     Page<DonThuoc> getDSDonThuoc(Pageable pageable,
                                    String query,
                                    Integer maChiTietKhamBenh);
+
+    List<DonThuoc> getAllDonThuoc();
 }

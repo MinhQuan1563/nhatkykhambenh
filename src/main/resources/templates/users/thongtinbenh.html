@@ -68,13 +68,11 @@
         <div class="prescription">
             <h1>Đơn Thuốc</h1>
             <div class="info">
-<!--                <p><strong>Mã đơn thuốc:</strong> DT001</p>-->
-<!--                <p><strong>Mã khám bệnh:</strong> KB001</p>-->
                 <p><strong>Bác sĩ:</strong> <span th:text="${thongTinBenh.bacSi}"></span></p>
                 <p><strong>Người bệnh:</strong> <span th:text="${nguoiDung.tenNguoiDung}">Lê Ngọc Giàu</span></p>
                 <p><strong>Bệnh viện:</strong> <span class="hospital" th:text="${thongTinBenh.benhVien}">Bệnh viện Đại học Y Dược TP HCM</span></p>
                 <p><strong>Ngày khám:</strong> <span th:text="${@stringUtils.formatDate(thongTinBenh.ngayKhamChiTietKhamBenh, 'dd/MM/yyyy')}">01/10/2024</span></p>
-                <p><strong>Trạng thái:</strong> <span class="status" th:text="${thongTinBenh.trangThaiKeDon}">Đã kê đơn</span></p>
+                <p><strong>Trạng thái:</strong> <span class="status">Đã kê đơn</span></p>
             </div>
             <table>
                 <thead>

@@ -72,27 +72,27 @@ public class DonThuocController {
 
     @GetMapping("/admin/khambenh/chitiet/donthuoc/add")
     public String addDonThuocForm(Model model, @RequestParam Integer maChiTietKhamBenh) {
-        DonThuocDTO donThuocDTO = new DonThuocDTO();
-        donThuocDTO.setMaChiTietKhamBenh(maChiTietKhamBenh);
-        model.addAttribute("donthuoc", donThuocDTO);
+//        DonThuocDTO donThuocDTO = new DonThuocDTO();
+//        donThuocDTO.set(maChiTietKhamBenh);
+//        model.addAttribute("donthuoc", donThuocDTO);
         model.addAttribute("maChiTietKhamBenh2", maChiTietKhamBenh);
 
         return "admin/khambenh/addDonThuoc";
     }
 
 
-    @GetMapping("/admin/khambenh/chitiet/donthuoc/update")
-    public String updateDonThuocForm(@RequestParam Integer maDonThuoc,
-                                     @RequestParam Integer maChiTietKhamBenh,
-                                     Model model) {
-        DonThuoc donThuoc = donThuocService.findById(maDonThuoc);
-        DonThuocDTO donThuocDTO = donThuocMapper.toDonThuocDTO(donThuoc);
-        donThuocDTO.setMaChiTietKhamBenh(maChiTietKhamBenh);
-
-        model.addAttribute("donthuoc", donThuocDTO);
-        model.addAttribute("maChiTietKhamBenh2", maChiTietKhamBenh);
-        return "admin/khambenh/addDonThuoc";
-    }
+//    @GetMapping("/admin/khambenh/chitiet/donthuoc/update")
+//    public String updateDonThuocForm(@RequestParam Integer maDonThuoc,
+//                                     @RequestParam Integer maChiTietKhamBenh,
+//                                     Model model) {
+//        DonThuoc donThuoc = donThuocService.findById(maDonThuoc);
+//        DonThuocDTO donThuocDTO = donThuocMapper.toDonThuocDTO(donThuoc);
+//        donThuocDTO.setMaChiTietKhamBenh(maChiTietKhamBenh);
+//
+//        model.addAttribute("donthuoc", donThuocDTO);
+//        model.addAttribute("maChiTietKhamBenh2", maChiTietKhamBenh);
+//        return "admin/khambenh/addDonThuoc";
+//    }
 
     @PostMapping("/admin/khambenh/chitiet/donthuoc/save")
     public String saveDonThuoc(@ModelAttribute("donthuoc") DonThuocDTO donThuocDTO,

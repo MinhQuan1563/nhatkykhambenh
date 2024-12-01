@@ -35,8 +35,6 @@ public class ThongTinBenhDTO {
 
     private String tinhTrang;
 
-    private String trangThaiKeDon;
-
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime ngayKhamChiTietKhamBenh;
 
@@ -46,6 +44,6 @@ public class ThongTinBenhDTO {
 
     private List<ChiTietDonThuoc> dsChiTietDonThuoc;
 
-    public ThongTinBenhDTO(Integer maChiTietKhamBenh, String bacSiKham, String chiDinh, String khoaKham, String benhVien, String nhomMau, String tinhTrang, String trangThaiKeDon, LocalDateTime ngayKhamChiTietKhamBenh, List<XetNghiem> dsXetNghiem, List<HinhAnh> dsHinhAnh, List<ChiTietDonThuoc> dsChiTietDonThuoc) {
+    public ThongTinBenhDTO(Integer maChiTietKhamBenh, String bacSiKham, String chiDinh, String khoaKham, String benhVien, String nhomMau, String tinhTrang, LocalDateTime ngayKhamChiTietKhamBenh, List<XetNghiem> dsXetNghiem, List<HinhAnh> dsHinhAnh, List<ChiTietDonThuoc> dsChiTietDonThuoc) {
     }
 }

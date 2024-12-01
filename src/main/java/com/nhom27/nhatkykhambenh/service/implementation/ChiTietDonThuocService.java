@@ -39,7 +39,7 @@ public class ChiTietDonThuocService implements IChiTietDonThuocService {
 
 
     @Override
-    public Page<ChiTietDonThuoc> getDSChiTietDonThuoc(Pageable pageable, String query,Integer maDonThuoc) {
+    public Page<ChiTietDonThuoc> getDSChiTietDonThuoc(Pageable pageable, String query,Integer maChiTietKhamBenh) {
         String searchTerm = "%" + query + "%";
 
         String columnQuery = "SELECT GROUP_CONCAT(COLUMN_NAME) FROM INFORMATION_SCHEMA.COLUMNS " +
@@ -48,10 +48,10 @@ public class ChiTietDonThuocService implements IChiTietDonThuocService {
         String columns = (String) columnNativeQuery.getSingleResult();
 
         // Tạo truy vấn động với LIMIT và OFFSET
-        String sql = "SELECT * FROM chi_tiet_don_thuoc WHERE trang_thai = 1 AND ma_don_thuoc = :maDonThuoc AND CONCAT(" + columns + ") LIKE :searchTerm " +
+        String sql = "SELECT * FROM chi_tiet_don_thuoc WHERE trang_thai = 1 AND ma_chi_tiet_kham_benh = :maChiTietKhamBenh AND CONCAT(" + columns + ") LIKE :searchTerm " +
                 "LIMIT :limit OFFSET :offset";
         Query nativeQuery = entityManager.createNativeQuery(sql, ChiTietDonThuoc.class);
-        nativeQuery.setParameter("maDonThuoc", maDonThuoc);
+        nativeQuery.setParameter("maChiTietKhamBenh", maChiTietKhamBenh);
         nativeQuery.setParameter("searchTerm", searchTerm);
         nativeQuery.setParameter("limit", pageable.getPageSize());
         nativeQuery.setParameter("offset", pageable.getPageNumber() * pageable.getPageSize());
@@ -68,13 +68,10 @@ public class ChiTietDonThuocService implements IChiTietDonThuocService {
 
 
     @Override
-    public void saveChiTietDonThuoc(ChiTietDonThuoc chiTietDonThuoc, Integer maDonThuoc) {
-        DonThuoc donThuoc = donThuocRepo.findById(maDonThuoc)
-                .orElseThrow(() -> new SaveDataException("DonThuoc không tồn tại với id: " + maDonThuoc));
-
-        chiTietDonThuoc.setTrangThai(true); // Kích hoạt trạng thái
-        chiTietDonThuoc.setDonThuoc(donThuoc); // Liên kết với DonThuoc
-
+    public void saveChiTietDonThuoc(ChiTietDonThuoc chiTietDonThuoc, Integer maDonThuoc, Integer maChiTietKhamBenh) {
+        chiTietDonThuoc.setMaDonThuoc(maDonThuoc);
+        chiTietDonThuoc.setMaChiTietKhamBenh(maChiTietKhamBenh);
+        chiTietDonThuoc.setTrangThai(true);
         try {
             ChiTietDonThuocRepo.save(chiTietDonThuoc);
         } catch (Exception e) {
@@ -84,25 +81,23 @@ public class ChiTietDonThuocService implements IChiTietDonThuocService {
 
 
     @Override
-    public ChiTietDonThuoc findById(Integer id) {
-        return ChiTietDonThuocRepo.findByMaDonThuocAndMaChiTietKhamBenh(id, 1).get();
+    public ChiTietDonThuoc findById(Integer maDonThuoc, Integer maChiTietKhamBenh) {
+        return ChiTietDonThuocRepo.findByMaDonThuocAndMaChiTietKhamBenh(maDonThuoc, maChiTietKhamBenh)
+                .orElseThrow(() -> new SaveDataException("ChiTietTiemChung"));
     }
 
     @Override
-    public void deleteById(Integer id) {
-        ChiTietDonThuoc chiTietDonThuoc = ChiTietDonThuocRepo.findByMaDonThuocAndMaChiTietKhamBenh(id, 1)
-                .orElseThrow(() -> new SaveDataException(ChiTietDonThuoc.OBJ_NAME + " không tồn tại với id: " + id));
-
+    public void deleteById(Integer maDonThuoc, Integer maChiTietKhamBenh) {
+        ChiTietDonThuoc chiTietDonThuoc = findById(maDonThuoc, maChiTietKhamBenh);
         chiTietDonThuoc.setTrangThai(false);
         ChiTietDonThuocRepo.save(chiTietDonThuoc);
     }
 
 
     @Override
-    public void deleteAllByIds(List<Integer> ids) {
-//        List<ChiTietDonThuoc> chiTietDonThuocList = ChiTietDonThuocRepo.findAllById(ids);
+    public void deleteAllByIds(Integer maChiTietKhamBenh, List<Integer> maDonThuoc) {
+        List<ChiTietDonThuoc> chiTietDonThuocList = ChiTietDonThuocRepo.findByMaDonThuocIn(maDonThuoc);
 
-        List<ChiTietDonThuoc> chiTietDonThuocList = new ArrayList<>();
         for (ChiTietDonThuoc chiTietDonThuoc : chiTietDonThuocList) {
             chiTietDonThuoc.setTrangThai(false);
         }

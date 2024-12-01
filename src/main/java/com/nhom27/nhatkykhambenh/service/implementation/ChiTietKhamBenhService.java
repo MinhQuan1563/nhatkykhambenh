@@ -125,7 +125,6 @@ public class ChiTietKhamBenhService implements IChiTietKhamBenhService {
         thongTinBenhDTO.setBenhVien(khamBenh.getBenhVien());
         thongTinBenhDTO.setNhomMau(chiTietKhamBenh.getNhomMau());
         thongTinBenhDTO.setTinhTrang(chiTietKhamBenh.getTinhTrang());
-        thongTinBenhDTO.setTrangThaiKeDon(dsChiTietDonThuoc.get(0).getTinhTrang() == 1 ? "Đã kê đơn" : "Chưa kê đơn");
         thongTinBenhDTO.setNgayKhamChiTietKhamBenh(chiTietKhamBenh.getThoiGianVaoKham());
         thongTinBenhDTO.setDsXetNghiem(dsXetNghiem);
         thongTinBenhDTO.setDsHinhAnh(dsHinhAnh);

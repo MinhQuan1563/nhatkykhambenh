@@ -1,6 +1,8 @@
 package com.nhom27.nhatkykhambenh.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nhom27.nhatkykhambenh.model.ChiTietKhamBenh;
+import com.nhom27.nhatkykhambenh.model.DonThuoc;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,10 +14,14 @@ import lombok.Setter;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ChiTietDonThuocDTO {
-    private Integer maChiTietDonThuoc;
-    private Integer maDonThuoc;
-    private String tenThuoc;
+    private DonThuoc donThuoc;
+
+    private ChiTietKhamBenh chiTietKhamBenh;
+
+    private Integer soLuongThuoc;
+
     private Integer lieuLuong;
-    private Integer soLuong;
+
     private Boolean trangThai;
+
 }

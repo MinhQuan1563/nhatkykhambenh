@@ -14,9 +14,9 @@ import java.util.Optional;
 
 @Repository
 public interface IChiTietDonThuocRepo extends JpaRepository<ChiTietDonThuoc, ChiTietDonThuoc.ChiTietDonThuocId> {
-//    ChiTietDonThuoc findByDonThuoc_MaDonThuoc(Integer maDonThuoc);
-    @Query("SELECT ctdt FROM ChiTietDonThuoc ctdt WHERE ctdt.maChiTietKhamBenh = :maChiTietKhamBenh")
-    List<ChiTietDonThuoc> findByMaChiTietKhamBenh(@Param("maChiTietKhamBenh") Integer maChiTietKhamBenh);
+    List<ChiTietDonThuoc> findByMaChiTietKhamBenh(Integer maChiTietKhamBenh);
 
     Optional<ChiTietDonThuoc> findByMaDonThuocAndMaChiTietKhamBenh(Integer maDonThuoc, Integer maChiTietKhamBenh);
+
+    List<ChiTietDonThuoc> findByMaDonThuocIn (List<Integer> maDonThuoc);
 }

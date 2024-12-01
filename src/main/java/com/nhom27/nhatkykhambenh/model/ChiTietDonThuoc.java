@@ -31,9 +31,6 @@ public class ChiTietDonThuoc {
     @Column(name = "LieuLuong")
     private Integer lieuLuong;
 
-    @Column(name = "TinhTrang")
-    private Integer tinhTrang;
-
     @Column(name = "TrangThai")
     private Boolean trangThai;
 

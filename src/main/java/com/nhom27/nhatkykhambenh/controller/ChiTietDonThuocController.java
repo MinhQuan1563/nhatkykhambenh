@@ -2,14 +2,11 @@ package com.nhom27.nhatkykhambenh.controller;
 
 import com.nhom27.nhatkykhambenh.dto.ChiTietDonThuocDTO;
 import com.nhom27.nhatkykhambenh.dto.DonThuocDTO;
-import com.nhom27.nhatkykhambenh.dto.XetNghiemDTO;
 import com.nhom27.nhatkykhambenh.exception.SaveDataException;
 import com.nhom27.nhatkykhambenh.mapper.ChiTietDonThuocMapper;
+import com.nhom27.nhatkykhambenh.mapper.DonThuocMapper;
 import com.nhom27.nhatkykhambenh.model.ChiTietDonThuoc;
 import com.nhom27.nhatkykhambenh.model.DonThuoc;
-import com.nhom27.nhatkykhambenh.model.XetNghiem;
-import com.nhom27.nhatkykhambenh.service.implementation.ChiTietDonThuocService;
-import com.nhom27.nhatkykhambenh.service.implementation.DonThuocService;
 import com.nhom27.nhatkykhambenh.service.interfaces.IChiTietDonThuocService;
 import com.nhom27.nhatkykhambenh.service.interfaces.IDonThuocService;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +28,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class ChiTietDonThuocController {
+
     @Autowired
     private IChiTietDonThuocService chiTietDonThuocService;
 
@@ -40,19 +38,22 @@ public class ChiTietDonThuocController {
     @Autowired
     private IDonThuocService donThuocService;
 
-    @GetMapping("/admin/khambenh/chitiet/donthuoc/chitietdonthuoc")
+    @Autowired
+    private DonThuocMapper donThuocMapper;
+
+    @GetMapping("/admin/khambenh/chitiet/chitietdonthuoc")
     public String GetListChiTietDonThuoc(Model model,
                                   @RequestParam(defaultValue = "0") int page,
                                   @RequestParam(defaultValue = "5") int size,
                                   @RequestParam(defaultValue = "") String query,
-                                         @RequestParam Integer maDonThuoc) {
+                                  @RequestParam Integer maChiTietKhamBenh) {
+
         Pageable pageable = PageRequest.of(page, size);
-        Page<ChiTietDonThuoc> chiTietDonThuocPage = chiTietDonThuocService.getDSChiTietDonThuoc(pageable, query, maDonThuoc);
+        Page<ChiTietDonThuoc> chiTietDonThuocPage = chiTietDonThuocService.getDSChiTietDonThuoc(pageable, query, maChiTietKhamBenh);
         List<ChiTietDonThuocDTO> chiTietDonThuocDTOList = chiTietDonThuocMapper.toChiTietDonThuocDtoList(chiTietDonThuocPage.getContent());
 
-
         model.addAttribute("dsChiTietDonThuoc", chiTietDonThuocDTOList);
-        model.addAttribute("maDonThuoc", maDonThuoc);
+        model.addAttribute("maChiTietKhamBenh", maChiTietKhamBenh);
         model.addAttribute("currentPage", page);
         model.addAttribute("pageSize", size);
         model.addAttribute("totalPages", chiTietDonThuocPage.getTotalPages());
@@ -70,88 +71,90 @@ public class ChiTietDonThuocController {
         return "admin/khambenh/listChiTietDonThuoc";
     }
 
-    @GetMapping("/admin/khambenh/chitiet/donthuoc/chitietdonthuoc/add")
-    public String addChTietDonThuocForm(Model model, @RequestParam Integer maDonThuoc) {
+    @GetMapping("/admin/khambenh/chitiet/chitietdonthuoc/add")
+    public String addChTietDonThuocForm(Model model, @RequestParam Integer maChiTietKhamBenh) {
         ChiTietDonThuocDTO chiTietDonThuocDTO = new ChiTietDonThuocDTO();
-        chiTietDonThuocDTO.setMaDonThuoc(maDonThuoc);
+        List<DonThuocDTO> dsDonThuoc = donThuocMapper.toDonThuocDtoList(donThuocService.getAllDonThuoc());
 
+        model.addAttribute("dsDonThuoc", dsDonThuoc);
         model.addAttribute("chitietdonthuoc", chiTietDonThuocDTO);
-        model.addAttribute("maDonThuoc2", maDonThuoc);
+        model.addAttribute("maChiTietKhamBenh2", maChiTietKhamBenh);
+
         return "admin/khambenh/addChiTietDonThuoc";
     }
 
-    @GetMapping("/admin/khambenh/chitiet/donthuoc/chitietdonthuoc/update")
-    public String updateChiTietDonThuocForm(@RequestParam Integer maChiTietDonThuoc,
+    @GetMapping("/admin/khambenh/chitiet/chitietdonthuoc/update")
+    public String updateChiTietDonThuocForm(@RequestParam Integer maChiTietKhamBenh,
                                             @RequestParam Integer maDonThuoc,
                                             Model model) {
 
-        ChiTietDonThuoc chiTietDonThuoc = chiTietDonThuocService.findById(maChiTietDonThuoc);
+        ChiTietDonThuoc chiTietDonThuoc = chiTietDonThuocService.findById(maDonThuoc, maChiTietKhamBenh);
         ChiTietDonThuocDTO chiTietDonThuocDTO = chiTietDonThuocMapper.toChiTietDonThuocDTO(chiTietDonThuoc);
-        chiTietDonThuocDTO.setMaDonThuoc(maDonThuoc);
+        List<DonThuocDTO> dsDonThuoc = donThuocMapper.toDonThuocDtoList(donThuocService.getAllDonThuoc());
 
         model.addAttribute("chitietdonthuoc", chiTietDonThuocDTO);
+        model.addAttribute("maChiTietKhamBenh2", maChiTietKhamBenh);
+        model.addAttribute("dsDonThuoc", dsDonThuoc);
         model.addAttribute("maDonThuoc2", maDonThuoc);
         return "admin/khambenh/addChiTietDonThuoc";
     }
 
-
-    @PostMapping("/admin/khambenh/chitiet/donthuoc/chitietdonthuoc/save")
+    @PostMapping("/admin/khambenh/chitiet/chitietdonthuoc/save")
     public String saveChiTietDonThuoc(@ModelAttribute("chitietdonthuoc") ChiTietDonThuocDTO chiTietDonThuocDTO,
-                               BindingResult bindingResult,
-                               Model model,
+                                      BindingResult bindingResult,
+                                      Model model,
                                       @RequestParam(required = false) Integer maDonThuoc,
-                                      @RequestParam(required = false) Integer maChiTietDonThuoc,
+                                      @RequestParam(required = false) Integer maChiTietKhamBenh,
                                       RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            return "admin/khambenh/addChiTietDonThuoc";
+            redirectAttributes.addAttribute("maChiTietKhamBenh", maChiTietKhamBenh);
+            return "redirect:/admin/khambenh/chitiet/chitietdonthuoc/add";
         }
         try {
-            if (maChiTietDonThuoc != null) {
-                chiTietDonThuocDTO.setMaChiTietDonThuoc(maChiTietDonThuoc);
-            }
             ChiTietDonThuoc chiTietDonThuoc = chiTietDonThuocMapper.toChiTietDonThuoc(chiTietDonThuocDTO);
-            chiTietDonThuocService.saveChiTietDonThuoc(chiTietDonThuoc,maDonThuoc);
+            chiTietDonThuocService.saveChiTietDonThuoc(chiTietDonThuoc, maDonThuoc, maChiTietKhamBenh);
 
-            redirectAttributes.addAttribute("maDonThuoc", maDonThuoc);
-            return "redirect:/admin/khambenh/chitiet/donthuoc/chitietdonthuoc";
+            redirectAttributes.addAttribute("maChiTietKhamBenh", maChiTietKhamBenh);
+            return "redirect:/admin/khambenh/chitiet/chitietdonthuoc";
         } catch (SaveDataException e) {
             model.addAttribute("error", e.getMessage());
-            return "admin/khambenh/addChiTietKhamBenh";
+            redirectAttributes.addAttribute("maChiTietKhamBenh", maChiTietKhamBenh);
+            return "redirect:/admin/khambenh/chitiet/chitietdonthuoc/add";
         }
     }
 
-    @PostMapping("/admin/khambenh/chitiet/donthuoc/chitietdonthuoc/delete")
-    public String deleteChiTietDonThuoc(@RequestParam("maChiTietDonThuoc") Integer maChiTietDonThuoc,
+    @PostMapping("/admin/khambenh/chitiet/chitietdonthuoc/delete")
+    public String deleteChiTietDonThuoc(@RequestParam("maChiTietKhamBenh") Integer maChiTietKhamBenh,
                                         @RequestParam("maDonThuoc") Integer maDonThuoc,
                                         RedirectAttributes redirectAttributes) {
         try {
-            chiTietDonThuocService.deleteById(maChiTietDonThuoc);
+            chiTietDonThuocService.deleteById(maDonThuoc, maChiTietKhamBenh);
             redirectAttributes.addFlashAttribute("success", "Xóa thành công");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Lỗi!! Xóa thông tin Loại Đơn Thuốc thất bại");
         }
-        redirectAttributes.addAttribute("maDonThuoc", maDonThuoc);
-        return "redirect:/admin/khambenh/chitiet/donthuoc/chitietdonthuoc";
+        redirectAttributes.addAttribute("maChiTietKhamBenh", maChiTietKhamBenh);
+        return "redirect:/admin/khambenh/chitiet/chitietdonthuoc";
     }
 
-    @PostMapping("/admin/khambenh/chitiet/donthuoc/chitietdonthuoc/deleteall")
+    @PostMapping("/admin/khambenh/chitiet/chitietdonthuoc/deleteall")
     public String deleteAllByIds(@RequestParam(value = "selectedIds", required = false) List<Integer> ids,
-                                 @RequestParam("maDonThuoc") Integer maDonThuoc,
+                                 @RequestParam("maChiTietKhamBenh") Integer maChiTietKhamBenh,
                                  RedirectAttributes redirectAttributes) {
         if (ids == null || ids.isEmpty()) {
             redirectAttributes.addFlashAttribute("error", "Không có mục nào được chọn để xóa.");
-            redirectAttributes.addAttribute("maDonThuoc", maDonThuoc);
-            return "redirect:/admin/khambenh/chitiet/donthuoc/chitietdonthuoc";
+            redirectAttributes.addAttribute("maChiTietKhamBenh", maChiTietKhamBenh);
+            return "redirect:/admin/khambenh/chitiet/chitietdonthuoc";
         }
 
         try {
-            chiTietDonThuocService.deleteAllByIds(ids);
+            chiTietDonThuocService.deleteAllByIds(maChiTietKhamBenh, ids);
             redirectAttributes.addFlashAttribute("success", "Xóa thành công các mục đã chọn.");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Có lỗi xảy ra khi xóa các mục đã chọn.");
         }
 
-        redirectAttributes.addAttribute("maDonThuoc", maDonThuoc);
-        return "redirect:/admin/khambenh/chitiet/donthuoc/chitietdonthuoc";
+        redirectAttributes.addAttribute("maChiTietKhamBenh", maChiTietKhamBenh);
+        return "redirect:/admin/khambenh/chitiet/chitietdonthuoc";
     }
 }

@@ -21,7 +21,7 @@
                     <label for="chiTietKhamBenh">Mã Chi Tiết Khám Bệnh:</label>
                     <input disabled type="text" hidden class="form-control" name="chiTietKhamBenh" id="chiTietKhamBenh" th:value="${maChiTietKhamBenh}" required>
                     <div th:text="'CTKB' + ${@stringUtils.padWithZeros(maChiTietKhamBenh2 , 3)}"
-                         th:style="'color: red;'">
+                         th:style="'color: blue;'">
                     </div>
                     <span th:if="${#fields.hasErrors('maChiTietKhamBenh')}" th:errors="*{maChiTietKhamBenh}" class="text-danger"></span>
                   </div>

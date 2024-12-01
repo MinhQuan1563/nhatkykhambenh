@@ -65,6 +65,11 @@ public class DonThuocService implements IDonThuocService {
         return new PageImpl<>(results, pageable, totalElements);
     }
 
+    @Override
+    public List<DonThuoc> getAllDonThuoc() {
+        return donThuocRepo.findAll();
+    }
+
 
     @Override
     public void saveDonThuoc(DonThuoc donThuoc, Integer maChiTietKhamBenh) {

@@ -317,7 +317,6 @@ public class DataSeeder implements CommandLineRunner {
                         donThuoc.getMaDonThuoc(),
                         (int) (Math.random() * 10) + 1,
                         (int) (Math.random() * 3) + 1,
-                        (int) (Math.random() * 2),
                         true,
                         chiTietKhamBenh,
                         donThuoc

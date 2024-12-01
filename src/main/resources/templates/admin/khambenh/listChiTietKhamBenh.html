@@ -89,12 +89,11 @@
                                     <label for="selectAll"></label>
                                 </span>
               </th>
-              <th>Mã Chi Tiết Khám Bệnh</th>
+              <th>Mã CTKB</th>
               <th>Khoa Khám</th>
-              <th>Bác Sĩ Khám</th>
+              <th>Bác Sĩ</th>
               <th>Chỉ Định</th>
               <th>Chuẩn Đoán</th>
-              <th>Nhóm Máu</th>
               <th>Tình trạng</th>
               <th>Thao tác</th>
               <td>Hành Động</td>
@@ -117,7 +116,6 @@
               <td th:text="${ctkhambenh.bacSiKham}"></td>
               <td th:text="${ctkhambenh.chiDinh}"></td>
               <td th:text="${ctkhambenh.chuanDoan}"></td>
-              <td th:text="${ctkhambenh.nhomMau}"></td>
               <td th:text="${ctkhambenh.tinhTrang}"></td>
 
               <td>
@@ -148,7 +146,7 @@
                 </a>
 
                 <!-- Nút Thêm Đơn Thuốc -->
-                <a th:href="@{/admin/khambenh/chitiet/donthuoc(maChiTietKhamBenh=${ctkhambenh.maChiTietKhamBenh})}"
+                <a th:href="@{/admin/khambenh/chitiet/chitietdonthuoc(maChiTietKhamBenh=${ctkhambenh.maChiTietKhamBenh})}"
                    class="btn btn-primary btn-sm"
                    style="background-color: #007bff; border-color: #007bff; color: white; padding: 3px 8px; font-size: 12px; text-decoration: none; border-radius: 3px; margin-right: 8px; display: inline-flex; align-items: center; justify-content: center;">
                   <i class="material-icons" data-toggle="tooltip" title="Add Prescription" style="font-size: 16px; margin-right: 5px;">local_hospital</i> Đơn Thuốc

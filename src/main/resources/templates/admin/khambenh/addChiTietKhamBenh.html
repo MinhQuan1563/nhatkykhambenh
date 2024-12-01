@@ -21,7 +21,7 @@
                     <label for="khamBenh">Mã Khám Bệnh:</label>
                     <input disabled type="text" hidden class="form-control" id="khamBenh" th:value="*{maKhamBenh}" th:field="*{maKhamBenh}" required>
                     <div th:text="'KB' + ${@stringUtils.padWithZeros(maKhamBenh2, 3)}"
-                         th:style="'color: red;'">
+                         th:style="'color: blue;'">
                     </div>
                     <span th:if="${#fields.hasErrors('maKhamBenh')}" th:errors="*{maKhamBenh}" class="text-danger"></span>
                   </div>
