@@ -62,8 +62,6 @@ public class KhamBenhService implements IKhamBenhService {
         return new PageImpl<>(khamBenhMapper.toKhamBenhDtoList(results), pageable, totalElements);
     }
 
-
-
     @Override
     public void saveKhamBenh(KhamBenhDTO khamBenhDTO) {
         KhamBenh khamBenh = khamBenhMapper.toKhamBenh(khamBenhDTO);
