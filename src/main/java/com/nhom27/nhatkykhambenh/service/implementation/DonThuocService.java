@@ -38,7 +38,7 @@ public class DonThuocService implements IDonThuocService {
 
 
     @Override
-    public Page<DonThuoc> getDSDonThuoc(Pageable pageable, String query, Integer maChiTietKhamBenh) {
+    public Page<DonThuoc> getDSDonThuoc(Pageable pageable, String query) {
         String searchTerm = "%" + query + "%";
 
         String columnQuery = "SELECT GROUP_CONCAT(COLUMN_NAME) FROM INFORMATION_SCHEMA.COLUMNS " +
@@ -47,10 +47,9 @@ public class DonThuocService implements IDonThuocService {
         String columns = (String) columnNativeQuery.getSingleResult();
 
         // Tạo truy vấn động với LIMIT và OFFSET
-        String sql = "SELECT * FROM don_thuoc WHERE trang_thai = 1 AND ma_chi_tiet_kham_benh = :maChiTietKhamBenh AND CONCAT(" + columns + ") LIKE :searchTerm " +
+        String sql = "SELECT * FROM don_thuoc WHERE trang_thai = 1 AND CONCAT(" + columns + ") LIKE :searchTerm " +
                 "LIMIT :limit OFFSET :offset";
         Query nativeQuery = entityManager.createNativeQuery(sql, DonThuoc.class);
-        nativeQuery.setParameter("maChiTietKhamBenh", maChiTietKhamBenh);
         nativeQuery.setParameter("searchTerm", searchTerm);
         nativeQuery.setParameter("limit", pageable.getPageSize());
         nativeQuery.setParameter("offset", pageable.getPageNumber() * pageable.getPageSize());
@@ -72,13 +71,8 @@ public class DonThuocService implements IDonThuocService {
 
 
     @Override
-    public void saveDonThuoc(DonThuoc donThuoc, Integer maChiTietKhamBenh) {
-        ChiTietKhamBenh chiTietKhamBenh = ChiTietKhamBenhRepo.findById(maChiTietKhamBenh)
-                .orElseThrow(() -> new EntityNotFoundException("Không tìm thấy ChiTietKhamBenh với ID: " + maChiTietKhamBenh));
-
+    public void saveDonThuoc(DonThuoc donThuoc) {
         donThuoc.setTrangThai(true);
-//        donThuoc.setChiTietKhamBenh(chiTietKhamBenh);
-
         try {
             donThuocRepo.save(donThuoc);
         } catch (Exception e) {
@@ -95,7 +89,8 @@ public class DonThuocService implements IDonThuocService {
 
     @Override
     public void deleteById(Integer id) {
-        DonThuoc donThuoc = donThuocRepo.findById(id).orElseThrow(() -> new SaveDataException(DonThuoc.OBJ_NAME));
+        DonThuoc donThuoc = donThuocRepo.findById(id)
+                .orElseThrow(() -> new SaveDataException(DonThuoc.OBJ_NAME));
         donThuoc.setTrangThai(false);
         donThuocRepo.save(donThuoc);
     }

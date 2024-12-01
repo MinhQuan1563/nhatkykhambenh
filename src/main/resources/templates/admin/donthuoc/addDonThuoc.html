@@ -12,33 +12,38 @@
         <h5 class="font-weight-bold card-header">Tạo mới Thông tin Đơn Thuốc</h5>
         <div class="card">
           <div class="card-body">
-            <form th:action="@{/admin/khambenh/chitiet/donthuoc/save}" th:object="${donthuoc}" method="post">
+            <form th:action="@{/admin/donthuoc/save}" th:object="${donthuoc}" method="post">
               <div class="row">
                 <input type="hidden" th:name="maDonThuoc" th:value="${donthuoc.maDonThuoc}" />
-                <input type="hidden" th:name="maChiTietKhamBenh" th:value="${maChiTietKhamBenh2}" />
+
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="chiTietKhamBenh">Mã Chi Tiết Khám Bệnh:</label>
-                    <input disabled type="text" hidden class="form-control" name="chiTietKhamBenh" id="chiTietKhamBenh" th:value="${maChiTietKhamBenh}" required>
-                    <div th:text="'CTKB' + ${@stringUtils.padWithZeros(maChiTietKhamBenh2 , 3)}"
-                         th:style="'color: blue;'">
-                    </div>
-                    <span th:if="${#fields.hasErrors('maChiTietKhamBenh')}" th:errors="*{maChiTietKhamBenh}" class="text-danger"></span>
+                    <label for="tenThuoc">Tên Thuốc: </label>
+                    <input type="text" class="form-control" id="tenThuoc" th:field="*{tenThuoc}" required >
+                    <span th:if="${#fields.hasErrors('tenThuoc')}" th:errors="*{tenThuoc}" class="text-danger"></span>
                   </div>
                 </div>
 
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="bacSiKham">Bác Sĩ Khám</label>
-                    <input type="text" class="form-control" id="bacSiKham" th:field="*{bacSiKham}" required >
-                    <span th:if="${#fields.hasErrors('bacSiKham')}" th:errors="*{bacSiKham}" class="text-danger"></span>
+                    <label for="hamLuong">Hàm lượng (mg): </label>
+                    <input type="text" class="form-control" id="hamLuong" th:field="*{hamLuong}" required >
+                    <span th:if="${#fields.hasErrors('hamLuong')}" th:errors="*{hamLuong}" class="text-danger"></span>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="donViTinh">Đơn vị tính: </label>
+                    <input type="text" class="form-control" id="donViTinh" th:field="*{donViTinh}" required >
+                    <span th:if="${#fields.hasErrors('donViTinh')}" th:errors="*{donViTinh}" class="text-danger"></span>
                   </div>
                 </div>
 
               </div>
 
               <div class="create-btn mt-2 d-flex justify-content-end">
-                <a th:href="@{/admin/khambenh/chitiet/donthuoc}" class="btn btn-outline-secondary" style="line-height: 32px;">Trở về</a>
+                <a th:href="@{/admin/donthuoc}" class="btn btn-outline-secondary" style="line-height: 32px;">Trở về</a>
                 <input type="submit" th:value="${param.maDonThuoc != null ? 'Lưu' : 'Thêm'}" class="btn btn-primary ml-2" style="min-width: 140px" />
               </div>
             </form>
