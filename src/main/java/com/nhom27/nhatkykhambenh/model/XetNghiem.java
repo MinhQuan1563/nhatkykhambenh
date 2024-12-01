@@ -11,16 +11,24 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "XetNghiem")
 public class XetNghiem {
+    public static final String OBJ_NAME = "XetNghiem";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MaXetNghiem")
     private Integer maXetNghiem;
 
-    @Column(name = "KetQuaXetNghiem", length = 250)
+    @Column(name = "TenXetNghiem")
+    private String tenXetNghiem;
+
+    @Column(name = "KetQuaXetNghiem")
     private String ketQuaXetNghiem;
 
     @Column(name = "TrangThai")
     private Boolean trangThai;
+
+    @Column(name = "MaChiTietKhamBenh")
+    private Integer maChiTietKhamBenh;
 
     @ManyToOne
     @JoinColumn(name = "MaChiTietKhamBenh",referencedColumnName="MaChiTietKhamBenh", insertable = false, updatable = false)

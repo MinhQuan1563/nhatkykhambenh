@@ -30,6 +30,44 @@ body{
     border-radius: 30px;
 }
 
+.social-login {
+    margin-top: 20px;
+}
+
+.social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    color: #333;
+    background-color: #fff;
+    text-decoration: none;
+}
+
+.social-btn:hover {
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transform: translateY(-1px);
+}
+
+.social-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.social-btn.google {
+    border-color: #dd4b39;
+}
+
+.social-btn.facebook {
+    border-color: #3b5998;
+}
+
 
 /*------------ For small screens------------*/
 

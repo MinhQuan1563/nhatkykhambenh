@@ -8,6 +8,7 @@
 <body>
 <div th:fragment="contentUser" class="container">
     <link rel="stylesheet" th:href="@{../../css/user/thongtinbenh.css}">
+    <link rel="stylesheet" th:href="@{../../css/user/chitietbenh.css}">
 
     <div class="card">
         <div class="header">
@@ -26,16 +27,15 @@
             </div>
 
             <div class="image-container">
-                <img id="mainImage" src="https://via.placeholder.com/300x200" alt="Hình ảnh bệnh" class="main-image">
+                <img id="mainImage" th:src="${hinhAnhList[0].hinhAnh}" alt="Hình ảnh bệnh" class="main-image">
                 <div class="thumbnail-navigation">
                     <div class="nav-buttons">
                         <button class="prev" onclick="prevImage()">&lt;</button>
                     </div>
-                    <div class="thumbnail-container" id="thumbnailContainer">
-                        <img src="https://via.placeholder.com/60" alt="Ảnh nhỏ 1" data-src="https://via.placeholder.com/300x200">
-                        <img src="https://via.placeholder.com/60" alt="Ảnh nhỏ 2" data-src="https://via.placeholder.com/300x200/FF0000/FFFFFF">
-                        <img src="https://via.placeholder.com/60" alt="Ảnh nhỏ 3" data-src="https://via.placeholder.com/300x200/00FF00/FFFFFF">
-                        <img src="https://via.placeholder.com/60" alt="Ảnh nhỏ 4" data-src="https://via.placeholder.com/300x200/0000FF/FFFFFF">
+                    <div class="thumbnail-container" style="max-width: 300px; overflow-y: auto" id="thumbnailContainer">
+
+                        <img th:each="hinhAnh : ${hinhAnhList}" th:src="${hinhAnh.hinhAnh}"
+                             th:attr="data-src=${hinhAnh.hinhAnh}"  alt="Ảnh nhỏ 1" >
                     </div>
                     <div class="nav-buttons">
                         <button class="next" onclick="nextImage()">&gt;</button>
@@ -64,8 +64,51 @@
         <div class="cost-section">
             Chúc Bạn Mạnh Khỏe 💖
         </div>
+
+        <div class="prescription">
+            <h1>Đơn Thuốc</h1>
+            <div class="info">
+                <p><strong>Mã đơn thuốc:</strong> DT001</p>
+                <p><strong>Mã khám bệnh:</strong> KB001</p>
+                <p><strong>Bác sĩ:</strong> Người iu Tui</p>
+                <p><strong>Người bệnh:</strong> Lê Ngọc Giàu</p>
+                <p><strong>Bệnh viện:</strong> <span class="hospital">Bệnh viện Đại học Y Dược TP HCM</span></p>
+                <p><strong>Ngày khám:</strong> 01/10/2024</p>
+                <p><strong>Trạng thái:</strong> <span class="status">Đã kê đơn</span></p>
+            </div>
+            <table>
+                <thead>
+                <tr>
+                    <th>Tên thuốc</th>
+                    <th>Liều lượng</th>
+                    <th>Số lượng</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Paracetamol</td>
+                    <td>500mg</td>
+                    <td>20 viên</td>
+                </tr>
+                <tr>
+                    <td>Amoxicillin</td>
+                    <td>250mg</td>
+                    <td>30 viên</td>
+                </tr>
+                <tr>
+                    <td>Vitamin C</td>
+                    <td>1000mg</td>
+                    <td>10 viên</td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="footer">
+                Chúc bạn mạnh khỏe 💖
+            </div>
+        </div>
     </div>
 </div>
+
 
 <script>
     let currentIndex = 0;

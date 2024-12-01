@@ -26,6 +26,11 @@
 
     <!-- Scrollbar CSS -->
     <link rel="stylesheet" th:href="@{/vendor/overlay-scroll/OverlayScrollbars.min.css}">
+
+    <!-- Required jQuery first, then Bootstrap Bundle JS -->
+    <script th:src="@{/js/user/moment.min.js}" ></script>
+    <script th:src="@{/js/user/jquery.min.js}" ></script>
+    <script th:src="@{/js/user/bootstrap.bundle.min.js}" ></script>
 </head>
 
 <body>
@@ -111,7 +116,7 @@
             <div class="sidebarMenuScroll">
                 <ul class="sidebar-menu">
                     <li>
-                        <a href="home.html">
+                        <a th:href="@{/users/tongquan(maNguoiDung=${session.nguoidung.maNguoiDung})}">
                             <i class="ri-dossier-line"></i>
                             <span class="menu-text">Tổng Quan</span>
                         </a>
@@ -123,10 +128,10 @@
                         </a>
                         <ul class="treeview-menu">
                             <li>
-                                <a href="doctor-dashboard.html">Mũi Đã Tiêm</a>
+                                <a th:href="@{/users/tiemchung(maNguoiDung=${session.nguoidung.maNguoiDung})}">Mũi Đã Tiêm</a>
                             </li>
                             <li>
-                                <a href="doctors-list.html">Lịch Hẹn</a>
+                                <a th:href="@{/users/tiemchung/lichhen(maNguoiDung=${session.nguoidung.maNguoiDung})}">Lịch Hẹn</a>
                             </li>
                         </ul>
                     </li>
@@ -143,7 +148,7 @@
                                 <a href="patient-dashboard.html">Chi Tiết Bệnh</a>
                             </li>
                             <li>
-                                <a href="patients-list.html">Lịch Hẹn Khám</a>
+                                <a th:href="@{/users/khambenh/lichhen(maNguoiDung=${session.nguoidung.maNguoiDung})}">Lịch Hẹn Khám</a>
                             </li>
                         </ul>
                     </li>
@@ -187,14 +192,17 @@
             <div class="app-hero-header d-flex align-items-center">
 
                 <!-- Breadcrumb starts -->
-                <ol class="breadcrumb">
+                <ol class="breadcrumb text-primary">
                     <li class="breadcrumb-item">
                         <i class="ri-home-8-line lh-1 pe-3 me-3 border-end"></i>
                         <a th:href="@{/}">Trang chủ</a>
                     </li>
-                    <li class="breadcrumb-item text-primary" aria-current="page">
-                        @th:Text
+                    <li th:each="name : ${session.pageName}" class="breadcrumb-item" aria-current="page" >
+                        <span th:text="${name}">
+
+                        </span>
                     </li>
+
                 </ol>
                 <!-- Breadcrumb ends -->
 
@@ -223,11 +231,6 @@
 
 </div>
 <!-- Page wrapper ends -->
-
-<!-- Required jQuery first, then Bootstrap Bundle JS -->
-<script th:src="@{/js/user/moment.min.js}" ></script>
-<script th:src="@{/js/user/jquery.min.js}" ></script>
-<script th:src="@{/js/user/bootstrap.bundle.min.js}" ></script>
 
 <!-- Vendor Js Files -->
 <script th:src="@{/vendor/overlay-scroll/jquery.overlayScrollbars.min.js}"></script>

@@ -527,7 +527,7 @@ input[type="search"] {
 
 table.table tr th, table.table tr td {
     border-color: #e9e9e9;
-    padding: 8px 15px;
+    padding: 8px 10px;
     font-size: 14px;
     font-weight: 400;
     vertical-align: middle;
@@ -557,8 +557,11 @@ table.table th i {
 
 table.table td:last-child {
     opacity: 0.9;
-    font-size: 22px;
+    font-size: 14px;
     margin: 0px 5px;
+    text-align: center;
+    font-weight: bold;
+    vertical-align: middle;
 }
 
 table.table td a {

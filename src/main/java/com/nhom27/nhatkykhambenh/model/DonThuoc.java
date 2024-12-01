@@ -1,9 +1,10 @@
 package com.nhom27.nhatkykhambenh.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -11,6 +12,9 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "DonThuoc")
 public class DonThuoc {
+
+    public static final String OBJ_NAME = "DonThuoc";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MaDonThuoc")
@@ -19,13 +23,15 @@ public class DonThuoc {
     @Column(name = "BacSiKham")
     private String bacSiKham;
 
-    @Column(name = "TenThuoc")
-    private String tenThuoc;
-
     @Column(name = "TrangThai")
     private Boolean trangThai;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MaKhamBenh", referencedColumnName = "MaKhamBenh")
-    private KhamBenh khamBenh;
+    @JoinColumn(name = "MaChiTietKhamBenh", referencedColumnName = "MaChiTietKhamBenh")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private ChiTietKhamBenh chiTietKhamBenh;
+
+    @OneToMany(mappedBy = "donThuoc", fetch = FetchType.LAZY)
+    private Set<ChiTietDonThuoc> danhSachChiTietDonThuoc = new HashSet<>();
 }

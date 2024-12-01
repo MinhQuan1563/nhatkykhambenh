@@ -3,6 +3,7 @@ package com.nhom27.nhatkykhambenh.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
@@ -24,8 +25,11 @@ public class GiaDinh {
 
     @Column(name = "TrangThai")
     private Boolean trangThai=true;
+
     @OneToOne(mappedBy = "giaDinh", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @EqualsAndHashCode.Exclude
     private TaiKhoan taiKhoan;
+
     @OneToMany(mappedBy = "giaDinh", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<NguoiDung> danhSachNguoiDung = new HashSet<>();
 

@@ -1,0 +1,160 @@
+        .dashboard-card {
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            margin-bottom: 20px;
+        }
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+        }
+        .card-header {
+            background-color: #4e73df;
+            color: white;
+            border-radius: 15px 15px 0 0 !important;
+        }
+        .sidebar {
+            background-color: #4e73df;
+            min-height: 100vh;
+            color: white;
+        }
+        .sidebar .nav-link {
+            color: rgba(255,255,255,.8);
+        }
+        .sidebar .nav-link:hover {
+            color: #fff;
+        }
+        .main-content {
+            background-color: #f8f9fc;
+        }
+        .stats-card {
+            border-left: 4px solid #4e73df;
+        }
+         .chart-container {
+            position: relative;
+            height: 350px; /* Tăng chiều cao */
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        .chart-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+#visitsChart {
+            background: linear-gradient(to bottom right, rgba(78, 115, 223, 0.05), rgba(78, 115, 223, 0.01));
+        }
+
+        #testsChart {
+            background: linear-gradient(to bottom right, rgba(54, 185, 204, 0.05), rgba(54, 185, 204, 0.01));
+        }
+
+        #vaccinationChart {
+            background: linear-gradient(to bottom right, rgba(28, 200, 138, 0.05), rgba(28, 200, 138, 0.01));
+        }
+
+        #symptomsChart {
+            background: linear-gradient(to bottom right, rgba(246, 194, 62, 0.05), rgba(246, 194, 62, 0.01));
+        }
+
+        /* Style cho card headers */
+        .stats-card {
+            transition: all 0.3s ease;
+            border: none;
+            background: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .stats-card h5 {
+color: #5a5c69;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .stats-card h2 {
+            color: #4e73df;
+            font-weight: 700;
+            margin-bottom: 0;
+        }
+
+        /* Custom colors cho biểu đồ */
+        :root {
+            --chart-blue: #4e73df;
+            --chart-cyan: #36b9cc;
+            --chart-green: #1cc88a;
+            --chart-yellow: #f6c23e;
+            --chart-red: #e74a3b;
+        }
+          .btn.btn-filter {
+            background-color: blue;
+            color: white;
+            border: none;
+          }
+
+          .btn.btn-filter:hover {
+            background-color: darkblue;
+          }
+
+
+                .loading {
+                    background: rgba(255, 255, 255, 0.9);
+                    backdrop-filter: blur(5px);
+                }
+
+                .loading .spinner-border {
+                    width: 3rem;
+                    height: 3rem;
+                    border-width: 0.25em;
+                }
+                .filter-section {
+                    background-color: white;
+                    padding: 15px;
+                    border-radius: 10px;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                    margin-bottom: 20px;
+                }
+                .date-picker {
+                    border: 1px solid #ced4da;
+                    border-radius: 5px;
+                    padding: 8px 12px;
+                    width: 100%;
+                }
+                .btn-filter {
+                    background-color: #4e73df;
+                    color: white;
+                    border: none;
+                    padding: 8px 20px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                }
+                .btn-filter:hover {
+                    background-color: #2e59d9;
+                }
+                .btn-reset {
+                    background-color: #858796;
+                    color: white;
+                    border: none;
+                    padding: 8px 20px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                }
+                .btn-reset:hover {
+                    background-color: #717384;
+                }
+                .filter-group {
+                    margin-bottom: 10px;
+                }
+
+                .loading.active {
+                    display: flex;
+                }

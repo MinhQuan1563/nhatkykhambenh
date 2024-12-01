@@ -5,9 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -16,6 +16,8 @@ import java.util.Set;
 @Entity
 @Table(name = "KhamBenh")
 public class KhamBenh {
+    public static final String OBJ_NAME = "KhamBenh";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MaKhamBenh")
@@ -25,11 +27,10 @@ public class KhamBenh {
     private String benhVien;
 
     @Column(name = "NgayKham")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Timestamp ngayKham;
+    private LocalDateTime ngayKham;
 
     @Column(name = "TrangThai")
-    private Boolean trangThai;
+    private Boolean trangThai = true;
 
     @ManyToOne
     @JoinColumn(name = "MaNguoiDung", referencedColumnName = "MaNguoiDung", nullable = true)
@@ -41,6 +42,6 @@ public class KhamBenh {
     @OneToMany(mappedBy = "khamBenh", fetch = FetchType.LAZY)
     private Set<LichHenKham> danhSachLichHenKham = new HashSet<>() ;
 
-    @OneToOne(mappedBy = "khamBenh")
-    private DonThuoc donThuoc;
+//    @OneToOne(mappedBy = "khamBenh")
+//    private DonThuoc donThuoc;
 }

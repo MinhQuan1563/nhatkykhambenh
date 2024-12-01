@@ -1,12 +1,22 @@
 package com.nhom27.nhatkykhambenh.service.interfaces;
 
-
-import com.nhom27.nhatkykhambenh.dto.TaiKhoanDTO;
+import com.nhom27.nhatkykhambenh.dto.RegistrationDTO;
+import com.nhom27.nhatkykhambenh.model.NguoiDung;
+import com.nhom27.nhatkykhambenh.model.Role;
 import com.nhom27.nhatkykhambenh.model.TaiKhoan;
 
 public interface ITaiKhoanService {
     void saveTaiKhoan(TaiKhoan taiKhoan);
-    TaiKhoanDTO findById(Integer id);
+
     void deleteById(Integer id);
-    TaiKhoan findByTaiKhoan(String soDienThoai,String matKhau);
+
+    NguoiDung registerUser(RegistrationDTO registrationDTO, Role role);
+
+    TaiKhoan findBySoDienThoaiAndMatKhau(String soDienThoai, String matKhau);
+
+    TaiKhoan findBySoDienThoai(String soDienThoai);
+
+    TaiKhoan findById(Integer maNguoiDung);
+
+    TaiKhoan getCurrentUser();
 }

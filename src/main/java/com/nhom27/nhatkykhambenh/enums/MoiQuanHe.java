@@ -1,6 +1,7 @@
 package com.nhom27.nhatkykhambenh.enums;
 
 public enum MoiQuanHe {
+    TOI("Tôi"),
     CHA("Cha"),
     ME("Mẹ"),
     VO("Vợ"),

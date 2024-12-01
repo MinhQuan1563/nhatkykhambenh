@@ -3,10 +3,10 @@ package com.nhom27.nhatkykhambenh.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -21,32 +21,33 @@ public class TongQuan {
     private Integer maTongQuan;
 
     @Column(name = "DuongHuyet", length = 250)
-    private String duongHuyet;
+    private String duongHuyet = "0";
 
     @Column(name = "NhipTim", length = 250)
-    private String nhipTim;
+    private String nhipTim= "0";
 
     @Column(name = "HuyetAp", length = 250)
-    private String huyetAp;
+    private String huyetAp= "0";
 
     @Column(name = "NhietDo", length = 250)
-    private String nhietDo;
+    private String nhietDo= "0";
 
     @Column(name = "ChieuCao", length = 250)
-    private String chieuCao;
+    private String chieuCao= "0";
 
     @Column(name = "CanNang", length = 250)
-    private String canNang;
+    private String canNang= "0";
 
     @Column(name = "ChiSoBMI", length = 250)
-    private String chiSoBMI;
+    private String chiSoBMI= "0";
 
     @Column(name = "NhomMau", length = 250)
-    private String nhomMau;
+    private String nhomMau= "0";
 
     @Column(name = "TrangThai")
-    private Boolean trangThai;
+    private Boolean trangThai = true;
 
+    @EqualsAndHashCode.Exclude
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MaNguoiDung", referencedColumnName = "MaNguoiDung")
     private NguoiDung nguoiDung;
