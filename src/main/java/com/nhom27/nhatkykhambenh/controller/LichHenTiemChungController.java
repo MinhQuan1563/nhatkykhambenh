@@ -46,7 +46,7 @@ public class LichHenTiemChungController {
         lichHenTiemChungDTO.setNguoiDungTiemChungList(new HashSet<>());
         model.addAttribute("lichHenTiemChungDTO", lichHenTiemChungDTO);
         TaiKhoan taiKhoan = (TaiKhoan) session.getAttribute("taikhoan");
-        List<NguoiDung> nguoiDungs = this.nguoiDungService.getDsNguoiDungByGiaDinh(taiKhoan.getGiaDinh());
+        List<NguoiDung> nguoiDungs = this.nguoiDungService.getAllNguoiDung();
         List<NguoiDungDTO> nguoiDungDTOs = nguoiDungMapper.toNguoiDungDtoList(nguoiDungs);
         model.addAttribute("members", nguoiDungDTOs);
         return "/admin/lichhentiemchung/addLichHenTiemChung";
@@ -84,7 +84,7 @@ public class LichHenTiemChungController {
         System.out.println(lichHenTiemChungDTO.getNgayHenTiem());
         model.addAttribute("lichHenTiemChung",lichHenTiemChungDTO);
         TaiKhoan taiKhoan = (TaiKhoan) session.getAttribute("taikhoan");
-        List<NguoiDung> nguoiDungs = this.nguoiDungService.getDsNguoiDungByGiaDinh(taiKhoan.getGiaDinh());
+        List<NguoiDung> nguoiDungs = this.nguoiDungService.getAllNguoiDung();
         List<NguoiDungDTO> nguoiDungDTOs = nguoiDungMapper.toNguoiDungDtoList(nguoiDungs);
         model.addAttribute("members", nguoiDungDTOs);
         System.out.println(lichHenTiemChungDTO.getNgayHenTiem());
