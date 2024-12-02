@@ -14,5 +14,20 @@ public class StringUtils {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
         return dateTime.format(formatter);
     }
+
+    public String getInitials(String fullName) {
+        if (fullName == null || fullName.trim().isEmpty()) {
+            return "";
+        }
+
+        String[] words = fullName.trim().split("\\s+");
+        StringBuilder initials = new StringBuilder();
+
+        for (String word : words) {
+            initials.append(word.charAt(0));
+        }
+
+        return initials.toString().toUpperCase();
+    }
 }
 

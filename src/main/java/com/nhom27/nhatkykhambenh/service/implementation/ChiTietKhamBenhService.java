@@ -113,7 +113,7 @@ public class ChiTietKhamBenhService implements IChiTietKhamBenhService {
     public ThongTinBenhDTO getAllThongTinBenh(ChiTietKhamBenh chiTietKhamBenh) {
         KhamBenh khamBenh = khamBenhRepo.findByChiTietKhamBenh(chiTietKhamBenh.getMaChiTietKhamBenh());
         List<XetNghiem> dsXetNghiem = xetNghiemRepo.findByMaChiTietKhamBenh(chiTietKhamBenh.getMaChiTietKhamBenh());
-        List<HinhAnh> dsHinhAnh = hinhAnhRepo.findByMaChiTietKhamBenh(chiTietKhamBenh.getMaChiTietKhamBenh());
+        List<HinhAnh> dsHinhAnh = hinhAnhRepo.getHinhAnhsByChiTietKhamBenh(chiTietKhamBenh);
         List<ChiTietDonThuoc> dsChiTietDonThuoc = chiTietDonThuocRepo.findByMaChiTietKhamBenh(chiTietKhamBenh.getMaChiTietKhamBenh());
 
         ThongTinBenhDTO thongTinBenhDTO = new ThongTinBenhDTO();

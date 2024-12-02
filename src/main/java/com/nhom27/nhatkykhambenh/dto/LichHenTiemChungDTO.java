@@ -20,4 +20,5 @@ public class LichHenTiemChungDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime ngayHenTiem;
     private Set<NguoiDungTiemChungDTO> nguoiDungTiemChungList;
+    private String trangThai;
 }

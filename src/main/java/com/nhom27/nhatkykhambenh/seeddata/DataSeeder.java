@@ -13,7 +13,8 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Component
-public class DataSeeder implements CommandLineRunner {
+public class
+DataSeeder implements CommandLineRunner {
 
     @Autowired
     private IGiaDinhRepo giaDinhRepo;

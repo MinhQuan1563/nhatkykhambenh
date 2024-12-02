@@ -49,7 +49,7 @@ public class AuthController {
     private JwtUtil jwtUtil;
 
     @GetMapping("/logout")
-    public String logout(HttpSession session) {
+    public String logout() {
         return "redirect:/login?logout";
     }
 
@@ -58,28 +58,29 @@ public class AuthController {
         return "login";
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody TaiKhoanDTO taiKhoanDTO, HttpSession session) {
-        TaiKhoan taiKhoan = taiKhoanService.findBySoDienThoai(taiKhoanDTO.getSoDienThoai());
-        if (taiKhoan == null || !taiKhoan.getMatKhau().equals(taiKhoanDTO.getMatKhau())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Thông tin đăng nhập không hợp lệ");
-        }
-
-        List<String> roles = taiKhoan.getDanhSachRole().stream()
-                .map(Role::getName)
-                .toList();
-
-        String jwtToken = jwtUtil.generateToken(taiKhoanDTO.getSoDienThoai(), roles);
-        session.setAttribute("roles", roles);
-
-//        return ResponseEntity.ok(new JwtResponse(jwtToken));
-        if (roles.contains("ADMIN")) {
-            return ResponseEntity.ok(new JwtResponse(jwtToken, "/admin/dashboard"));
-        }
-        else {
-            return ResponseEntity.ok(new JwtResponse(jwtToken, "/"));
-        }
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<?> login(@RequestBody TaiKhoanDTO taiKhoanDTO, HttpSession session) {
+//        TaiKhoan taiKhoan = taiKhoanService.findBySoDienThoai(taiKhoanDTO.getSoDienThoai());
+//        if (taiKhoan == null || !taiKhoan.getMatKhau().equals(taiKhoanDTO.getMatKhau())) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Thông tin đăng nhập không hợp lệ");
+//        }
+//        NguoiDung nguoiDung = nguoiDungService.getById(taiKhoan.getMaNguoiDung());
+//
+//        List<String> roles = taiKhoan.getDanhSachRole().stream()
+//                .map(Role::getName)
+//                .toList();
+//
+//        String jwtToken = jwtUtil.generateToken(taiKhoanDTO.getSoDienThoai(), roles);
+//        session.setAttribute("roles", roles);
+//        session.setAttribute("nguoidungLogged", nguoiDung);
+//
+//        if (roles.contains("ADMIN")) {
+//            return ResponseEntity.ok(new JwtResponse(jwtToken, "/admin/dashboard"));
+//        }
+//        else {
+//            return ResponseEntity.ok(new JwtResponse(jwtToken, "/"));
+//        }
+//    }
 
     @GetMapping("/register")
     public String register(Model model) {

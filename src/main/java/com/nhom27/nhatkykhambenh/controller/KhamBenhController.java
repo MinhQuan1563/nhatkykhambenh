@@ -150,7 +150,7 @@ public class KhamBenhController {
         pageName.add("Khám bệnh");
 
         NguoiDung nguoiDung = nguoiDungService.getById(maNguoiDung);
-        session.setAttribute("nguoidung", nguoiDung);
+        session.setAttribute("nguoithan", nguoiDung);
 
         List<KhamBenhDTO> dsKhamBenhDTO = khamBenhMapper.toKhamBenhDtoList(khamBenhService.getAllByNguoiDung(nguoiDung));
 

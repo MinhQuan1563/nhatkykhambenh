@@ -40,7 +40,21 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         String email = oAuth2User.getAttribute("email");
         String name = oAuth2User.getAttribute("name");
         String provider = userRequest.getClientRegistration().getRegistrationId(); // Xác định Google/Facebook
-        String providerId = oAuth2User.getAttribute("sub");
+
+        String providerId;
+        if (provider.equalsIgnoreCase("facebook")) {
+            providerId = oAuth2User.getAttribute("id");
+        }
+        else if (provider.equalsIgnoreCase("google")) {
+            providerId = oAuth2User.getAttribute("sub");
+        }
+        else {
+            throw new RuntimeException("Unsupported provider: " + provider);
+        }
+
+        if (providerId == null || providerId.isEmpty()) {
+            throw new RuntimeException("Provider unsupported: " + provider);
+        }
 
         NguoiDung existNguoiDung  = nguoiDungRepo.findByEmail(email);
 
@@ -64,7 +78,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
             Role defaultRole = roleRepo.findByName("USER");
             taiKhoan.setDanhSachRole(List.of(defaultRole));
-            taiKhoanRepo.save(taiKhoan);
+            taiKhoanRepo.saveAndFlush(taiKhoan);
 
             TongQuan tongQuan = new TongQuan();
             tongQuan.setNguoiDung(nguoiDung);

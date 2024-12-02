@@ -38,7 +38,7 @@ public class SecurityConfig {
                         "/error", "/css/**", "/js/**", "/image/**", "/font/**", "/oauth2/**")
                 .permitAll()
                 .requestMatchers("/admin/**").hasAuthority("ADMIN")
-//                .requestMatchers("/users/**").hasAuthority("USER")
+                .requestMatchers("/users/**").hasAuthority("USER")
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
@@ -52,6 +52,8 @@ public class SecurityConfig {
             .logout(logout -> logout
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/login?logout=true")
+//                .invalidateHttpSession(true)
+//                .clearAuthentication(true)
                 .permitAll()
             )
             .oauth2Login(oauth2 -> oauth2

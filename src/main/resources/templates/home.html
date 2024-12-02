@@ -276,23 +276,25 @@ df-messenger {
             <div class="dropdown ms-2">
                 <a id="userSettings" class="dropdown-toggle d-flex align-items-center" href="#!" role="button"
                    data-bs-toggle="dropdown" aria-expanded="false">
-                    <div class="avatar-box">JB<span class="status busy"></span></div>
+                    <div class="avatar-box">
+<!--                        <span th:text="${@stringUtils.getInitials(nguoidungLogged.tenNguoiDung)}"></span>-->
+                        <span class="status busy"></span>
+                    </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end shadow-lg">
                     <div class="px-3 py-2">
-                        <span class="small">Admin</span>
-                        <h6 class="m-0">James Bruton</h6>
+<!--                        <span class="small" th:text="${ngu.tenNguoiDung}"></span>-->
+<!--                        <h6 class="m-0" th:text="${nguoidungLogged.tenNguoiDung}"></h6>-->
                     </div>
-                    <div th:if="${session.loggedInUser}" class="mx-3 my-2 d-grid">
-                        <a th:href="@{/logout}" class="btn btn-danger">Đăng xuất</a>
-                    </div>
+<!--                    <div th:if="${nguoidungLogged}" class="mx-3 my-2 d-grid">-->
+<!--                        <a th:href="@{/logout}" class="btn btn-danger">Đăng xuất</a>-->
+<!--                    </div>-->
                 </div>
             </div>
             <!-- Header user settings ends -->
 
         </div>
         <!-- App header actions ends -->
-
     </div>
     <!-- App header ends -->
 
@@ -365,9 +367,9 @@ df-messenger {
         <a href="https://m.me/522900964234359" target="_blank" style="text-decoration: none;">
             <div class="messenger-button">
                 <img
-                        th:src="@{/image/mess.png}"
-                        alt="Messenger Icon"
-                        style="width: 40px; margin-right: 0px;"
+                    th:src="@{/image/mess.png}"
+                    alt="Messenger Icon"
+                    style="width: 40px; margin-right: 0px;"
                 />
             </div>
         </a>
