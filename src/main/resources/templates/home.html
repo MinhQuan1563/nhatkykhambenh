@@ -332,7 +332,7 @@ df-messenger {
 
 <!--fix-->
 <!-- Container chứa tất cả các nút-->
-<div class="messenger-wrapper" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000; height: 150px ; display: flex; flex-direction: column; gap: 20px; align-items: flex-end;">
+<div class="messenger-wrapper" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000; height: 225px ; display: flex; flex-direction: column; gap: 20px; align-items: flex-end;">
     <!-- Dialogflow Messenger -->
     <df-messenger
             intent="WELCOME"
@@ -341,24 +341,16 @@ df-messenger {
             language-code="en">
     </df-messenger>
 
-    <!-- Chat bot có phí -->
-<!--    <div class="fastbot-wrapper">-->
-<!--        <div class="fastbot-button" onclick="toggleFastBot()">-->
-<!--            <img th:src="@{/image/bot.png}" alt="FastBot Icon" />-->
-<!--        </div>-->
-<!--        <iframe class="fastbot-iframe"-->
-<!--                src="https://app.fastbots.ai/embed/cm42vjlj300j3svbm95hkc089">-->
-<!--        </iframe>-->
-<!--    </div>-->
+
 
 <!--    ko cần thì cancel-->
-    <script defer src="https://app.fastbots.ai/embed.js" data-bot-id="cm42vjlj300j3svbm95hkc089"></script>
-<!--    <script>-->
-<!--        function toggleFastBot() {-->
-<!--            const wrapper = document.querySelector('.fastbot-wrapper');-->
-<!--            wrapper.classList.toggle('active');-->
-<!--        }-->
-<!--    </script>-->
+<!--    <script defer src="https://app.fastbots.ai/embed.js" data-bot-id="cm42vjlj300j3svbm95hkc089"></script>-->
+    <script>
+        function toggleFastBot() {
+            const wrapper = document.querySelector('.fastbot-wrapper');
+            wrapper.classList.toggle('active');
+        }
+    </script>
 
     <!-- Nút Messenger -->
     <div>
@@ -372,8 +364,50 @@ df-messenger {
             </div>
         </a>
     </div>
+
+    <!-- Chat bot có phí -->
+    <div class="fastbot-wrapper">
+        <div class="fastbot-button" onclick="toggleFastBot()">
+            <img th:src="@{/image/bot.png}" alt="FastBot Icon" />
+        </div>
+
+
+<!--        <iframe	 class="fastbot-iframe"-->
+<!--                   src="https://app.fastbots.ai/embed/cm456kf7n0gdxsvbmn2usmzs6"></iframe>-->
+    </div>
 </div>
 
+
+<!--chưa fix-->
+<!--<df-messenger-->
+<!--        intent="WELCOME"-->
+<!--        chat-title="Thợ_Code_Ít_$"-->
+<!--        agent-id="3d2ad013-0fca-4512-aea2-4cb4147056cf"-->
+<!--        language-code="en"-->
+<!--&gt;</df-messenger>-->
+
+<!--&lt;!&ndash; Nút Messenger &ndash;&gt;-->
+<!--<div style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">-->
+<!--    <a href="https://m.me/522900964234359" target="_blank" style="text-decoration: none;">-->
+<!--        <div style="-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            color: white;-->
+<!--            padding: 13px 2px;-->
+<!--            border-radius: 50px;-->
+<!--            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);-->
+<!--            cursor: pointer;-->
+<!--            font-family: Arial, sans-serif;-->
+<!--            font-size: 16px;-->
+<!--        ">-->
+<!--            <img-->
+<!--                    th:src="@{/image/mess.png}"-->
+<!--                    alt="Messenger Icon"-->
+<!--                    style="width: 40px; height: 30px; margin-right: 10px;"-->
+<!--            />-->
+<!--        </div>-->
+<!--    </a>-->
+<!--</div>-->
 
 
 
