@@ -12,6 +12,8 @@ import java.util.List;
 public interface IKhamBenhService {
     Page<KhamBenhDTO> getDSKhamBenh(Pageable pageable, String query);
 
+    List<KhamBenh> getAll();
+
     List<KhamBenh> getAllByNguoiDung(NguoiDung nguoiDung);
 
     void saveKhamBenh(KhamBenhDTO khamBenhDTO);
@@ -21,4 +23,6 @@ public interface IKhamBenhService {
     void deleteById(Integer id);
 
     void deleteAllByIds(List<Integer> ids);
+
+    List<KhamBenh> filterKhamBenh(String dateFrom, String dateTo, String maGiaDinh);
 }

@@ -58,8 +58,7 @@ public class TongQuanService implements ITongQuanService {
 
     @Override
     public TongQuan findByNguoiDung(Integer maNguoiDung) {
-        TongQuan tongQuan = tongQuanRepo.findByNguoiDung_MaNguoiDung(maNguoiDung);
-        return tongQuan;
+        return tongQuanRepo.findByNguoiDung_MaNguoiDung(maNguoiDung);
     }
 
     @Override
@@ -80,8 +79,9 @@ public class TongQuanService implements ITongQuanService {
             if (!chiTietChiSoList.isEmpty()) {
                 ChiTietChiSo latestChiTietChiSo = Collections.max(chiTietChiSoList, Comparator.comparing(ChiTietChiSo::getThoiGianDo));
                 arr[index][1] = latestChiTietChiSo.getThoiGianDo().toString();
-            } else {
-                arr[index][1] = "";
+            }
+            else {
+                arr[index][1] = "Không có dữ liệu";
             }
 
             index++;

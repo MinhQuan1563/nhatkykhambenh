@@ -1,6 +1,7 @@
 package com.nhom27.nhatkykhambenh.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nhom27.nhatkykhambenh.model.NguoiDung;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,4 +26,6 @@ public class TaiKhoanDTO {
     private Integer maGiaDinh;
 
     private List<Integer> danhSachRoleIds;
+
+    private NguoiDungDTO nguoiDung;
 }

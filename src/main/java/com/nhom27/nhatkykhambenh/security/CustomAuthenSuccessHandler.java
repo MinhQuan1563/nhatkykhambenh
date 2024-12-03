@@ -1,5 +1,7 @@
 package com.nhom27.nhatkykhambenh.security;
 
+import com.nhom27.nhatkykhambenh.dto.NguoiDungDTO;
+import com.nhom27.nhatkykhambenh.mapper.NguoiDungMapper;
 import com.nhom27.nhatkykhambenh.model.NguoiDung;
 import com.nhom27.nhatkykhambenh.model.TaiKhoan;
 import com.nhom27.nhatkykhambenh.service.interfaces.INguoiDungService;
@@ -28,14 +30,14 @@ public class CustomAuthenSuccessHandler implements AuthenticationSuccessHandler 
                 .map(GrantedAuthority::getAuthority)
                 .anyMatch(role -> role.equals("ADMIN"));
 
-        System.out.println("CustomAuthenSuccessHandler OKKK");
-
         if (isAdmin) {
             response.sendRedirect("/admin/dashboard");
         }
         else {
             TaiKhoan taiKhoan = (TaiKhoan) authentication.getPrincipal();
             NguoiDung nguoiDung = nguoiDungService.getById(taiKhoan.getMaNguoiDung());
+
+            request.getSession().setAttribute("taikhoan", taiKhoan);
             request.getSession().setAttribute("nguoidungLogged", nguoiDung);
 
             response.sendRedirect("/");

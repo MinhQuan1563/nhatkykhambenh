@@ -7,6 +7,8 @@ import com.nhom27.nhatkykhambenh.service.interfaces.IGiaDinhService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class GiaDinhService implements IGiaDinhService {
 
@@ -30,5 +32,10 @@ public class GiaDinhService implements IGiaDinhService {
     @Override
     public void deleteById(Integer id) {
 
+    }
+
+    @Override
+    public List<GiaDinh> getAll() {
+        return giaDinhRepo.findAll();
     }
 }

@@ -14,7 +14,9 @@ import lombok.Setter;
 public class GiaDinhDTO {
     private Integer maGiaDinh;
 
-    private Integer soLuong=0;
+    private Integer soLuong;
 
-    private Boolean trangThai=true;
+    private Boolean trangThai;
+
+    private TaiKhoanDTO taiKhoan;
 }

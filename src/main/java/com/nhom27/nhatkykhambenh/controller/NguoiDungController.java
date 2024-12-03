@@ -1,10 +1,11 @@
 package com.nhom27.nhatkykhambenh.controller;
 
 import com.nhom27.nhatkykhambenh.dto.NguoiDungDTO;
+import com.nhom27.nhatkykhambenh.dto.TaiKhoanDTO;
 import com.nhom27.nhatkykhambenh.mapper.NguoiDungMapper;
+import com.nhom27.nhatkykhambenh.mapper.TaiKhoanMapper;
 import com.nhom27.nhatkykhambenh.model.NguoiDung;
 import com.nhom27.nhatkykhambenh.model.TaiKhoan;
-import com.nhom27.nhatkykhambenh.service.implementation.NguoiDungService;
 import com.nhom27.nhatkykhambenh.service.interfaces.ICloudinaryService;
 import com.nhom27.nhatkykhambenh.service.interfaces.INguoiDungService;
 import jakarta.servlet.http.HttpSession;
@@ -17,10 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class NguoiDungController {
@@ -51,14 +48,20 @@ public class NguoiDungController {
     }
 
     @PostMapping("/users/nguoidung/save")
-    public String saveThemNguoiThan(@ModelAttribute("nguoiDung")NguoiDungDTO nguoiDungDTO,
+    public String saveThemNguoiThan(@ModelAttribute("nguoiDung") NguoiDungDTO nguoiDungDTO,
                                     @RequestParam("file") MultipartFile file,
                                     HttpSession session) {
         TaiKhoan taiKhoan = (TaiKhoan) session.getAttribute("taikhoan");
 
         try {
-            String imageUrl = cloudinaryService.uploadImage(file);
-            nguoiDungDTO.setHinhAnh(imageUrl);
+            if (file != null && !file.isEmpty()) {
+                String imageUrl = cloudinaryService.uploadImage(file);
+                nguoiDungDTO.setHinhAnh(imageUrl);
+            }
+            else if (nguoiDungDTO.getMaNguoiDung() != null) {
+                NguoiDung existingNguoiDung = nguoiDungService.getById(nguoiDungDTO.getMaNguoiDung());
+                nguoiDungDTO.setHinhAnh(existingNguoiDung.getHinhAnh());
+            }
             nguoiDungService.saveNguoiDung(nguoiDungMapper.toNguoiDung(nguoiDungDTO), taiKhoan);
         }
         catch (Exception e) {

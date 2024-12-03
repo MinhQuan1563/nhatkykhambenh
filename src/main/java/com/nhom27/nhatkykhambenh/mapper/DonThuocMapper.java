@@ -11,14 +11,10 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 import java.util.List;
 
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-
 public interface DonThuocMapper {
      DonThuoc toDonThuoc(DonThuocDTO donThuocDTO);
 
      DonThuocDTO toDonThuocDTO(DonThuoc donThuoc);
 
      List<DonThuocDTO> toDonThuocDtoList(List<DonThuoc> donThuocList);
-
-    @Mapping(target = "maDonThuoc", ignore = true)
-    void updateDonThuocFromDTO(DonThuocDTO donThuocDTO, @MappingTarget DonThuoc donThuoc);
 }

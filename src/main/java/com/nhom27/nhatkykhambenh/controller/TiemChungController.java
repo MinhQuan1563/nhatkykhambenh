@@ -39,9 +39,6 @@ public class TiemChungController {
     @Autowired
     private INguoiDungService nguoiDungService;
 
-    @Autowired
-    private ChiTietTiemChungMapper chiTietTiemChungMapper;
-
     @GetMapping("/admin/tiemchung")
     public String GetListTiemChung(Model model,
                                    @RequestParam(defaultValue = "0") int page,

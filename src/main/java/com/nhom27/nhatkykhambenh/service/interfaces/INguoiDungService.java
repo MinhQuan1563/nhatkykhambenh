@@ -3,8 +3,6 @@ package com.nhom27.nhatkykhambenh.service.interfaces;
 import com.nhom27.nhatkykhambenh.model.GiaDinh;
 import com.nhom27.nhatkykhambenh.model.NguoiDung;
 import com.nhom27.nhatkykhambenh.model.TaiKhoan;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 

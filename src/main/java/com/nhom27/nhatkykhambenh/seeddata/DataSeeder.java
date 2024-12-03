@@ -121,13 +121,7 @@ DataSeeder implements CommandLineRunner {
             List<NguoiDung> nguoiDungList = nguoiDungRepo.findAll();
 
             for(NguoiDung nguoiDung : nguoiDungList) {
-                if(nguoiDung.getGiaDinh() == null) {
-                    TongQuan tongQuan = new TongQuan();
-                    tongQuan.setNguoiDung(nguoiDung);
-
-                    tongQuanRepo.save(tongQuan);
-                }
-                else {
+                if(nguoiDung.getMaNguoiDung() == 2) {
                     TongQuan tongQuan = new TongQuan();
                     tongQuan.setDuongHuyet("120/80");
                     tongQuan.setNhipTim("72");
@@ -137,6 +131,13 @@ DataSeeder implements CommandLineRunner {
                     tongQuan.setCanNang("70");
                     tongQuan.setChiSoBMI("24.2");
                     tongQuan.setNhomMau("O+");
+                    tongQuan.setNguoiDung(nguoiDung);
+
+                    tongQuanRepo.save(tongQuan);
+
+                }
+                else {
+                    TongQuan tongQuan = new TongQuan();
                     tongQuan.setNguoiDung(nguoiDung);
 
                     tongQuanRepo.save(tongQuan);
@@ -165,7 +166,7 @@ DataSeeder implements CommandLineRunner {
 
         // Seed data cho ChiTietChiSo
         if(chiTietChiSoRepo.count() == 0) {
-            TongQuan tongQuan = tongQuanRepo.findById(1).orElse(null);
+            TongQuan tongQuan = tongQuanRepo.findById(2).orElse(null);
             ChiSo chiSo = chiSoRepo.findById(4).orElse(null);
             int giaTriDo = 60;
 
@@ -233,7 +234,7 @@ DataSeeder implements CommandLineRunner {
         // Seed data cho KhamBenh
         if (khamBenhRepo.count() == 0) {
             List<KhamBenh> khamBenhList = List.of(
-                new KhamBenh(null, "Bệnh viện Đa khoa TP.HCM", LocalDateTime.of(2024, 12, 10, 13, 20), true, nguoiDungRepo.findById(1).orElse(null), new HashSet<>(), new HashSet<>()),
+                new KhamBenh(null, "Bệnh viện Đa khoa TP.HCM", LocalDateTime.of(2024, 12, 10, 13, 20), true, nguoiDungRepo.findById(2).orElse(null), new HashSet<>(), new HashSet<>()),
                 new KhamBenh(null, "Bệnh viện Y học Cổ truyền", LocalDateTime.of(2025, 1, 15, 3, 30), true, nguoiDungRepo.findById(2).orElse(null), new HashSet<>(), new HashSet<>()),
                 new KhamBenh(null, "Bệnh viện Nhi Đồng", LocalDateTime.of(2024, 11, 30, 12, 0), true, nguoiDungRepo.findById(3).orElse(null), new HashSet<>(), new HashSet<>())
             );

@@ -80,8 +80,8 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-end shadow-lg">
                     <div class="px-3 py-2">
-                        <span class="small">Admin</span>
-                        <h6 class="m-0">James Bruton</h6>
+<!--                        <span class="small">Admin</span>-->
+                        <h6 class="m-0" th:text="${session.nguoidungLogged.tenNguoiDung}">Quan</h6>
                     </div>
                     <div th:if="${session.nguoidungLogged}" class="mx-3 my-2 d-grid">
                         <a th:href="@{/logout}" class="btn btn-danger">Logout</a>
@@ -104,10 +104,10 @@
 
             <!-- Sidebar profile starts -->
             <div class="sidebar-profile">
-                <img th:src="@{/image/user/user6.png}" class="img-shadow img-3x me-3 rounded-5" alt="Hospital Admin Templates">
+                <img th:src="${session.nguoidung.hinhAnh}" class="img-shadow img-3x me-3 rounded-5" alt="Hospital Admin Templates">
                 <div class="m-0">
-                    <h5 class="mb-1 profile-name text-nowrap text-truncate">Nick Gonzalez</h5>
-                    <p class="m-0 small profile-name text-nowrap text-truncate">Dept Admin</p>
+                    <h5 class="mb-1 profile-name text-nowrap text-truncate" th:text="${session.nguoidung.tenNguoiDung}">Nick Gonzalez</h5>
+                    <p class="m-0 small profile-name text-nowrap text-truncate" th:text="${session.nguoidung.moiQuanHe}">Dept Admin</p>
                 </div>
             </div>
             <!-- Sidebar profile ends -->
@@ -138,7 +138,7 @@
                     <li class="treeview">
                         <a href="#!">
                             <i class="ri-heart-pulse-line"></i>
-                            <span class="menu-text">Danh Sách Khám Bệnh</span>
+                            <span class="menu-text">Khám Bệnh</span>
                         </a>
                         <ul class="treeview-menu">
                             <li>

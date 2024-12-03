@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -40,14 +41,16 @@ public class TongQuanController {
         NguoiDung nguoiDung = nguoiDungService.getById(maNguoiDung);
         session.setAttribute("nguoidung", nguoiDung);
 
+        System.out.println("TongQuan nguoidung = " + nguoiDung.getMaNguoiDung());
+
         TongQuan tongQuan = tongQuanService.findByNguoiDung(nguoiDung.getMaNguoiDung());
         TongQuanDTO tongQuanDTO = tongQuanMapper.toTongQuanDTO(tongQuan);
-        String[][] chiSo = tongQuanService.updateChiSoForTongQuan(tongQuan);
+        String[][] dsChiSo = tongQuanService.updateChiSoForTongQuan(tongQuan);
 
         session.setAttribute("pageName", pageName);
 
         model.addAttribute("tongquan", tongQuanDTO);
-        model.addAttribute("chiso", chiSo);
+        model.addAttribute("dsChiSo", dsChiSo);
 
         return "users/tongquan";
     }

@@ -59,6 +59,11 @@
                     <td th:text="${xetNghiem.ketQuaXetNghiem}"></td>
                 </tr>
             </tbody>
+            <tbody th:if="${thongTinBenh.dsXetNghiem == null or #lists.isEmpty(thongTinBenh.dsXetNghiem)}">
+            <tr>
+                <td>Không có xét nghiệm nào gần đây</td>
+            </tr>
+            </tbody>
         </table>
 
         <div class="cost-section">

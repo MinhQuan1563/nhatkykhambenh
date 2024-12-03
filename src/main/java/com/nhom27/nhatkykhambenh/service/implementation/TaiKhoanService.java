@@ -60,26 +60,25 @@ public class TaiKhoanService implements ITaiKhoanService {
             throw new RuntimeException("Tài khoản đã tồn tại!");
         }
 
-        TaiKhoan taiKhoan = new TaiKhoan();
-        taiKhoan.setSoDienThoai(taiKhoanDTO.getSoDienThoai());
-        taiKhoan.setMatKhau(passwordEncoder.encode(taiKhoanDTO.getMatKhau()));
-
         GiaDinh giaDinh = new GiaDinh();
         giaDinhRepo.save(giaDinh);
-        taiKhoan.setGiaDinh(giaDinh);
 
         NguoiDung nguoiDung = new NguoiDung();
         nguoiDung.setSoDienThoai(taiKhoanDTO.getSoDienThoai());
         nguoiDung.setTenNguoiDung(nguoiDungDTO.getTenNguoiDung());
-        nguoiDung.setMaNguoiDung(taiKhoanDTO.getMaNguoiDung());
         nguoiDung.setEmail(nguoiDungDTO.getEmail());
         nguoiDung.setGiaDinh(giaDinh);
         nguoiDung.setMoiQuanHe(MoiQuanHe.TOI);
         nguoiDungRepo.save(nguoiDung);
+
+        TaiKhoan taiKhoan = new TaiKhoan();
+        taiKhoan.setMaNguoiDung(nguoiDung.getMaNguoiDung());
+        taiKhoan.setSoDienThoai(taiKhoanDTO.getSoDienThoai());
+        taiKhoan.setMatKhau(passwordEncoder.encode(taiKhoanDTO.getMatKhau()));
+        taiKhoan.setGiaDinh(giaDinh);
         taiKhoan.setNguoiDung(nguoiDung);
         taiKhoan.setDanhSachRole(List.of(role));
-
-        taiKhoanRepo.save(taiKhoan);
+        taiKhoanRepo.saveAndFlush(taiKhoan);
 
         TongQuan tongQuan = new TongQuan();
         tongQuan.setNguoiDung(nguoiDung);

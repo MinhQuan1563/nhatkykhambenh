@@ -19,15 +19,18 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
 public class XetNghiemService implements IXetNghiemService {
     @Autowired
-    private IXetNghiemRepo XetNghiemRepo;
+    private IXetNghiemRepo xetNghiemRepo;
 
     @Autowired
-    private IChiTietKhamBenhRepo ChiTietKhamBenhRepo;
+    private IChiTietKhamBenhRepo chiTietKhamBenhRepo;
 
     @Autowired
     private XetNghiemMapper xetNghiemMapper;
@@ -64,14 +67,44 @@ public class XetNghiemService implements IXetNghiemService {
     }
 
     @Override
+    public List<XetNghiem> filterXetNghiem(String dateFrom, String dateTo, String maGiaDinh) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        LocalDate fromDate = (dateFrom != null && !dateFrom.isEmpty())
+                ? LocalDate.parse(dateFrom, formatter)
+                : null;
+        LocalDateTime fromDateTime = (fromDate != null) ? fromDate.atStartOfDay() : null;
+
+        LocalDate toDate = (dateTo != null && !dateTo.isEmpty())
+                ? LocalDate.parse(dateTo, formatter)
+                : null;
+        LocalDateTime toDateTime = (toDate != null) ? toDate.atStartOfDay() : null;
+
+        if (fromDateTime != null && toDateTime != null && maGiaDinh != null && !maGiaDinh.isEmpty()) {
+            return xetNghiemRepo.findByDateRangeAndGiaDinh(fromDateTime, toDateTime, maGiaDinh);
+        } else if (fromDateTime != null && toDateTime != null) {
+            return xetNghiemRepo.findByDateRange(fromDateTime, toDateTime);
+        } else if (maGiaDinh != null && !maGiaDinh.isEmpty()) {
+            return xetNghiemRepo.findByGiaDinh(maGiaDinh);
+        } else {
+            return xetNghiemRepo.findAll();
+        }
+    }
+
+    @Override
+    public List<XetNghiem> getAll() {
+        return xetNghiemRepo.findAll();
+    }
+
+    @Override
     public void saveXetNghiem(XetNghiem xetNghiem, Integer maChiTietKhamBenh) {
-        ChiTietKhamBenh chiTietKhamBenh = ChiTietKhamBenhRepo.findById(maChiTietKhamBenh).get();
+        ChiTietKhamBenh chiTietKhamBenh = chiTietKhamBenhRepo.findById(maChiTietKhamBenh).get();
         xetNghiem.setTrangThai(true);
         xetNghiem.setMaChiTietKhamBenh(maChiTietKhamBenh);//thêm
         xetNghiem.setChiTietKhamBenh(chiTietKhamBenh);
 
         try {
-            XetNghiemRepo.save(xetNghiem);
+            xetNghiemRepo.save(xetNghiem);
         } catch (Exception e) {
             throw new SaveDataException("XetNghiem");
         }
@@ -79,7 +112,7 @@ public class XetNghiemService implements IXetNghiemService {
 
     @Override
     public XetNghiem findById(Integer id) {
-        return XetNghiemRepo.findById(id).get();
+        return xetNghiemRepo.findById(id).get();
     }
 
 //    @Override
@@ -102,16 +135,16 @@ public class XetNghiemService implements IXetNghiemService {
     public void deleteById(Integer id) {
         XetNghiem xetNghiem = findById(id);
         xetNghiem.setTrangThai(false);  // Ẩn bản ghi thay vì xóa hoàn toàn
-        XetNghiemRepo.save(xetNghiem);  // Lưu lại sự thay đổi
+        xetNghiemRepo.save(xetNghiem);  // Lưu lại sự thay đổi
     }
 
     @Override
     public void deleteAllByIds(List<Integer> ids) {
-        List<XetNghiem> xetNghiemList = XetNghiemRepo.findAllById(ids);
+        List<XetNghiem> xetNghiemList = xetNghiemRepo.findAllById(ids);
         for (XetNghiem xetNghiem : xetNghiemList) {
             xetNghiem.setTrangThai(false);  // Ẩn bản ghi thay vì xóa
         }
-        XetNghiemRepo.saveAll(xetNghiemList);  // Lưu lại sự thay đổi
+        xetNghiemRepo.saveAll(xetNghiemList);  // Lưu lại sự thay đổi
     }
 
 }

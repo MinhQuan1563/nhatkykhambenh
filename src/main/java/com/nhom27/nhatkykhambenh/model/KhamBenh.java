@@ -39,5 +39,5 @@ public class KhamBenh {
     private Set<ChiTietKhamBenh> danhSachChiTietKhamBenh = new HashSet<>();
 
     @OneToMany(mappedBy = "khamBenh", fetch = FetchType.LAZY)
-    private Set<LichHenKham> danhSachLichHenKham = new HashSet<>() ;
+    private Set<LichHenKham> danhSachLichHenKham = new HashSet<>();
 }
