@@ -11,6 +11,11 @@
     <title>HOME</title>
 </head>
 <body>
+<script>
+    $(document).ready(function() {
+        console.log("jQuery và Bootstrap đã được tải.");
+    });
+</script>
 <div th:fragment="contentHome" class="container">
     <!-- Row starts -->
     <div class="row gx-3">
@@ -58,7 +63,8 @@
                                 <a class="dropdown-item" th:href="@{/users/nguoidung/update(maNguoiDung=${nguoiDung.maNguoiDung})}">Sửa</a>
                             </li>
                             <li>
-                                <a class="delete dropdown-item text-danger" href="#" data-toggle="modal"
+                                <a class="delete dropdown-item text-danger"
+                                   href="#" data-bs-toggle="modal"
                                    th:data-id="${nguoiDung.maNguoiDung}">
                                     Xóa
                                 </a>
@@ -106,14 +112,14 @@
                     <input type="hidden" name="maNguoiDung" id="maNguoiDung">
                     <div class="modal-header">
                         <h4 class="modal-title">Xóa thông tin người dùng</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                     <div class="modal-body">
                         <p>Bạn có chắc chắn muốn xóa thông tin này không?</p>
                         <p class="text-warning"><small>Hành động này không thể hoàn tác.</small></p>
                     </div>
                     <div class="modal-footer">
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Hủy">
+                        <input type="button" class="btn btn-default" data-bs-dismiss="modal" value="Hủy">
                         <input type="submit" class="btn btn-danger" value="Xóa">
                     </div>
                 </form>

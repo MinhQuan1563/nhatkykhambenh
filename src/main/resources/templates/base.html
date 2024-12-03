@@ -28,9 +28,16 @@
     <link rel="stylesheet" th:href="@{/vendor/overlay-scroll/OverlayScrollbars.min.css}">
 
     <!-- Required jQuery first, then Bootstrap Bundle JS -->
-    <script th:src="@{/js/user/moment.min.js}" ></script>
     <script th:src="@{/js/user/jquery.min.js}" ></script>
+    <script th:src="@{/js/user/moment.min.js}" ></script>
     <script th:src="@{/js/user/bootstrap.bundle.min.js}" ></script>
+
+    <!-- Vendor Js Files -->
+    <script th:src="@{/vendor/overlay-scroll/jquery.overlayScrollbars.min.js}"></script>
+    <script th:src="@{/vendor/overlay-scroll/custom-scrollbar.js}" ></script>
+
+    <!-- Custom JS files -->
+    <script th:src="@{/js/user/custom.js}"></script>
 </head>
 
 <body>
@@ -76,7 +83,10 @@
             <div class="dropdown ms-2">
                 <a id="userSettings" class="dropdown-toggle d-flex align-items-center" href="#!" role="button"
                    data-bs-toggle="dropdown" aria-expanded="false">
-                    <div class="avatar-box">JB<span class="status busy"></span></div>
+                    <div class="avatar-box">
+                        <span th:text="${@stringUtils.getInitials(session.nguoidungLogged.tenNguoiDung)}"></span>
+                        <span class="status busy"></span>
+                    </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end shadow-lg">
                     <div class="px-3 py-2">
@@ -84,7 +94,7 @@
                         <h6 class="m-0" th:text="${session.nguoidungLogged.tenNguoiDung}">Quan</h6>
                     </div>
                     <div th:if="${session.nguoidungLogged}" class="mx-3 my-2 d-grid">
-                        <a th:href="@{/logout}" class="btn btn-danger">Logout</a>
+                        <a th:href="@{/logout}" class="btn btn-danger">Đăng xuất</a>
                     </div>
                 </div>
             </div>
@@ -223,12 +233,6 @@
 </div>
 <!-- Page wrapper ends -->
 
-<!-- Vendor Js Files -->
-<script th:src="@{/vendor/overlay-scroll/jquery.overlayScrollbars.min.js}"></script>
-<script th:src="@{/vendor/overlay-scroll/custom-scrollbar.js}" ></script>
-
-<!-- Custom JS files -->
-<script th:src="@{/js/user/custom.js}"></script>
 </body>
 
 

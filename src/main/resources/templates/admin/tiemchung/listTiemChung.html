@@ -17,16 +17,6 @@
                             <span class="material-icons text-white">signal_cellular_alt</span>
                         </div>
                     </div>
-                    <!-- End XP Col -->
-
-                    <!--                    <div class="xp-breadcrumbbar text-center">-->
-                    <!--                        <h4 class="page-title">Dashboard</h4>-->
-                    <!--                        <ol class="breadcrumb">-->
-                    <!--                            <li class="breadcrumb-item"><a href="#">Admin</a></li>-->
-                    <!--                            <li class="breadcrumb-item active" aria-current="page">Dashboard</li>-->
-                    <!--                        </ol>-->
-                    <!--                    </div>-->
-                    <!-- End XP Row -->
 
                     <!-- Start XP Col -->
                     <div class="col-md-5 col-lg-3 order-3 order-md-2">
@@ -98,9 +88,8 @@
                                     </span>
                                 </th>
                                 <th>Mã tiêm chủng</th>
+                                <th>Tên vắc-xin</th>
                                 <th>Nơi tiêm chủng</th>
-                                <th>Ngày tiêm</th>
-                                <th>Người tiêm</th>
                                 <th>Số mũi</th>
                                 <th>Thao tác</th>
                             </tr>
@@ -115,15 +104,19 @@
                                     </span>
                                 </td>
                                 <td th:text="${tiemchung.maTiemChung}"></td>
+                                <td th:text="${tiemchung.tenVacXin}"></td>
                                 <td th:text="${tiemchung.noiTiemChung}"></td>
-                                <td th:text="${tiemchung.ngayTiem}"></td>
-                                <td th:text="${tiemchung.nguoiTiem}"></td>
                                 <td th:text="${tiemchung.soMuiTiem}"></td>
                                 <td>
                                     <a th:href="@{/admin/tiemchung/update(id=${tiemchung.maTiemChung})}" class="edit">
-                                        <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                        <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
+                                    </a>
                                     <a href="#" class="delete" data-toggle="modal" th:data-id="${tiemchung.maTiemChung}">
-                                        <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                        <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+                                    </a>
+                                    <a th:href="@{/admin/tiemchung/chitiet(maTiemChung=${tiemchung.maTiemChung})}" class="view">
+                                        <i class="material-icons" data-toggle="tooltip" title="View">&#xE8F4;</i>
+                                    </a>
                                 </td>
                             </tr>
                             </tbody>

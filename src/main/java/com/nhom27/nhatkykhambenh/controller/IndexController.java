@@ -29,26 +29,26 @@ public class IndexController {
     @Autowired
     private NguoiDungMapper nguoiDungMapper;
 
-    @GetMapping()
-    public String home(HttpServletRequest request, Model model) {
-        TaiKhoan taiKhoan = taiKhoanService.getCurrentUser();
+//     @GetMapping()
+//     public String home(HttpServletRequest request, Model model) {
+//         TaiKhoan taiKhoan = taiKhoanService.getCurrentUser();
 
-        List<NguoiDungDTO> dsNguoiDungDTO = nguoiDungMapper.toNguoiDungDtoList(
-            nguoiDungService.getDsNguoiDungByGiaDinh(taiKhoan.getGiaDinh())
-        );
+//         List<NguoiDungDTO> dsNguoiDungDTO = nguoiDungMapper.toNguoiDungDtoList(
+//             nguoiDungService.getDsNguoiDungByGiaDinh(taiKhoan.getGiaDinh())
+//         );
 
-        if(dsNguoiDungDTO.size() > 0) {
-            model.addAttribute("dsNguoiDung", dsNguoiDungDTO);
-        }
+//         if(dsNguoiDungDTO.size() > 0) {
+//             model.addAttribute("dsNguoiDung", dsNguoiDungDTO);
+//         }
 
-//        NguoiDung nguoiDung = (NguoiDung) request.getSession().getAttribute("nguoidungLogged");
-//        NguoiDungDTO nguoiDungDTO = nguoiDungMapper.toNguoiDungDTO(nguoiDung);
-//
-//        if(nguoiDung != null) {
-//            model.addAttribute("nguoiDung", nguoiDungDTO);
-//        }
+// //        NguoiDung nguoiDung = (NguoiDung) request.getSession().getAttribute("nguoidungLogged");
+// //        NguoiDungDTO nguoiDungDTO = nguoiDungMapper.toNguoiDungDTO(nguoiDung);
+// //
+// //        if(nguoiDung != null) {
+// //            model.addAttribute("nguoiDung", nguoiDungDTO);
+// //        }
 
-        return "users/danhsachnguoidung";
-    }
+//         return "users/danhsachnguoidung";
+//     }
 
 }

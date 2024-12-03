@@ -2,6 +2,7 @@ package com.nhom27.nhatkykhambenh.controller;
 
 import com.nhom27.nhatkykhambenh.dto.GiaDinhDTO;
 import com.nhom27.nhatkykhambenh.dto.KhamBenhDTO;
+import com.nhom27.nhatkykhambenh.dto.NguoiDungDTO;
 import com.nhom27.nhatkykhambenh.mapper.GiaDinhMapper;
 import com.nhom27.nhatkykhambenh.mapper.KhamBenhMapper;
 import com.nhom27.nhatkykhambenh.mapper.NguoiDungMapper;
@@ -40,11 +41,22 @@ public class ThongKeController {
     @GetMapping("/admin/dashboard")
     public String Dashboard(Model model) {
 
-        List<GiaDinhDTO> giaDinhDTOList = giaDinhMapper.toGiaDinhDtoList(giaDinhService.getAll());
-        List<KhamBenhDTO> khamBenhDTOList = khamBenhMapper.toKhamBenhDtoList(khamBenhService.getAll());
+        List<GiaDinhDTO> giaDinhDTOList = giaDinhMapper.toGiaDinhDtoList(
+                giaDinhService.getAll()
+        );
+        List<KhamBenhDTO> khamBenhDTOList = khamBenhMapper.toKhamBenhDtoList(
+                khamBenhService.getAll()
+        );
+        List<NguoiDungDTO> nguoiDungDTOList = nguoiDungMapper.toNguoiDungDtoList(
+                nguoiDungService.getAllNguoiDung()
+        );
+
+        List<Integer> visitsData = getVisitsData(khamBenhDTOList);
 
         model.addAttribute("dsGiaDinh", giaDinhDTOList);
         model.addAttribute("dsKhamBenh", khamBenhDTOList);
+        model.addAttribute("dsNguoiDung", nguoiDungDTOList);
+        model.addAttribute("visitsData", visitsData);
 
         return "admin/thongke";
     }
@@ -56,15 +68,23 @@ public class ThongKeController {
             @RequestParam(required = false) String maGiaDinh,
             Model model) {
 
+        GiaDinh giaDinh = giaDinhMapper.toGiaDinh(giaDinhService.findById(Integer.parseInt(maGiaDinh)));
         List<GiaDinhDTO> giaDinhDTOList = giaDinhMapper.toGiaDinhDtoList(giaDinhService.getAll());
         List<KhamBenhDTO> khamBenhDTOList = khamBenhMapper.toKhamBenhDtoList(
                 khamBenhService.filterKhamBenh(dateFrom, dateTo, maGiaDinh)
+        );
+
+        List<NguoiDungDTO> nguoiDungDTOList = nguoiDungMapper.toNguoiDungDtoList(
+                nguoiDungService.getDsNguoiDungByGiaDinh(giaDinh)
         );
 
         List<Integer> visitsData = getVisitsData(khamBenhDTOList);
 
         model.addAttribute("dsGiaDinh", giaDinhDTOList);
         model.addAttribute("dsKhamBenh", khamBenhDTOList);
+        model.addAttribute("dsNguoiDung", nguoiDungDTOList);
+
+        // Chart
         model.addAttribute("visitsData", visitsData);
 
         return "admin/thongke";

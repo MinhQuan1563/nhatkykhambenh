@@ -41,8 +41,6 @@ public class TongQuanController {
         NguoiDung nguoiDung = nguoiDungService.getById(maNguoiDung);
         session.setAttribute("nguoidung", nguoiDung);
 
-        System.out.println("TongQuan nguoidung = " + nguoiDung.getMaNguoiDung());
-
         TongQuan tongQuan = tongQuanService.findByNguoiDung(nguoiDung.getMaNguoiDung());
         TongQuanDTO tongQuanDTO = tongQuanMapper.toTongQuanDTO(tongQuan);
         String[][] dsChiSo = tongQuanService.updateChiSoForTongQuan(tongQuan);

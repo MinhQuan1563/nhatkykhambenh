@@ -1,11 +1,7 @@
 package com.nhom27.nhatkykhambenh.controller;
 
-import com.nhom27.nhatkykhambenh.dto.ChiTietTiemChungDTO;
 import com.nhom27.nhatkykhambenh.dto.TiemChungDTO;
-import com.nhom27.nhatkykhambenh.dto.TiemChungDetailDTO;
 import com.nhom27.nhatkykhambenh.exception.SaveDataException;
-import com.nhom27.nhatkykhambenh.mapper.ChiTietTiemChungMapper;
-import com.nhom27.nhatkykhambenh.model.ChiTietTiemChung;
 import com.nhom27.nhatkykhambenh.model.NguoiDung;
 import com.nhom27.nhatkykhambenh.service.interfaces.IChiTietTiemChungService;
 import com.nhom27.nhatkykhambenh.service.interfaces.INguoiDungService;
@@ -24,7 +20,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -122,24 +117,6 @@ public class TiemChungController {
             tiemChungService.deleteById(s);
         }
         return "redirect:/admin/tiemchung";
-    }
-
-    @GetMapping("/users/tiemchung")
-    public String getAllTiemChung(Model model,
-                                  HttpSession session,
-                                  @RequestParam("maNguoiDung") Integer maNguoiDung) {
-        List<String> pageName = new ArrayList<>();
-        pageName.add("Tiêm chủng");
-
-        NguoiDung nguoiDung = nguoiDungService.getById(maNguoiDung);
-        session.setAttribute("nguoidung", nguoiDung);
-
-        List<TiemChungDetailDTO> dsTiemChungDetailDTO = chiTietTiemChungService.getAllTiemChungDetails(maNguoiDung);
-
-        session.setAttribute("pageName", pageName);
-        model.addAttribute("dsTiemChungDetail", dsTiemChungDetailDTO);
-
-        return "users/danhsachtiemchung";
     }
 
 }

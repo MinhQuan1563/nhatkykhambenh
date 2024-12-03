@@ -6,8 +6,10 @@ import com.nhom27.nhatkykhambenh.exception.SaveDataException;
 import com.nhom27.nhatkykhambenh.mapper.ChiTietTiemChungMapper;
 import com.nhom27.nhatkykhambenh.mapper.NguoiDungMapper;
 import com.nhom27.nhatkykhambenh.model.ChiTietTiemChung;
+import com.nhom27.nhatkykhambenh.model.NguoiDung;
 import com.nhom27.nhatkykhambenh.service.interfaces.IChiTietTiemChungService;
 import com.nhom27.nhatkykhambenh.service.interfaces.INguoiDungService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -139,6 +142,41 @@ public class ChiTietTiemChungController {
         redirectAttributes.addAttribute("maTiemChung", maTiemChung);
 
         return "redirect:/admin/tiemchung/chitiet";
+    }
+
+    @GetMapping("/users/tiemchung")
+    public String getAllTiemChung(Model model,
+                                  HttpSession session,
+                                  @RequestParam("maNguoiDung") Integer maNguoiDung) {
+        List<String> pageName = new ArrayList<>();
+        pageName.add("Tiêm chủng");
+
+        NguoiDung nguoiDung = nguoiDungService.getById(maNguoiDung);
+        session.setAttribute("nguoidung", nguoiDung);
+
+        List<ChiTietTiemChungDTO> dsChiTietTiemChungDTO = chiTietTiemChungMapper.toChiTietTiemChungDtoList(
+            chiTietTiemChungService.getAllByNguoiDung(maNguoiDung)
+        );
+
+        session.setAttribute("pageName", pageName);
+        model.addAttribute("dsChiTietTiemChung", dsChiTietTiemChungDTO);
+
+        return "users/danhsachtiemchung";
+    }
+
+    @GetMapping("users/tiemchung/chitiet")
+    public String chiTietBenh(Model model,
+                              @RequestParam("maTiemChung") Integer maTiemChung,
+                              HttpSession session) {
+
+        NguoiDung nguoiDung = (NguoiDung) session.getAttribute("nguoidung");
+        ChiTietTiemChungDTO chiTietTiemChungDTO = chiTietTiemChungMapper.toChiTietTiemChungDTO(
+            chiTietTiemChungService.findByIds(maTiemChung, nguoiDung.getMaNguoiDung())
+        );
+
+        model.addAttribute("chiTietTiemChung", chiTietTiemChungDTO);
+
+        return "users/thongtintiemchung";
     }
 
 }

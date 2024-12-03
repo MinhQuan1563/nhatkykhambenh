@@ -24,6 +24,29 @@
     <!-- Scrollbar CSS -->
     <link rel="stylesheet" th:href="@{/vendor/overlay-scroll/OverlayScrollbars.min.css}">
 
+    <!-- Required jQuery first, then Bootstrap Bundle JS -->
+    <script th:src="@{/js/user/moment.min.js}"></script>
+
+    <!-- *************
+            ************ Vendor Js Files *************
+        ************* -->
+
+    <!-- Overlay Scroll JS -->
+    <script th:src="@{/vendor/overlay-scroll/jquery.overlayScrollbars.min.js}"></script>
+    <script th:src="@{/vendor/overlay-scroll/custom-scrollbar.js}"></script>
+
+    <!-- Apex Charts -->
+    <script th:src="@{/vendor/apex/apexcharts.min.js}"></script>
+    <script th:src="@{/vendor/apex/custom/home/patients.js}"></script>
+    <script th:src="@{/vendor/apex/custom/home/treatment.js}"></script>
+    <script th:src="@{/vendor/apex/custom/home/available-beds.js}"></script>
+    <script th:src="@{/vendor/apex/custom/home/earnings.js}"></script>
+    <script th:src="@{/vendor/apex/custom/home/gender-age.js}"></script>
+    <script th:src="@{/vendor/apex/custom/home/claims.js}"></script>
+
+    <!-- Custom JS files -->
+    <script th:src="@{/js/user/custom.js}"></script>
+
     <style>
         df-messenger {
             --df-messenger-bot-message: #103cbe;
@@ -283,7 +306,6 @@ df-messenger {
                 </a>
                 <div class="dropdown-menu dropdown-menu-end shadow-lg">
                     <div class="px-3 py-2">
-                        <span class="small" th:text="${session.nguoidungLogged.maNguoiDung}"></span>
                         <h6 class="m-0" th:text="${session.nguoidungLogged.tenNguoiDung}"></h6>
                     </div>
 
@@ -416,32 +438,6 @@ df-messenger {
 <!--</div>-->
 
 
-
-<!-- *************
-        ************ JavaScript Files *************
-    ************* -->
-<!-- Required jQuery first, then Bootstrap Bundle JS -->
-<script th:src="@{/js/user/moment.min.js}"></script>
-
-<!-- *************
-        ************ Vendor Js Files *************
-    ************* -->
-
-<!-- Overlay Scroll JS -->
-<script th:src="@{/vendor/overlay-scroll/jquery.overlayScrollbars.min.js}"></script>
-<script th:src="@{/vendor/overlay-scroll/custom-scrollbar.js}"></script>
-
-<!-- Apex Charts -->
-<script th:src="@{/vendor/apex/apexcharts.min.js}"></script>
-<script th:src="@{/vendor/apex/custom/home/patients.js}"></script>
-<script th:src="@{/vendor/apex/custom/home/treatment.js}"></script>
-<script th:src="@{/vendor/apex/custom/home/available-beds.js}"></script>
-<script th:src="@{/vendor/apex/custom/home/earnings.js}"></script>
-<script th:src="@{/vendor/apex/custom/home/gender-age.js}"></script>
-<script th:src="@{/vendor/apex/custom/home/claims.js}"></script>
-
-<!-- Custom JS files -->
-<script th:src="@{/js/user/custom.js}"></script>
 </body>
 
 

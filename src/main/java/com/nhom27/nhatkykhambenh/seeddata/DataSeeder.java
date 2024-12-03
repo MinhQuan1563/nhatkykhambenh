@@ -66,9 +66,7 @@ DataSeeder implements CommandLineRunner {
         // Seed data cho GiaDinh
         if(giaDinhRepo.count() == 0) {
             List<GiaDinh> giaDinhList = List.of(
-                new GiaDinh(null, 5, true, null, new HashSet<>()),
-                new GiaDinh(null, 3, true, null, new HashSet<>()),
-                new GiaDinh(null, 4, true, null, new HashSet<>())
+                new GiaDinh(null, 3, true, null, new HashSet<>())
             );
 
             giaDinhRepo.saveAll(giaDinhList);
@@ -78,10 +76,10 @@ DataSeeder implements CommandLineRunner {
         // Seed data cho NguoiDung
         if (nguoiDungRepo.count() == 0) {
             List<NguoiDung> nguoiDungList = List.of(
-                new NguoiDung(null, "image1.jpg", "admin", "ADMIN-CCCD", LocalDate.of(2003, 1, 1), "Nam", "123 Address ADMIN", "Đại diện phía Bệnh viện", "benhvien@gmail.com", MoiQuanHe.TOI, true, null, null, null, new HashSet<>(), null, null),
-                new NguoiDung(null, "image2.jpg", "0912345678", "123456789", LocalDate.of(2003, 6, 15), "Nam", "123 Address St", "Nguyen Van A", "nguyenvana@gmail.com", MoiQuanHe.TOI, true, giaDinhRepo.findAll().get(0), null, null, new HashSet<>(), null, null),
-                new NguoiDung(null, "image3.jpg", "0912345679", "123456780", LocalDate.of(1972, 4, 29), "Nữ", "456 Address St", "Le Thi B", "lethib@gmail.com", MoiQuanHe.ME, true, giaDinhRepo.findAll().get(0), null, null, new HashSet<>(), null, null),
-                new NguoiDung(null, "image4.jpg", "0912345680", "123456781", LocalDate.of(1963, 9, 12), "Nam", "789 Address St", "Tran Van C", "tranvanc@gmail.com", MoiQuanHe.CHA, true, giaDinhRepo.findAll().get(0), null, null, new HashSet<>(), null, null)
+                new NguoiDung(null, null, "admin", "ADMIN-CCCD", LocalDate.of(2003, 1, 1), "Nam", "123 Address ADMIN", "Đại diện phía Bệnh viện", "benhvien@gmail.com", MoiQuanHe.TOI, true, null, null, null, new HashSet<>(), null, null),
+                new NguoiDung(null, null, "0912345678", "123456789", LocalDate.of(2003, 6, 15), "Nam", "123 Address St", "Nguyen Van A", "nguyenvana@gmail.com", MoiQuanHe.TOI, true, giaDinhRepo.findAll().get(0), null, null, new HashSet<>(), null, null),
+                new NguoiDung(null, null, "0912345679", "123456780", LocalDate.of(1972, 4, 29), "Nữ", "456 Address St", "Le Thi B", "lethib@gmail.com", MoiQuanHe.ME, true, giaDinhRepo.findAll().get(0), null, null, new HashSet<>(), null, null),
+                new NguoiDung(null, null, "0912345680", "123456781", LocalDate.of(1963, 9, 12), "Nam", "789 Address St", "Tran Van C", "tranvanc@gmail.com", MoiQuanHe.CHA, true, giaDinhRepo.findAll().get(0), null, null, new HashSet<>(), null, null)
             );
 
             nguoiDungRepo.saveAll(nguoiDungList);
@@ -108,7 +106,7 @@ DataSeeder implements CommandLineRunner {
             GiaDinh giaDinhFirst = giaDinhRepo.findAll().stream().findFirst().orElse(null);
 
             List<TaiKhoan> taiKhoanList = List.of(
-                new TaiKhoan(nguoiDungFirst.getMaNguoiDung(), passwordEncoder.encode("admin"), "111", true, null, nguoiDungFirst, new ArrayList<>(List.of(adminRole))),
+                new TaiKhoan(nguoiDungFirst.getMaNguoiDung(), passwordEncoder.encode("234"), "234", true, null, nguoiDungFirst, new ArrayList<>(List.of(adminRole))),
                 new TaiKhoan(nguoiDungSecond.getMaNguoiDung(), passwordEncoder.encode("123"), "123", true, giaDinhFirst, nguoiDungSecond, new ArrayList<>(List.of(userRole)))
             );
 
@@ -199,13 +197,26 @@ DataSeeder implements CommandLineRunner {
         // Seed TiemChung
         if(tiemChungRepo.count() == 0) {
             List<TiemChung> tiemChungList = List.of(
-                new TiemChung(null, "Bệnh viện Đa khoa", LocalDateTime.of(2024, 12, 10, 13, 20), "Y tá A", 1, true),
-                new TiemChung(null, "Trung tâm Y tế Quận 1", LocalDateTime.of(2025, 1, 15, 3, 30), "Bác sĩ B", 2, true),
-                new TiemChung(null, "Phòng khám tư nhân", LocalDateTime.of(2024, 11, 30, 12, 0), "Y tá B", 3, true),
-                new TiemChung(null, "Bệnh viện Đa khoa", LocalDateTime.of(2024, 12, 11, 9, 0), "Bác sĩ A", 1, true),
-                new TiemChung(null, "Bệnh viện Đa khoa", LocalDateTime.of(2024, 12, 12, 10, 0), "Y tá E", 1, true),
-                new TiemChung(null, "Bệnh viện Đa khoa", LocalDateTime.of(2024, 12, 14, 15, 0), "Y tá F", 1, true),
-                new TiemChung(null, "Trung tâm Y tế Quận 1", LocalDateTime.of(2024, 12, 20, 12, 0), "Y tá C", 1, true)
+                new TiemChung(null, "Vaccine COVID-19", "Bệnh viện Trung Ương", 2, true),
+                new TiemChung(null, "Vaccine Cúm", "Trung tâm Y tế Quận 1", 1, true),
+                new TiemChung(null, "Vaccine Sởi", "Trung tâm Y tế Quận 7", 1, false),
+                new TiemChung(null, "Vaccine Thủy Đậu", "Bệnh viện Nhi Đồng 2", 1, true),
+                new TiemChung(null, "Vaccine Viêm Gan B", "Trung tâm Y tế Quận 4", 3, true),
+                new TiemChung(null, "Vaccine HPV", "Bệnh viện Phụ Sản", 2, true),
+                new TiemChung(null, "Vaccine Bạch Hầu", "Trung tâm Y tế Quận 3", 1, false),
+                new TiemChung(null, "Vaccine Viêm Phổi", "Bệnh viện Đa Khoa", 2, true),
+                new TiemChung(null, "Vaccine Rotavirus", "Trung tâm Y tế Quận 10", 2, true),
+                new TiemChung(null, "Vaccine Uốn Ván", "Bệnh viện Đa Khoa", 1, true),
+                new TiemChung(null, "Vaccine COVID-19 Pfizer", "Trung tâm Y tế Quận 9", 2, true),
+                new TiemChung(null, "Vaccine Bại Liệt", "Trung tâm Y tế Quận 8", 1, true),
+                new TiemChung(null, "Vaccine Sởi Quai Bị", "Bệnh viện Nhi Đồng 1", 2, true),
+                new TiemChung(null, "Vaccine Tả", "Trung tâm Y tế Quận 7", 1, false),
+                new TiemChung(null, "Vaccine Zoster", "Trung tâm Y tế Quận 6", 2, true),
+                new TiemChung(null, "Vaccine Hib", "Trung tâm Y tế Quận 5", 1, true),
+                new TiemChung(null, "Vaccine Cúm H1N1", "Bệnh viện Đa Khoa", 1, true),
+                new TiemChung(null, "Vaccine Dengue", "Trung tâm Y tế Quận 11", 1, false),
+                new TiemChung(null, "Vaccine Men B", "Trung tâm Y tế Quận 12", 2, true),
+                new TiemChung(null, "Vaccine Viêm Màng Não", "Bệnh viện Nhi Đồng 2", 2, true)
             );
 
             tiemChungRepo.saveAll(tiemChungList);
@@ -215,20 +226,25 @@ DataSeeder implements CommandLineRunner {
         // Seed ChiTietTiemChung
         if(chiTietTiemChungRepo.count() == 0) {
             NguoiDung nguoiDung = nguoiDungRepo.findById(2).orElse(null);
-            TiemChung tiemChung = tiemChungRepo.findAll().stream().findFirst().orElse(null);
+            List<TiemChung> tiemChungList = tiemChungRepo.findAll();
 
-            if(nguoiDung.getMaNguoiDung() != null && tiemChung.getMaTiemChung() != null) {
+            if (nguoiDung != null && nguoiDung.getMaNguoiDung() != null && !tiemChungList.isEmpty()) {
                 List<ChiTietTiemChung> chiTietTiemChungList = List.of(
-                    new ChiTietTiemChung(tiemChung.getMaTiemChung(), nguoiDung.getMaNguoiDung(), "Vắc-xin AstraZeneca - COVID-19", true, null, null),
-                    new ChiTietTiemChung(tiemChung.getMaTiemChung(), nguoiDung.getMaNguoiDung(), "Vắc-xin Pfizer - COVID-19", true, null, null),
-                    new ChiTietTiemChung(tiemChung.getMaTiemChung(), nguoiDung.getMaNguoiDung(), "Vắc-xin Moderna - COVID-19", true, null, null),
-                    new ChiTietTiemChung(tiemChung.getMaTiemChung(), nguoiDung.getMaNguoiDung(), "Vắc-xin Sinovac - COVID-19", true, null, null)
+                        new ChiTietTiemChung(tiemChungList.get(2).getMaTiemChung(), nguoiDung.getMaNguoiDung(), LocalDateTime.of(2024, 1, 15, 10, 0), "Bác sĩ Nguyễn Văn A", "1", true, tiemChungList.get(2), nguoiDung),
+                        new ChiTietTiemChung(tiemChungList.get(9).getMaTiemChung(), nguoiDung.getMaNguoiDung(), LocalDateTime.of(2024, 1, 20, 10, 0), "Bác sĩ Lê Thị B", "1", true, tiemChungList.get(9), nguoiDung),
+                        new ChiTietTiemChung(tiemChungList.get(1).getMaTiemChung(), nguoiDung.getMaNguoiDung(), LocalDateTime.of(2024, 2, 1, 10, 0), "Bác sĩ Trần Văn C", "1", false, tiemChungList.get(1), nguoiDung),
+                        new ChiTietTiemChung(tiemChungList.get(3).getMaTiemChung(), nguoiDung.getMaNguoiDung(), LocalDateTime.of(2024, 2, 5, 10, 0), "Bác sĩ Nguyễn Thị D", "1", true, tiemChungList.get(3), nguoiDung),
+                        new ChiTietTiemChung(tiemChungList.get(4).getMaTiemChung(), nguoiDung.getMaNguoiDung(), LocalDateTime.of(2024, 3, 10, 10, 0), "Bác sĩ Lê Văn E", "1", true, tiemChungList.get(4), nguoiDung),
+                        new ChiTietTiemChung(tiemChungList.get(5).getMaTiemChung(), nguoiDung.getMaNguoiDung(), LocalDateTime.of(2024, 3, 20, 10, 0), "Bác sĩ Trần Thị F", "1", true, tiemChungList.get(5), nguoiDung),
+                        new ChiTietTiemChung(tiemChungList.get(6).getMaTiemChung(), nguoiDung.getMaNguoiDung(), LocalDateTime.of(2024, 4, 1, 10, 0), "Bác sĩ Nguyễn Văn G", "1", false, tiemChungList.get(6), nguoiDung),
+                        new ChiTietTiemChung(tiemChungList.get(7).getMaTiemChung(), nguoiDung.getMaNguoiDung(), LocalDateTime.of(2024, 4, 15, 10, 0), "Bác sĩ Lê Thị H", "2", true, tiemChungList.get(7), nguoiDung),
+                        new ChiTietTiemChung(tiemChungList.get(10).getMaTiemChung(), nguoiDung.getMaNguoiDung(), LocalDateTime.of(2024, 5, 1, 10, 0), "Bác sĩ Trần Văn I", "1", true, tiemChungList.get(10), nguoiDung),
+                        new ChiTietTiemChung(tiemChungList.get(10).getMaTiemChung(), nguoiDung.getMaNguoiDung(), LocalDateTime.of(2024, 5, 20, 10, 0), "Bác sĩ Nguyễn Văn J", "2", true, tiemChungList.get(10), nguoiDung)
                 );
 
                 chiTietTiemChungRepo.saveAll(chiTietTiemChungList);
                 System.out.println("Saved " + chiTietTiemChungList.size() + " ChiTietTiemChung records to the database.");
             }
-
         }
 
         // Seed data cho KhamBenh

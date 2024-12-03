@@ -21,7 +21,6 @@
                     <i class="bi bi-camera"></i>
                 </label>
                 <input type="file" id="imageUpload" name="file" accept="image/*">
-                <div id="fileError" class="text-danger mt-2" style="display: none;">Vui lòng chọn ảnh!</div>
             </div>
             <div class="row">
                 <div class="mb-3">
@@ -101,30 +100,8 @@
 </html>
 
 <script>
-    document.querySelector("form").onsubmit = function (e) {
-        var imageInput = document.getElementById("imageUpload");
-        var fileError = document.getElementById("fileError");
-
-        if (!imageInput.files || imageInput.files.length === 0) {
-            if (!document.getElementById("profileImage").src.includes("https://via.placeholder.com/150")) {
-                fileError.style.display = "none";
-            } else {
-                fileError.style.display = "block";
-                fileError.textContent = "Vui lòng chọn ảnh!";
-                e.preventDefault();
-                return false;
-            }
-        } else {
-            fileError.style.display = "none";
-        }
-    };
-
     document.getElementById("imageUpload").onchange = function () {
-        var fileError = document.getElementById("fileError");
-
         if (this.files && this.files.length > 0) {
-            fileError.style.display = "none";
-
             var reader = new FileReader();
             reader.onload = function (e) {
                 document.getElementById("profileImage").src = e.target.result;

@@ -1,6 +1,5 @@
 package com.nhom27.nhatkykhambenh.service.implementation;
 
-import com.nhom27.nhatkykhambenh.dto.TiemChungDetailDTO;
 import com.nhom27.nhatkykhambenh.exception.SaveDataException;
 import com.nhom27.nhatkykhambenh.model.ChiTietTiemChung;
 import com.nhom27.nhatkykhambenh.model.TiemChung;
@@ -98,33 +97,4 @@ public class ChiTietTiemChungService implements IChiTietTiemChungService {
         return chiTietTiemChungRepo.findAllByMaNguoiDung(maNguoiDung);
     }
 
-    @Override
-    public List<TiemChungDetailDTO> getAllTiemChungDetails(Integer maNguoiDung) {
-        List<ChiTietTiemChung> dsCTTiemChung = chiTietTiemChungRepo.findAllByMaNguoiDung(maNguoiDung);
-        List<TiemChungDetailDTO> result = new ArrayList<>();
-
-        for(ChiTietTiemChung chitiet : dsCTTiemChung) {
-            TiemChung tiemchung = chitiet.getTiemChung();
-
-            if(tiemchung != null) {
-                TiemChungDetailDTO detailDTO = getTiemChungDetailDTO(chitiet, tiemchung);
-                result.add(detailDTO);
-            }
-        }
-
-        return result;
-    }
-
-    private static TiemChungDetailDTO getTiemChungDetailDTO(ChiTietTiemChung chitiet, TiemChung tiemchung) {
-        TiemChungDetailDTO detailDTO = new TiemChungDetailDTO();
-        detailDTO.setMaTiemChung(tiemchung.getMaTiemChung());
-        detailDTO.setMaNguoiDung(chitiet.getMaNguoiDung());
-        detailDTO.setNoiTiemChung(tiemchung.getNoiTiemChung());
-        detailDTO.setNgayTiem(tiemchung.getNgayTiem());
-        detailDTO.setNguoiTiem(tiemchung.getNguoiTiem());
-        detailDTO.setSoMuiTiem(tiemchung.getSoMuiTiem());
-        detailDTO.setTenVacXin(chitiet.getTenVacXin());
-
-        return detailDTO;
-    }
 }

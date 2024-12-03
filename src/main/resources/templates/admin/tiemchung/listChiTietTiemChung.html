@@ -17,16 +17,6 @@
                         <span class="material-icons text-white">signal_cellular_alt</span>
                     </div>
                 </div>
-                <!-- End XP Col -->
-
-                <!--                    <div class="xp-breadcrumbbar text-center">-->
-                <!--                        <h4 class="page-title">Dashboard</h4>-->
-                <!--                        <ol class="breadcrumb">-->
-                <!--                            <li class="breadcrumb-item"><a href="#">Admin</a></li>-->
-                <!--                            <li class="breadcrumb-item active" aria-current="page">Dashboard</li>-->
-                <!--                        </ol>-->
-                <!--                    </div>-->
-                <!-- End XP Row -->
 
                 <!-- Start XP Col -->
                 <div class="col-md-5 col-lg-3 order-3 order-md-2">
@@ -53,7 +43,7 @@
                     <div class="table-title">
                         <div class="row">
                             <div class="col-sm-6 p-0 d-flex justify-content-lg-start justify-content-center">
-                                <h2 class="ml-lg-2">Chi tiết tiêm chủng</h2>
+                                <h2 class="ml-lg-2" th:text="${'Chi tiết tiêm chủng (TC' + @stringUtils.padWithZeros(maTiemChung, 3) + ')'}"></h2>
                             </div>
                             <div class="col-sm-6 p-0 d-flex justify-content-lg-end justify-content-center">
                                 <a th:href="@{/admin/tiemchung/chitiet/add(maTiemChung=${maTiemChung})}" class="btn btn-success">
@@ -97,11 +87,11 @@
                                     <label for="selectAll"></label>
                                 </span>
                             </th>
-                            <th>Mã tiêm chủng</th>
-                            <th>Mã người dùng</th>
-                            <th>Tên người tiêm</th>
-                            <th>Tên vắc xin</th>
-                            <th>Thao tác</th>
+                            <th>Người được tiêm</th>
+                            <th>Tên vắc-xin</th>
+                            <th>Ngày tiêm</th>
+                            <th>Người tiêm</th>
+                            <th>Mũi số</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -113,10 +103,11 @@
                                         <label th:for="'checkbox' + ${cttiemchung.maTiemChung}"></label>
                                     </span>
                             </td>
-                            <td th:text="${cttiemchung.maTiemChung}"></td>
-                            <td th:text="${cttiemchung.maNguoiDung}"></td>
-                            <td th:text="${cttiemchung.maNguoiDung}"></td>
-                            <td th:text="${cttiemchung.tenVacXin}"></td>
+                            <td th:text="${cttiemchung.nguoiDung.tenNguoiDung}"></td>
+                            <td th:text="${cttiemchung.tiemChung.tenVacXin}"></td>
+                            <td th:text="${cttiemchung.ngayTiem}"></td>
+                            <td th:text="${cttiemchung.nguoiTiem}"></td>
+                            <td th:text="${cttiemchung.muiTiemSo}"></td>
                             <td>
                                 <a th:href="@{/admin/tiemchung/chitiet/update(id=${cttiemchung.maTiemChung})}" class="edit">
                                     <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>

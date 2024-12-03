@@ -21,13 +21,15 @@ public class StringUtils {
         }
 
         String[] words = fullName.trim().split("\\s+");
-        StringBuilder initials = new StringBuilder();
-
-        for (String word : words) {
-            initials.append(word.charAt(0));
+        if (words.length == 1) {
+            return String.valueOf(words[0].charAt(0)).toUpperCase();
         }
 
-        return initials.toString().toUpperCase();
+        char firstInitial = words[0].charAt(0);
+        char lastInitial = words[words.length - 1].charAt(0);
+
+        return ("" + firstInitial + lastInitial).toUpperCase();
     }
+
 }
 

@@ -37,7 +37,7 @@
                                         <option value="">Tất cả người dùng</option>
                                         <option th:each="giaDinh : ${dsGiaDinh}"
                                                 th:value="${giaDinh.maGiaDinh}"
-                                                th:text="${giaDinh.maGiaDinh}">
+                                                th:text="${giaDinh.taiKhoan.nguoiDung.tenNguoiDung}">
                                         </option>
                                     </select>
                                 </div>
@@ -87,7 +87,7 @@
                         <div class="card stats-card">
                             <div class="card-body">
                                 <h5>Số bệnh nhân</h5>
-                                <h2 id="totalPatients">23</h2>
+                                <h2 id="totalPatients" th:text="${dsNguoiDung.size()}">3</h2>
                             </div>
                         </div>
                     </div>

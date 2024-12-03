@@ -4,6 +4,7 @@ import com.nhom27.nhatkykhambenh.exception.SaveDataException;
 import com.nhom27.nhatkykhambenh.model.GiaDinh;
 import com.nhom27.nhatkykhambenh.model.TaiKhoan;
 import com.nhom27.nhatkykhambenh.model.TongQuan;
+import com.nhom27.nhatkykhambenh.repository.IGiaDinhRepo;
 import com.nhom27.nhatkykhambenh.repository.ITongQuanRepo;
 import com.nhom27.nhatkykhambenh.service.interfaces.INguoiDungService;
 import com.nhom27.nhatkykhambenh.model.NguoiDung;
@@ -14,6 +15,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +29,9 @@ public class NguoiDungService implements INguoiDungService {
 
     @Autowired
     private ITongQuanRepo tongQuanRepo;
+
+    @Autowired
+    private IGiaDinhRepo giaDinhRepo;
 
     @Override
     public List<NguoiDung> getAllNguoiDung() {
@@ -47,6 +54,14 @@ public class NguoiDungService implements INguoiDungService {
 
             tongQuan.setNguoiDung(nguoiDung);
             tongQuanRepo.save(tongQuan);
+
+//            GiaDinh giaDinh = taiKhoan.getGiaDinh();
+//
+//            if(nguoiDung.getMaNguoiDung() == null){
+//                giaDinh.setSoLuong(giaDinh.getSoLuong() + 1);
+//                giaDinhRepo.saveAndFlush(giaDinh);
+//            }
+
         } catch (Exception e) {
             throw new SaveDataException("NguoiDung");
         }
@@ -69,4 +84,5 @@ public class NguoiDungService implements INguoiDungService {
     public NguoiDung findByEmail(String email) {
         return nguoiDungRepo.findByEmail(email);
     }
+
 }

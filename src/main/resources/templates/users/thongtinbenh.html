@@ -13,7 +13,6 @@
     <div class="card">
         <div class="header">
             <div>Mã Chi Tiết Khám Bệnh: <span class="pill pill-code" th:text="'CTKB' + ${thongTinBenh.maChiTietKhamBenh}"></span></div>
-<!--            <div>Mã Chi Tiết Khám Bệnh: <span class="pill pill-detail">CTKB001</span></div>-->
         </div>
 
         <div class="info-section">
@@ -32,12 +31,6 @@
                     <div class="nav-buttons">
                         <button class="prev" onclick="prevImage()">&lt;</button>
                     </div>
-<!--                    <div class="thumbnail-container" id="thumbnailContainer">-->
-<!--                        <img src="https://via.placeholder.com/60" alt="Ảnh nhỏ 1" data-src="https://via.placeholder.com/300x200">-->
-<!--                        <img src="https://via.placeholder.com/60" alt="Ảnh nhỏ 2" data-src="https://via.placeholder.com/300x200/FF0000/FFFFFF">-->
-<!--                        <img src="https://via.placeholder.com/60" alt="Ảnh nhỏ 3" data-src="https://via.placeholder.com/300x200/00FF00/FFFFFF">-->
-<!--                        <img src="https://via.placeholder.com/60" alt="Ảnh nhỏ 4" data-src="https://via.placeholder.com/300x200/0000FF/FFFFFF">-->
-<!--                    </div>-->
                     <div class="thumbnail-container" id="thumbnailContainer">
                         <img th:each="image : ${thongTinBenh.dsHinhAnh}" th:src="${image.hinhAnh}" th:alt="${image.chuanDoan}" data-src="${image.hinhAnh}">
                     </div>
@@ -101,7 +94,6 @@
         </div>
     </div>
 </div>
-
 
 <script>
     let currentIndex = 0;
