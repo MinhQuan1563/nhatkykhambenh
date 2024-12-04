@@ -17,6 +17,16 @@
                         <span class="material-icons text-white">signal_cellular_alt</span>
                     </div>
                 </div>
+                <!-- End XP Col -->
+
+                <!--                    <div class="xp-breadcrumbbar text-center">-->
+                <!--                        <h4 class="page-title">Dashboard</h4>-->
+                <!--                        <ol class="breadcrumb">-->
+                <!--                            <li class="breadcrumb-item"><a href="#">Admin</a></li>-->
+                <!--                            <li class="breadcrumb-item active" aria-current="page">Dashboard</li>-->
+                <!--                        </ol>-->
+                <!--                    </div>-->
+                <!-- End XP Row -->
 
                 <!-- Start XP Col -->
                 <div class="col-md-5 col-lg-3 order-3 order-md-2">
@@ -83,10 +93,10 @@
                         <thead>
                         <tr>
                             <th>
-                                <span class="custom-checkbox">
-                                    <input type="checkbox" id="selectAll">
-                                    <label for="selectAll"></label>
-                                </span>
+                                    <span class="custom-checkbox">
+                                        <input type="checkbox" id="selectAll">
+                                        <label for="selectAll"></label>
+                                    </span>
                             </th>
                             <th>Mã Khám Bệnh</th>
                             <th>Mã Người Dùng</th>
@@ -109,6 +119,8 @@
                             <td th:text="${khambenh.nguoiDung.maNguoiDung + ' - ' + khambenh.nguoiDung.tenNguoiDung}"></td>
                             <td th:text="${khambenh.benhVien}"></td>
                             <td th:text="${khambenh.ngayKham}"></td>
+
+
                             <td>
                                 <a th:href="@{/admin/khambenh/update(id=${khambenh.maKhamBenh})}" class="edit">
                                     <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
@@ -132,6 +144,29 @@
                         </tr>
                         </tbody>
                     </table>
+
+                    <div class="modal fade" id="appointmentModal" tabindex="-1" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="appointmentModalLabel">Lịch hẹn khám bệnh</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="mb-3">
+                                            <label for="appointmentDateTime" class="form-label">Chọn ngày và giờ:</label>
+                                            <input type="datetime-local" class="form-control" id="appointmentDateTime" required>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                    <button type="button" class="btn btn-primary" id="saveAppointment">Xác nhận</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
 
                     <!-- Pagination -->
@@ -219,9 +254,76 @@
         </div>
     </footer>
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
     <script th:src="@{/js/admin/jquery-3.3.1.min.js}"></script>
     <script th:src="@{../../js/admin/khambenh.js}"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const modal = new bootstrap.Modal(document.getElementById('appointmentModal'));
+            const datetimeInput = document.getElementById('appointmentDateTime');
+            const saveButton = document.getElementById('saveAppointment');
+            let currentMaKhamBenh = null; // Lưu trữ mã khám bệnh hiện tại
+            // Lắng nghe sự kiện click trên các nút mở modal
+            document.querySelectorAll('.open-modal-btn').forEach(button => {
+                button.addEventListener('click', async function () {
+                    currentMaKhamBenh = this.getAttribute('data-id'); // Lưu mã khám bệnh khi mở modal
+                    try {
+                        const response = await fetch(`http://localhost:8081/admin/khambenh/${currentMaKhamBenh}/lichhen`);
+                        if (!response.ok) {
+                            throw new Error('Không thể lấy dữ liệu từ API.');
+                        }
+                        const lichHenData = await response.json();
+                        // Hiển thị dữ liệu nếu API trả về thành công
+                        if (lichHenData.thoiGianHen) {
+                            const thoiGianHen = new Date(lichHenData.thoiGianHen);
+                            datetimeInput.value = thoiGianHen.toISOString().slice(0, 16); // Format ISO 8601
+                        } else {
+                            datetimeInput.value = ''; // Form rỗng nếu không có thoiGianHen
+                        }
+                    } catch (error) {
+                        console.error('Lỗi:', error);
+                        datetimeInput.value = ''; // Form rỗng khi có lỗi
+                    } finally {
+                        modal.show();
+                    }
+                });
+            });
+            // Xử lý khi ấn nút "Xác nhận"
+            saveButton.addEventListener('click', async function () {
+                const inputDate = new Date(datetimeInput.value); // Lấy giá trị từ input
+                const currentDate = new Date(); // Lấy thời gian hiện tại
+                if (inputDate <= currentDate) {
+                    alert('Thời gian hẹn phải lớn hơn thời gian hiện tại.');
+                    return;
+                }
+                try {
+                    // Gửi request POST với dữ liệu thời gian hẹn
+                    const response = await fetch(`http://localhost:8081/admin/khambenh/${currentMaKhamBenh}/lichhen`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ thoiGianHen: inputDate.toISOString() }),
+                    });
+                    if (!response.ok) {
+                        throw new Error('Không thể gửi dữ liệu đến API.');
+                    }
+                    alert('Lịch hẹn đã được lưu thành công!');
+                    modal.hide(); // Đóng modal sau khi lưu thành công
+                } catch (error) {
+                    console.error('Lỗi khi gửi API:', error);
+                    alert('Có lỗi xảy ra khi lưu lịch hẹn. Vui lòng thử lại.');
+                }
+            });
+        });
+    </script>
 </div>
 </body>
 </html>
+
 
