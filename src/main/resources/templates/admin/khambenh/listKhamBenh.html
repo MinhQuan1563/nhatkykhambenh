@@ -273,7 +273,7 @@
                 button.addEventListener('click', async function () {
                     currentMaKhamBenh = this.getAttribute('data-id'); // Lưu mã khám bệnh khi mở modal
                     try {
-                        const response = await fetch(`http://localhost:8081/admin/khambenh/${currentMaKhamBenh}/lichhen`);
+                        const response = await fetch(`http://localhost:8080/admin/khambenh/${currentMaKhamBenh}/lichhen`);
                         if (!response.ok) {
                             throw new Error('Không thể lấy dữ liệu từ API.');
                         }
@@ -303,7 +303,7 @@
                 }
                 try {
                     // Gửi request POST với dữ liệu thời gian hẹn
-                    const response = await fetch(`http://localhost:8081/admin/khambenh/${currentMaKhamBenh}/lichhen`, {
+                    const response = await fetch(`http://localhost:8080/admin/khambenh/${currentMaKhamBenh}/lichhen`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
