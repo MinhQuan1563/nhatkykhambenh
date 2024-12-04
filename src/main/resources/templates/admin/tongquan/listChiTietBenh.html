@@ -1,6 +1,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/admin/dashboard}">
 <head>
-    <title>Thông tin chỉ số người dùng</title>
+    <title>Thông tin Tiền sử bệnh</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
@@ -43,7 +43,7 @@
                     <div class="table-title">
                         <div class="row">
                             <div class="col-sm-6 p-0 d-flex justify-content-lg-start justify-content-center">
-                                <h2 class="ml-lg-2">Thông tin tổng quan người dùng</h2>
+                                <h2 class="ml-lg-2">Tiền sử bệnh</h2>
                             </div>
                         </div>
                         <div
@@ -77,43 +77,23 @@
                                         <label for="selectAll"></label>
                                     </span>
                             </th>
-                            <th>Mã tổng quan</th>
-                            <th>Tên người dùng</th>
-                            <th>Cân nặng</th>
-                            <th>Chỉ số BMI</th>
-                            <th>Chiều cao</th>
-                            <th>Đường huyết</th>
-                            <th>Huyết áp</th>
-                            <th>Nhiệt độ</th>
-                            <th>Nhịp tim</th>
-                            <th>Nhóm máu</th>
-                            <th>Thao tác</th>
+                            <th>Mã chi tiết bệnh</th>
+                            <th>Tên bệnh</th>
+                            <th>Trạng thái bệnh</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="tongquan : ${dsTongQuan}">
+                        <tr th:each="chitietbenh : ${dsChiTietBenh}">
                             <td>
                                     <span class="custom-checkbox">
-                                        <input type="checkbox" th:id="${tongquan.maTongQuan}" th:value="${tongquan.maTongQuan}"
+                                        <input type="checkbox" th:id="${chitietbenh.maChiTietBenh}" th:value="${chitietbenh.maChiTietBenh}"
                                                name="selectedIds">
-                                        <label th:for="'checkbox' + ${tongquan.maTongQuan}"></label>
+                                        <label th:for="'checkbox' + ${chitietbenh.maChiTietBenh}"></label>
                                     </span>
                             </td>
-                            <td th:text="'TQ' + ${@stringUtils.padWithZeros(tongquan.maTongQuan, 3)}" th:style="'color: blue;'"></td>
-                            <td th:text="${tongquan.nguoiDung.tenNguoiDung}"></td>
-                            <td th:text="${tongquan.canNang}"></td>
-                            <td th:text="${tongquan.chiSoBMI}"></td>
-                            <td th:text="${tongquan.chieuCao}"></td>
-                            <td th:text="${tongquan.duongHuyet}"></td>
-                            <td th:text="${tongquan.huyetAp}"></td>
-                            <td th:text="${tongquan.nhietDo}"></td>
-                            <td th:text="${tongquan.nhipTim}"></td>
-                            <td th:text="${tongquan.nhomMau}"></td>
-                            <td>
-                                <a th:href="@{/admin/tongquan/chitietbenh(maTongQuan=${tongquan.maTongQuan})}" class="view">
-                                    <i class="material-icons" data-toggle="tooltip" title="View">&#xE8F4;</i>
-                                </a>
-                            </td>
+                            <td th:text="'CTB' + ${@stringUtils.padWithZeros(chitietbenh.maChiTietBenh, 3)}" th:style="'color: blue;'"></td>
+                            <td th:text="${chitietbenh.tenBenh}"></td>
+                            <td th:text="${chitietbenh.trangThaiBenhHienTai == true ? 'Đang điều trị' : 'Đã khỏi'}"></td>
                         </tr>
                         </tbody>
                     </table>
@@ -124,15 +104,15 @@
                         <div class="hint-text">Hiển thị <b th:text="${currentCount}"></b> trong số <b th:text="${totalItems}"></b> mục</div>
                         <ul class="pagination">
                             <li th:if="${currentPage > 0}" th:class="${currentPage == 0 ? 'page-item disabled' : 'page-item'}">
-                                <a th:href="@{/admin/tongquan(page=${currentPage - 1}, size=${pageSize}, query=${query})}" class="page-link">Trước</a>
+                                <a th:href="@{/admin/tongquan/chitietbenh(maTongQuan=${maTongQuan}, page=${currentPage - 1}, size=${pageSize}, query=${query})}" class="page-link">Trước</a>
                             </li>
                             <li class="page-item" th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
                                 th:classappend="${pageNum == currentPage} ? active">
-                                <a th:href="@{/admin/tongquan(page=${pageNum}, size=${pageSize}, query=${query})}"
+                                <a th:href="@{/admin/tongquan/chitietbenh(maTongQuan=${maTongQuan}, page=${pageNum}, size=${pageSize}, query=${query})}"
                                    class="page-link" th:text="${pageNum + 1}"></a>
                             </li>
                             <li th:if="${currentPage < totalPages - 1}" th:class="${currentPage == totalPages - 1 ? 'page-item disabled' : 'page-item'}">
-                                <a th:href="@{/admin/tongquan(page=${currentPage + 1}, size=${pageSize}, query=${query})}" class="page-link">Sau</a>
+                                <a th:href="@{/admin/tongquan/chitietbenh(maTongQuan=${maTongQuan}, page=${currentPage + 1}, size=${pageSize}, query=${query})}" class="page-link">Sau</a>
                             </li>
                         </ul>
                     </div>

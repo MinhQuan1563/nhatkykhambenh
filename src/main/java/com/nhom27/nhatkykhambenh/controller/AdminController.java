@@ -10,12 +10,13 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
-@PreAuthorize("hasRole('ADMIN')")
+@PreAuthorize("hasAuthority('ADMIN')")
 public class AdminController {
 
     @GetMapping("admin")
     public String adminPage(HttpSession session) {
         List<String> roles = (List<String>) session.getAttribute("roles");
+        System.out.println("roles = " + roles);
         if (roles == null || !roles.contains("ADMIN")) {
             return "redirect:/";
         }

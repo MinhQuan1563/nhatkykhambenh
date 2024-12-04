@@ -16,9 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class ChiTietTiemChungService implements IChiTietTiemChungService {
@@ -60,6 +58,16 @@ public class ChiTietTiemChungService implements IChiTietTiemChungService {
 
     @Override
     public void saveTiemChung(ChiTietTiemChung ctTiemChung) {
+        ctTiemChung.setTrangThai(false);
+        try {
+            chiTietTiemChungRepo.save(ctTiemChung);
+        } catch (Exception e) {
+            throw new SaveDataException("ChiTietTiemChung");
+        }
+    }
+
+    @Override
+    public void updateTrangThai(ChiTietTiemChung ctTiemChung) {
         ctTiemChung.setTrangThai(true);
         try {
             chiTietTiemChungRepo.save(ctTiemChung);
@@ -81,34 +89,8 @@ public class ChiTietTiemChungService implements IChiTietTiemChungService {
     }
 
     @Override
-    public void deleteAllByIds(Integer maTiemChung, List<Integer> maNguoiDung) {
-//        List<ChiTietTiemChung> chiTietTiemChungList = chiTietTiemChungRepo.findAllById(
-//                maNguoiDung.stream()
-//                        .map(maND -> new ChiTietTiemChung.ChiTietTiemChungId(maTiemChung, maND))
-//                        .toList()
-//        );
-//
-//        for (ChiTietTiemChung chiTietTiemChung : chiTietTiemChungList) {
-//            chiTietTiemChung.setTrangThai(false);
-//        }
-//
-//        chiTietTiemChungRepo.saveAll(chiTietTiemChungList);
-    }
-
-    @Override
     public List<ChiTietTiemChung> getAllByNguoiDung(Integer maNguoiDung) {
         return chiTietTiemChungRepo.findAllByMaNguoiDung(maNguoiDung);
-    }
-
-    @Override
-    public Map<String, Integer> getVaccinationStats(Integer maTiemChung) {
-        Integer daTiem = chiTietTiemChungRepo.countByMaTiemChungAndTrangThai(maTiemChung, true);
-        Integer chuaTiem = chiTietTiemChungRepo.countByMaTiemChungAndTrangThai(maTiemChung, false);
-
-        Map<String, Integer> stats = new HashMap<>();
-        stats.put("Đã tiêm", daTiem);
-        stats.put("Chưa tiêm", chuaTiem);
-        return stats;
     }
 
     @Override

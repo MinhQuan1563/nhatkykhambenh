@@ -1,10 +1,14 @@
 package com.nhom27.nhatkykhambenh.controller;
 
+import com.nhom27.nhatkykhambenh.dto.ChiTietBenhDTO;
 import com.nhom27.nhatkykhambenh.dto.TongQuanDTO;
 import com.nhom27.nhatkykhambenh.dto.TongQuanDTO;
+import com.nhom27.nhatkykhambenh.mapper.ChiTietBenhMapper;
 import com.nhom27.nhatkykhambenh.mapper.TongQuanMapper;
+import com.nhom27.nhatkykhambenh.model.ChiTietBenh;
 import com.nhom27.nhatkykhambenh.model.NguoiDung;
 import com.nhom27.nhatkykhambenh.model.TongQuan;
+import com.nhom27.nhatkykhambenh.service.interfaces.IChiTietBenhService;
 import com.nhom27.nhatkykhambenh.service.interfaces.INguoiDungService;
 import com.nhom27.nhatkykhambenh.service.interfaces.ITongQuanService;
 import jakarta.servlet.http.HttpSession;
@@ -35,6 +39,12 @@ public class TongQuanController {
     @Autowired
     private INguoiDungService nguoiDungService;
 
+    @Autowired
+    private IChiTietBenhService chiTietBenhService;
+
+    @Autowired
+    private ChiTietBenhMapper chiTietBenhMapper;
+
     @GetMapping("users/tongquan")
     public String GetAllTongQuan(Model model, HttpSession session,
                     @RequestParam("maNguoiDung") Integer maNguoiDung) {
@@ -57,11 +67,38 @@ public class TongQuanController {
         return "users/tongquan";
     }
 
-    @GetMapping("/admin/tongquan")
-    public String GetListTongQuan(Model model,
+    @GetMapping("/admin/tongquan/chitietbenh")
+    public String GetListChiTietBenh(Model model,
                                    @RequestParam(defaultValue = "0") int page,
                                    @RequestParam(defaultValue = "5") int size,
-                                   @RequestParam(defaultValue = "") String query) {
+                                   @RequestParam(defaultValue = "") String query,
+                                   @RequestParam("maTongQuan") Integer maTongQuan) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<ChiTietBenh> chiTietBenhPage = chiTietBenhService.getDSChiTietBenh(pageable, query, maTongQuan);
+
+        model.addAttribute("dsChiTietBenh", chiTietBenhPage.getContent());
+        model.addAttribute("maTongQuan", maTongQuan);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("pageSize", size);
+        model.addAttribute("totalPages", chiTietBenhPage.getTotalPages());
+        model.addAttribute("totalItems", chiTietBenhPage.getTotalElements());
+        model.addAttribute("query", query);
+
+        int startItem = page * size + 1;
+        int endItem = Math.min(startItem + size - 1, (int) chiTietBenhPage.getTotalElements());
+
+        model.addAttribute("startItem", startItem);
+        model.addAttribute("endItem", endItem);
+        model.addAttribute("currentCount", endItem - startItem + 1);
+
+        return "admin/tongquan/listChiTietBenh";
+    }
+
+    @GetMapping("/admin/tongquan")
+    public String GetListTongQuan(Model model,
+                                  @RequestParam(defaultValue = "0") int page,
+                                  @RequestParam(defaultValue = "5") int size,
+                                  @RequestParam(defaultValue = "") String query) {
         Pageable pageable = PageRequest.of(page, size);
         Page<TongQuan> tongQuanPage = tongQuanService.getDSTongQuan(pageable, query);
 

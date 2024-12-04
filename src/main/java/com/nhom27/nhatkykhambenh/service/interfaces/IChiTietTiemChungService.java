@@ -17,13 +17,11 @@ public interface IChiTietTiemChungService {
 
     void deleteByIds(Integer maTiemChung, Integer maNguoiDung);
 
-    void deleteAllByIds(Integer maTiemChung, List<Integer> maNguoiDung);
-
     List<ChiTietTiemChung> getAllByNguoiDung(Integer maNguoiDung);
-
-    Map<String, Integer> getVaccinationStats(Integer maTiemChung);
 
     List<ChiTietTiemChung> getAll();
 
     List<ChiTietTiemChung> filterChiTietTiemChung(String dateFrom, String dateTo, String maGiaDinh);
+
+    void updateTrangThai(ChiTietTiemChung ctTiemChung);
 }

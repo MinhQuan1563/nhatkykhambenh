@@ -103,7 +103,7 @@
                                         <label th:for="'checkbox' + ${tiemchung.maTiemChung}"></label>
                                     </span>
                                 </td>
-                                <td th:text="${tiemchung.maTiemChung}"></td>
+                                <td th:text="'TC' + ${@stringUtils.padWithZeros(tiemchung.maTiemChung, 3)}" th:style="'color: blue;'"></td>
                                 <td th:text="${tiemchung.tenVacXin}"></td>
                                 <td th:text="${tiemchung.noiTiemChung}"></td>
                                 <td th:text="${tiemchung.soMuiTiem}"></td>
@@ -111,7 +111,7 @@
                                     <a th:href="@{/admin/tiemchung/update(id=${tiemchung.maTiemChung})}" class="edit">
                                         <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
                                     </a>
-                                    <a href="#" class="delete" data-toggle="modal" th:data-id="${tiemchung.maTiemChung}">
+                                    <a href="#" class="delete" data-bs-target="#deleteModal" data-toggle="modal" th:data-id="${tiemchung.maTiemChung}">
                                         <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
                                     </a>
                                     <a th:href="@{/admin/tiemchung/chitiet(maTiemChung=${tiemchung.maTiemChung})}" class="view">
@@ -195,7 +195,7 @@
         <footer class="footer">
             <div class="container-fluid">
                 <div class="footer-in">
-                    <p class="mb-0">&copy 2020 Vishweb design - All Rights Reserved.</p>
+                    <p class="mb-0">Nhật ký khám chữa bệnh.</p>
                 </div>
             </div>
         </footer>

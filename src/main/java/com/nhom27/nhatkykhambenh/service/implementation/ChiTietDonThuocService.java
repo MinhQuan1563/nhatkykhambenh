@@ -39,7 +39,7 @@ public class ChiTietDonThuocService implements IChiTietDonThuocService {
 
 
     @Override
-    public Page<ChiTietDonThuoc> getDSChiTietDonThuoc(Pageable pageable, String query,Integer maChiTietKhamBenh) {
+    public Page<ChiTietDonThuoc> getDSChiTietDonThuoc(Pageable pageable, String query, Integer maChiTietKhamBenh) {
         String searchTerm = "%" + query + "%";
 
         String columnQuery = "SELECT GROUP_CONCAT(COLUMN_NAME) FROM INFORMATION_SCHEMA.COLUMNS " +

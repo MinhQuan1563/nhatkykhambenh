@@ -78,12 +78,6 @@ public class ChiTietTiemChungController {
 
         List<NguoiDungDTO> nguoiDungDTOList = nguoiDungMapper.toNguoiDungDtoList(nguoiDungService.getAllNguoiDung());
 
-        System.out.println("size = " + nguoiDungDTOList.size());
-
-        for(NguoiDungDTO dt: nguoiDungDTOList){
-            System.out.println("name " + dt.getTenNguoiDung());
-        }
-
         model.addAttribute("ctTiemChung", chiTietTiemChungDTO);
         model.addAttribute("dsNguoiDung", nguoiDungDTOList);
 
@@ -91,14 +85,19 @@ public class ChiTietTiemChungController {
     }
 
     @GetMapping("/admin/tiemchung/chitiet/update")
-    public String updateTiemChungForm(Model model, @RequestParam Integer maTiemChung) {
-        ChiTietTiemChungDTO chiTietTiemChungDTO = new ChiTietTiemChungDTO();
-        chiTietTiemChungDTO.setMaTiemChung(maTiemChung);
+    public String updateTiemChungForm(Model model,
+                                      @RequestParam Integer maTiemChung,
+                                      @RequestParam Integer maNguoiDung) {
+        ChiTietTiemChungDTO chiTietTiemChungDTO = chiTietTiemChungMapper.toChiTietTiemChungDTO(
+                chiTietTiemChungService.findByIds(maTiemChung, maNguoiDung)
+        );
 
         List<NguoiDungDTO> nguoiDungDTOList = nguoiDungMapper.toNguoiDungDtoList(nguoiDungService.getAllNguoiDung());
+        NguoiDungDTO nguoiDungDTO = nguoiDungMapper.toNguoiDungDTO(nguoiDungService.getById(maNguoiDung));
 
         model.addAttribute("ctTiemChung", chiTietTiemChungDTO);
         model.addAttribute("dsNguoiDung", nguoiDungDTOList);
+        model.addAttribute("nguoiDung", nguoiDungDTO);
 
         return "admin/tiemchung/addChiTietTiemChung";
     }
@@ -191,7 +190,7 @@ public class ChiTietTiemChungController {
                 return "redirect:/admin/tiemchung/chitiet";
             }
 
-            chiTietTiemChungService.saveTiemChung(chiTietTiemChung);
+            chiTietTiemChungService.updateTrangThai(chiTietTiemChung);
 
             redirectAttributes.addFlashAttribute("success", "Cập nhật trạng thái thành công!");
             redirectAttributes.addAttribute("maTiemChung", maTiemChung);

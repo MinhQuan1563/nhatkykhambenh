@@ -37,14 +37,12 @@ public class ChiTietChiSoService implements IChiTietChiSoService {
     private IChiSoRepo chiSoRepo;
 
     @Override
-    public List<ChiTietChiSoDTO> getDsChiTietChiSo(Integer maChiSo, Integer maTongQuan) {
-        List<ChiTietChiSo> chiTietChiSoList = chiTietChiSoRepo.findByMaTongQuanAndMaChiSo(maTongQuan, maChiSo);
-        return chiTietChiSoMapper.toChiTietChiSoDtoList(chiTietChiSoList);
+    public List<ChiTietChiSo> getDsChiTietChiSo(Integer maChiSo, Integer maTongQuan) {
+        return chiTietChiSoRepo.findByMaTongQuanAndMaChiSo(maTongQuan, maChiSo);
     }
 
     @Override
-    public void saveCTChiSo(ChiTietChiSoDTO chiTietChiSoDTO) {
-        ChiTietChiSo chiTietChiSo = chiTietChiSoMapper.toChiTietChiSo(chiTietChiSoDTO);
+    public void saveCTChiSo(ChiTietChiSo chiTietChiSo) {
         try {
             chiTietChiSoRepo.save(chiTietChiSo);
 
@@ -60,7 +58,7 @@ public class ChiTietChiSoService implements IChiTietChiSoService {
             if (maxTime.equals(currentTime)) {
                 TongQuan tongQuan = tongQuanRepo.findById(chiTietChiSo.getMaTongQuan()).orElse(null);
                 if (tongQuan != null) {
-                    ChiSo chiSo = chiSoRepo.findById(chiTietChiSoDTO.getMaChiSo()).orElse(null);
+                    ChiSo chiSo = chiSoRepo.findById(chiTietChiSo.getMaChiSo()).orElse(null);
 
                     tongQuan = setLoaiChiSo(tongQuan, chiSo, chiTietChiSo);
 
@@ -97,10 +95,6 @@ public class ChiTietChiSoService implements IChiTietChiSoService {
         }
 
         return tongQuan;
-    }
-
-    public void checkChiTietBenh() {
-
     }
 
     @Transactional

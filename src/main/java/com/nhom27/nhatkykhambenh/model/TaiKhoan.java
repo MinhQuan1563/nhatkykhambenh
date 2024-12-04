@@ -11,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "TaiKhoan")
+@ToString
 public class TaiKhoan {
     @Id
     @Column(name = "MaNguoiDung")

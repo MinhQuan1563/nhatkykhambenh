@@ -69,10 +69,6 @@
                                     <i class="material-icons">&#xE147;</i>
                                     <span>Thêm mới</span>
                                 </a>
-                                <a href="#" data-toggle="modal" class="btn btn-danger delete-all" >
-                                    <i class="material-icons">&#xE15C;</i>
-                                    <span>Xóa</span>
-                                </a>
                             </div>
                         </div>
                         <div
@@ -114,7 +110,6 @@
                             <th>Người tiêm</th>
                             <th>Mũi số</th>
                             <th>Trạng thái</th>
-                            <th>Thao tác</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -136,21 +131,11 @@
                                     <input type="hidden" name="maTiemChung" th:value="${cttiemchung.maTiemChung}">
                                     <input type="hidden" name="maNguoiDung" th:value="${cttiemchung.maNguoiDung}">
                                     <button type="submit"
-                                            th:classappend="${cttiemchung.trangThai == true ? 'btn-disabled' : ''}"
+                                            th:classappend="${cttiemchung.trangThai == true ? 'btn btn-success' : 'btn btn-danger'}"
                                             th:disabled="${cttiemchung.trangThai == true}">
                                         <span th:text="${cttiemchung.trangThai == true ? 'Đã tiêm' : 'Chưa tiêm'}"></span>
                                     </button>
                                 </form>
-                            </td>
-                            <td>
-                                <a th:href="@{/admin/tiemchung/chitiet/update(id=${cttiemchung.maTiemChung})}" class="edit">
-                                    <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
-                                </a>
-                                <a href="#" class="delete" data-toggle="modal"
-                                   th:data-id1="${cttiemchung.maTiemChung}"
-                                   th:data-id2="${cttiemchung.maNguoiDung}">
-                                    <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
-                                </a>
                             </td>
                         </tr>
                         </tbody>
@@ -158,20 +143,18 @@
 
                     <!-- Pagination -->
                     <div class="clearfix">
-                        <div class="hint-text">Hiển thị <b th:text="${currentPage * pageSize + 1}"></b> đến
-                            <b th:text="${currentPage * pageSize + dsCTTiemChung.size()}"></b> trong số <b th:text="${totalItems}"></b> mục
-                        </div>
+                        <div class="hint-text">Hiển thị <b th:text="${currentCount}"></b> trong số <b th:text="${totalItems}"></b> mục</div>
                         <ul class="pagination">
                             <li th:if="${currentPage > 0}" th:class="${currentPage == 0 ? 'page-item disabled' : 'page-item'}">
-                                <a th:href="@{/admin/cttiemchung(page=${currentPage - 1}, size=${pageSize}, query=${query})}" class="page-link">Trước</a>
+                                <a th:href="@{/admin/tiemchung/chitiet(maTiemChung=${maTiemChung}, page=${currentPage - 1}, size=${pageSize}, query=${query})}" class="page-link">Trước</a>
                             </li>
                             <li class="page-item" th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
                                 th:classappend="${pageNum == currentPage} ? active">
-                                <a th:href="@{/admin/cttiemchung(page=${pageNum}, size=${pageSize}, query=${query})}"
+                                <a th:href="@{/admin/tiemchung/chitiet(maTiemChung=${maTiemChung}, page=${pageNum}, size=${pageSize}, query=${query})}"
                                    class="page-link" th:text="${pageNum + 1}"></a>
                             </li>
                             <li th:if="${currentPage < totalPages - 1}" th:class="${currentPage == totalPages - 1 ? 'page-item disabled' : 'page-item'}">
-                                <a th:href="@{/admin/cttiemchung(page=${currentPage + 1}, size=${pageSize}, query=${query})}" class="page-link">Sau</a>
+                                <a th:href="@{/admin/tiemchung/chitiet(maTiemChung=${maTiemChung}, page=${currentPage + 1}, size=${pageSize}, query=${query})}" class="page-link">Sau</a>
                             </li>
                         </ul>
                     </div>
@@ -231,7 +214,7 @@
     <footer class="footer">
         <div class="container-fluid">
             <div class="footer-in">
-                <p class="mb-0">&copy 2020 Vishweb design - All Rights Reserved.</p>
+                <p class="mb-0">Nhật ký khám chữa bệnh.</p>
             </div>
         </div>
     </footer>

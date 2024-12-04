@@ -52,7 +52,7 @@
                         <label for="selectAll"></label>
                     </span>
                 </th>
-                <th>Mã tiêm chủng</th>
+                <th>Mã lịch hẹn tiêm chủng</th>
                 <th>Nơi tiêm chủng</th>
                 <th>Ngày tiêm</th>
                 <th>Thao tác</th>
@@ -63,7 +63,7 @@
                 <td>
                     <input type="checkbox" class="lichHenCheckBox" name="deletedIds" th:value="${lichHen.maLichHenTiemChung}">
                 </td>
-                <td th:text="${lichHen.maLichHenTiemChung}"></td>
+                <td th:text="'LHTC' + ${@stringUtils.padWithZeros(lichHen.maLichHenTiemChung, 3)}" th:style="'color: blue;'"></td>
                 <td th:text="${lichHen.noiTiemChung}"></td>
                 <td th:text="${#temporals.format(lichHen.ngayHenTiem, 'dd-MM-yyyy HH:mm')}"></td>
                 <td>
