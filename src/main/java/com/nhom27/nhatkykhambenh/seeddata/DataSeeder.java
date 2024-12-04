@@ -121,7 +121,7 @@ DataSeeder implements CommandLineRunner {
             for(NguoiDung nguoiDung : nguoiDungList) {
                 if(nguoiDung.getMaNguoiDung() == 2) {
                     TongQuan tongQuan = new TongQuan();
-                    tongQuan.setDuongHuyet("120/80");
+                    tongQuan.setDuongHuyet("120");
                     tongQuan.setNhipTim("72");
                     tongQuan.setHuyetAp("120/80");
                     tongQuan.setNhietDo("37.5");
