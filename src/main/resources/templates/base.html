@@ -114,7 +114,13 @@
 
             <!-- Sidebar profile starts -->
             <div class="sidebar-profile">
-                <img th:src="${session.nguoidung.hinhAnh}" class="img-shadow img-3x me-3 rounded-5" alt="Hospital Admin Templates">
+                <span class="img-shadow img-3x me-3 rounded-5" th:if="${session.nguoidung.hinhAnh == null or session.nguoidung.hinhAnh.isEmpty()}">
+                    <i class="ri-user-line fs-4 text-primary d-flex justify-content-center" style="margin-top: 6px;"></i>
+                </span>
+
+                <span th:if="${session.nguoidung.hinhAnh != null and !session.nguoidung.hinhAnh.isEmpty()}">
+                    <img th:src="${session.nguoidung.hinhAnh}" class="img-shadow img-3x me-3 rounded-5" alt="User Picture">
+                </span>
                 <div class="m-0">
                     <h5 class="mb-1 profile-name text-nowrap text-truncate" th:text="${session.nguoidung.tenNguoiDung}">Nick Gonzalez</h5>
                     <p class="m-0 small profile-name text-nowrap text-truncate" th:text="${session.nguoidung.moiQuanHe}">Dept Admin</p>
@@ -158,6 +164,12 @@
                                 <a th:href="@{/users/khambenh/lichhen(maNguoiDung=${session.nguoidung.maNguoiDung})}">Lịch Hẹn Khám</a>
                             </li>
                         </ul>
+                    </li>
+                    <li>
+                        <a th:href="@{/users/tiensubenh(maNguoiDung=${session.nguoidung.maNguoiDung})}">
+                            <i class="ri-dossier-line"></i>
+                            <span class="menu-text">Tiền sử bệnh</span>
+                        </a>
                     </li>
 <!--                    <li>-->
 <!--                        <a href="home.html">-->
@@ -233,6 +245,12 @@
 </div>
 <!-- Page wrapper ends -->
 
+<!-- Vendor Js Files -->
+<script th:src="@{/vendor/overlay-scroll/jquery.overlayScrollbars.min.js}"></script>
+<script th:src="@{/vendor/overlay-scroll/custom-scrollbar.js}" ></script>
+
+<!-- Custom JS files -->
+<script th:src="@{/js/user/custom.js}"></script>
 </body>
 
 

@@ -1,13 +1,11 @@
 package com.nhom27.nhatkykhambenh.service.implementation;
 
-import com.nhom27.nhatkykhambenh.mapper.TongQuanMapper;
 import com.nhom27.nhatkykhambenh.model.ChiSo;
 import com.nhom27.nhatkykhambenh.model.ChiTietChiSo;
 import com.nhom27.nhatkykhambenh.model.TongQuan;
 import com.nhom27.nhatkykhambenh.repository.IChiSoRepo;
 import com.nhom27.nhatkykhambenh.repository.IChiTietChiSoRepo;
 import com.nhom27.nhatkykhambenh.repository.ITongQuanRepo;
-import com.nhom27.nhatkykhambenh.service.interfaces.IChiTietChiSoService;
 import com.nhom27.nhatkykhambenh.service.interfaces.ITongQuanService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -46,13 +44,20 @@ public class TongQuanService implements ITongQuanService {
         Query columnNativeQuery = entityManager.createNativeQuery(columnQuery);
         String columns = (String) columnNativeQuery.getSingleResult();
 
-        String sql = "SELECT * FROM tong_quan WHERE trang_thai=1 AND CONCAT(" + columns + ") LIKE :searchTerm ";
+        String sql = "SELECT * FROM tong_quan WHERE CONCAT(" + columns + ") LIKE :searchTerm " +
+                "LIMIT :limit OFFSET :offset";
         Query nativeQuery = entityManager.createNativeQuery(sql, TongQuan.class);
         nativeQuery.setParameter("searchTerm", searchTerm);
+        nativeQuery.setParameter("limit", pageable.getPageSize());
+        nativeQuery.setParameter("offset", pageable.getPageNumber() * pageable.getPageSize());
 
         List<TongQuan> results = nativeQuery.getResultList();
 
-        long totalElements = results.size();
+        String countQuery = "SELECT COUNT(*) FROM tong_quan WHERE CONCAT(" + columns + ") LIKE :searchTerm";
+        Query countNativeQuery = entityManager.createNativeQuery(countQuery);
+        countNativeQuery.setParameter("searchTerm", searchTerm);
+        long totalElements = ((Number) countNativeQuery.getSingleResult()).longValue();
+
         return new PageImpl<>(results, pageable, totalElements);
     }
 
@@ -88,5 +93,15 @@ public class TongQuanService implements ITongQuanService {
         }
 
         return arr;
+    }
+
+    @Override
+    public List<TongQuan> getAllTongQuan() {
+        return tongQuanRepo.findAll();
+    }
+
+    @Override
+    public TongQuan getById(Integer id) {
+        return tongQuanRepo.findById(id).get();
     }
 }

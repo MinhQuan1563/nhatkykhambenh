@@ -29,11 +29,22 @@
                                     <input type="text" class="date-picker" name="dateTo" id="dateTo" placeholder="Chọn ngày kết thúc">
                                 </div>
                             </div>
+<!--                            <div class="col-md-3">-->
+<!--                                <div class="filter-group">-->
+<!--                                    <label for="maTiemChung">Các loại vắc-xin:</label>-->
+<!--                                    <select id="maTiemChung" name="maTiemChung" class="form-select">-->
+<!--                                        <option value="">Tất cả</option>-->
+<!--                                        <option th:each="tiemChung : ${dsTiemChung}"-->
+<!--                                                th:value="${tiemChung.maTiemChung}"-->
+<!--                                                th:text="${tiemChung.tenVacXin}">-->
+<!--                                        </option>-->
+<!--                                    </select>-->
+<!--                                </div>-->
+<!--                            </div>-->
                             <div class="col-md-3">
                                 <div class="filter-group">
                                     <label for="maGiaDinh">Hộ Gia Đình (Chủ Hộ):</label>
-                                    <select id="maGiaDinh" name="maGiaDinh"
-                                            class="form-select">
+                                    <select id="maGiaDinh" name="maGiaDinh" class="form-select">
                                         <option value="">Tất cả người dùng</option>
                                         <option th:each="giaDinh : ${dsGiaDinh}"
                                                 th:value="${giaDinh.maGiaDinh}"
@@ -71,7 +82,7 @@
                         <div class="card stats-card">
                             <div class="card-body">
                                 <h5>Xét nghiệm</h5>
-                                <h2 id="totalTests">45</h2>
+                                <h2 id="totalTests" th:text="${dsXetNghiem.size()}">5</h2>
                             </div>
                         </div>
                     </div>
@@ -79,7 +90,7 @@
                         <div class="card stats-card">
                             <div class="card-body">
                                 <h5>Tiêm chủng</h5>
-                                <h2 id="totalVaccinations">89</h2>
+                                <h2 id="totalVaccinations" th:text="${dsCTTiemChung.size()}">10</h2>
                             </div>
                         </div>
                     </div>
@@ -153,6 +164,10 @@
 
     <script th:inline="javascript">
         let visitsData = /*[[${visitsData}]]*/ [];
+        let soLuongBenhTheoTen = /*[[${soLuongBenhTheoTen}]]*/ {};
+        let soLuongXetNghiemTheoTen = /*[[${soLuongXetNghiemTheoTen}]]*/ {};
+        let daTiem = /*[[${daTiem}]]*/ 0;
+        let chuaTiem = /*[[${chuaTiem}]]*/ 0;
     </script>
 
     <!--End-->

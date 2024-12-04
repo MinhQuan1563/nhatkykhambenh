@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface IChiTietChiSoService {
     List<ChiTietChiSoDTO> getDsChiTietChiSo(Integer maChiSo, Integer maTongQuan);
+
     void saveCTChiSo(ChiTietChiSoDTO chiTietChiSoDTO);
+
     void deleteChiTietChiSo(Integer maChiSo, Integer maTongQuan, Date thoiGianDo);
 }

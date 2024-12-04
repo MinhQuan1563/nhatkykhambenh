@@ -452,11 +452,15 @@ df-messenger {
         let age = today.getFullYear() - birthDate.getFullYear();
         const monthDifference = today.getMonth() - birthDate.getMonth();
 
+        if (isNaN(birthDate.getTime())) {
+            return "Chưa cập nhật tuổi";
+        }
+
         if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
             age--;
         }
 
-        return age;
+        return age < 0 ? 0 : age;
     }
 
     function displayAges() {
@@ -464,7 +468,13 @@ df-messenger {
         elements.forEach(el => {
             const dateOfBirth = el.textContent.trim();
             const age = calculateAge(dateOfBirth);
-            el.nextElementSibling.textContent = age + " tuổi";
+
+            if (age === "Chưa cập nhật tuổi") {
+                el.nextElementSibling.textContent = age;
+            } else {
+                el.nextElementSibling.textContent = age + " tuổi";
+            }
+
             el.style.display = 'none';
         });
     }

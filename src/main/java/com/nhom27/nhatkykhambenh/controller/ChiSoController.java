@@ -53,13 +53,13 @@ public class ChiSoController {
             chiTietChiSoDTOList = chiTietChiSoService.getDsChiTietChiSo(chiSo.getMaChiSo(), tongQuan.getMaTongQuan());
         }
 
+        assert chiSo != null;
         if(!pageName.contains(chiSo.getTenChiSo())) {
             pageName.add(chiSo.getTenChiSo());
         }
 
         session.setAttribute("pageName", pageName);
         model.addAttribute("dsChiTietChiSo", chiTietChiSoDTOList);
-        assert chiSo != null;
         model.addAttribute("chiSo", chiSo);
 
         return "users/chiso";
@@ -68,9 +68,10 @@ public class ChiSoController {
     @GetMapping("users/chiso/{loaiChiSo}/add")
     public String addCTChiSoForm(@PathVariable String loaiChiSo, Model model, HttpSession session) {
         ChiTietChiSoDTO chiTietChiSoDTO = new ChiTietChiSoDTO();
+        ChiSo chiSo = chiSoService.findByLoaiChiSo(loaiChiSo);
 
         model.addAttribute("ctchiso", chiTietChiSoDTO);
-        model.addAttribute("loaichiso", loaiChiSo);
+        model.addAttribute("chiSo", chiSo);
 
         return "users/themctchiso";
     }

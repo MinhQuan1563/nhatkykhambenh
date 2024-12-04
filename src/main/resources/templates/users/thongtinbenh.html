@@ -44,11 +44,13 @@
         <table class="table table-striped table-bordered">
             <thead>
             <tr>
+                <th>Tên Xét Nghiệm</th>
                 <th>Kết Quả Xét Nghiệm</th>
             </tr>
             </thead>
             <tbody th:if="${thongTinBenh.dsXetNghiem != null and !#lists.isEmpty(thongTinBenh.dsXetNghiem)}">
                 <tr th:each="xetNghiem : ${thongTinBenh.dsXetNghiem}">
+                    <td th:text="${xetNghiem.tenXetNghiem}"></td>
                     <td th:text="${xetNghiem.ketQuaXetNghiem}"></td>
                 </tr>
             </tbody>

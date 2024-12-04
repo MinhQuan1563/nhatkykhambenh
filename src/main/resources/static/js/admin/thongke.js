@@ -133,14 +133,16 @@ function initVisitsChart() {
 }
 
 function initTestsChart() {
+    let labels = Object.keys(soLuongXetNghiemTheoTen);
+    let data = Object.values(soLuongXetNghiemTheoTen);
     const ctx = document.getElementById('testsChart').getContext('2d');
     testsChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Máu', 'Nước tiểu', 'X-quang', 'CT Scan', 'Siêu âm'],
+            labels: labels,
             datasets: [{
                 label: 'Số lượng xét nghiệm',
-                data: [12, 19, 3, 5, 2],
+                data: data,
                 backgroundColor: [
                     'rgba(54, 185, 204, 0.8)',
                     'rgba(54, 185, 204, 0.6)',
@@ -187,17 +189,17 @@ function initTestsChart() {
 }
 
 function initVaccinationChart() {
+
     const ctx = document.getElementById('vaccinationChart').getContext('2d');
     vaccinationChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: ['Đã tiêm', 'Chưa tiêm', 'Hoãn tiêm'],
+            labels: ['Đã tiêm', 'Chưa tiêm'],
             datasets: [{
-                data: [300, 50, 100],
+                data: [daTiem, chuaTiem],
                 backgroundColor: [
                     'rgba(28, 200, 138, 0.8)',
-                    'rgba(246, 194, 62, 0.8)',
-                    'rgba(231, 74, 59, 0.8)'
+                    'rgba(246, 194, 62, 0.8)'
                 ],
                 borderWidth: 0,
                 borderRadius: 5
@@ -225,17 +227,19 @@ function initVaccinationChart() {
 }
 
 function initSymptomsChart() {
+    let labels = Object.keys(soLuongBenhTheoTen);
+    let data = Object.values(soLuongBenhTheoTen);
     const ctx = document.getElementById('symptomsChart').getContext('2d');
     symptomsChart = new Chart(ctx, {
         type: 'radar',
         data: {
-            labels: ['Sốt', 'Ho', 'Đau đầu', 'Mệt mỏi', 'Khó thở', 'Đau họng'],
+            labels: labels,
             datasets: [{
-                label: 'Triệu chứng phổ biến',
-                data: [65, 59, 90, 81, 56, 55],
+                label: 'Số lượng bệnh',
+                data: data,
                 fill: true,
-                backgroundColor: 'rgba(78, 115, 223, 0.2)',
-                borderColor: '#4e73df',
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
                 pointBackgroundColor: '#fff',
                 pointBorderColor: '#4e73df',
                 pointHoverBackgroundColor: '#fff',
@@ -249,7 +253,7 @@ function initSymptomsChart() {
             plugins: {
                 title: {
                     display: true,
-                    text: 'Phân bố triệu chứng',
+                    text: 'Biểu đồ số lượng bệnh',
                     font: {
                         size: 16,
                         weight: 'bold'
@@ -291,8 +295,7 @@ function updateTestsChart() {
 function updateVaccinationChart() {
     vaccinationChart.data.datasets[0].data = [
         Math.floor(Math.random() * 300),
-        Math.floor(Math.random() * 100),
-        Math.floor(Math.random() * 50)
+        Math.floor(Math.random() * 100)
     ];
     vaccinationChart.update();
 }

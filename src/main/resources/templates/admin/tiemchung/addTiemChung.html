@@ -17,23 +17,16 @@
                                 <input type="number" id="maTiemChung" class="form-control form-control-lg bg-light fs-6" th:field="*{maTiemChung}" hidden />
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="noiTiemChung">Nơi Tiêm Chủng:</label>
+                                        <label for="tenVacXin">Tên vắc-xin:</label>
+                                        <input type="text" class="form-control" id="tenVacXin" th:field="*{tenVacXin}" required>
+                                        <span th:if="${#fields.hasErrors('tenVacXin')}" th:errors="*{tenVacXin}" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="noiTiemChung">Nơi Tiêm:</label>
                                         <input type="text" class="form-control" id="noiTiemChung" th:field="*{noiTiemChung}" required>
                                         <span th:if="${#fields.hasErrors('noiTiemChung')}" th:errors="*{noiTiemChung}" class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="ngayTiem">Ngày Tiêm:</label>
-                                        <input type="datetime-local" class="form-control" id="ngayTiem" th:field="*{ngayTiem}" required>
-                                        <span th:if="${#fields.hasErrors('ngayTiem')}" th:errors="*{ngayTiem}" class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="nguoiTiem">Người Tiêm:</label>
-                                        <input type="text" class="form-control" id="nguoiTiem" th:field="*{nguoiTiem}" required>
-                                        <span th:if="${#fields.hasErrors('nguoiTiem')}" th:errors="*{nguoiTiem}" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">

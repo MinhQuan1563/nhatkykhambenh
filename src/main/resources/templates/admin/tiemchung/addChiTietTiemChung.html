@@ -23,11 +23,24 @@
                                         <span th:if="${#fields.hasErrors('maTiemChung')}" th:errors="*{maTiemChung}" class="text-danger"></span>
                                     </div>
                                 </div>
+<!--                                <div class="col-md-6">-->
+<!--                                    <div class="form-group">-->
+<!--                                        <label for="tiemChung">Tên vắc-xin:</label>-->
+<!--                                        <input disabled type="text" class="form-control" th:value="*{tiemChung.tenVacXin}" >-->
+<!--                                    </div>-->
+<!--                                </div>-->
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="tenVacXin">Tên Vắc Xin:</label>
-                                        <input type="text" class="form-control" id="tenVacXin" th:field="*{tenVacXin}" required >
-                                        <span th:if="${#fields.hasErrors('tenVacXin')}" th:errors="*{tenVacXin}" class="text-danger"></span>
+                                        <label for="ngayTiem">Ngày Tiêm:</label>
+                                        <input type="datetime-local" class="form-control" id="ngayTiem" th:field="*{ngayTiem}" required>
+                                        <span th:if="${#fields.hasErrors('ngayTiem')}" th:errors="*{ngayTiem}" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="nguoiTiem">Người Tiêm:</label>
+                                        <input type="text" class="form-control" id="nguoiTiem" th:field="*{nguoiTiem}" required>
+                                        <span th:if="${#fields.hasErrors('nguoiTiem')}" th:errors="*{nguoiTiem}" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -41,6 +54,13 @@
                                             </option>
                                         </select>
                                         <span th:if="${#fields.hasErrors('maNguoiDung')}" th:errors="*{maNguoiDung}" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="muiTiemSo">Mũi Tiêm Số:</label>
+                                        <input type="number" class="form-control" id="muiTiemSo" th:field="*{muiTiemSo}" required min="1">
+                                        <span th:if="${#fields.hasErrors('muiTiemSo')}" th:errors="*{muiTiemSo}" class="text-danger"></span>
                                     </div>
                                 </div>
                             </div>

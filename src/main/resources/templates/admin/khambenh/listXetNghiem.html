@@ -90,6 +90,7 @@
                                 </span>
                             </th>
                             <th>Mã Xét Nghiệm</th>
+                            <th>Tên Xét Nghiệm</th>
                             <th>Kết Quả Xét Ngiệm</th>
                             <th>Thao Tác</th>
                         </tr>
@@ -106,17 +107,13 @@
                             <td th:text="'XN' + ${@stringUtils.padWithZeros(xetnghiem.maXetNghiem, 3)}"
                                 th:style="'color: blue;'">
                             </td>
-
+                            <td th:text="${xetnghiem.tenXetNghiem}"></td>
                             <td th:text="${xetnghiem.ketQuaXetNghiem}"></td>
                             <td>
                                 <!-- Nút Chỉnh sửa -->
                                 <a th:href="@{/admin/khambenh/chitiet/xetnghiem/update(maXetNghiem=${xetnghiem.maXetNghiem}, maChiTietKhamBenh=${maChiTietKhamBenh})}" class="edit">
                                     <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
                                 </a>
-<!--                                <a href="#" class="delete" data-toggle="modal"-->
-<!--                                   th:data-id="${xetnghiem.maXetNghiem}">-->
-<!--                                    <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>-->
-<!--                                </a>-->
 
                                 <a href="#" class="delete" data-bs-toggle="modal" data-bs-target="#deleteModal" th:data-id="${xetnghiem.maXetNghiem}">
                                     <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
@@ -214,6 +211,7 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</div>
 </body>
 </html>
 

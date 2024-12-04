@@ -3,6 +3,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chi so</title>
+    <script th:src="@{https://cdn.jsdelivr.net/npm/chart.js}"></script>
+    <script th:src="@{../../js/user/chiso.js}"></script>
 </head>
 <body>
 <div th:fragment="contentUser" class="container">
@@ -82,16 +84,16 @@
             </div>
         </div>
     </div>
-
-    <script th:inline="javascript">
-        let chartData = /*[[${dsChiTietChiSo}]]*/ [];
-        let tenChiSo = /*[[${chiSo.tenChiSo}]]*/ "";
-    </script>
-
-    <script th:src="@{https://cdn.jsdelivr.net/npm/chart.js}"></script>
-    <script th:src="@{../../js/user/chiso.js}"></script>
 </div>
 
 </body>
 </html>
+
+<script th:inline="javascript">
+    let chartData = /*[[${dsChiTietChiSo}]]*/ [];
+    let tenChiSo = /*[[${chiSo.tenChiSo}]]*/ "";
+</script>
+
+<script th:src="@{https://cdn.jsdelivr.net/npm/chart.js}"></script>
+<script th:src="@{../../js/user/chiso.js}"></script>
 

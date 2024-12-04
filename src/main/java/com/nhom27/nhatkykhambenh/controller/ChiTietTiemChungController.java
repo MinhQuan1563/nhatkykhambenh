@@ -97,12 +97,6 @@ public class ChiTietTiemChungController {
 
         List<NguoiDungDTO> nguoiDungDTOList = nguoiDungMapper.toNguoiDungDtoList(nguoiDungService.getAllNguoiDung());
 
-        System.out.println("size = " + nguoiDungDTOList.size());
-
-        for(NguoiDungDTO dt: nguoiDungDTOList){
-            System.out.println("name " + dt.getTenNguoiDung());
-        }
-
         model.addAttribute("ctTiemChung", chiTietTiemChungDTO);
         model.addAttribute("dsNguoiDung", nguoiDungDTOList);
 
@@ -177,6 +171,37 @@ public class ChiTietTiemChungController {
         model.addAttribute("chiTietTiemChung", chiTietTiemChungDTO);
 
         return "users/thongtintiemchung";
+    }
+
+    @PostMapping("admin/tiemchung/chitiet/updateTrangThai")
+    public String updateStatus(@RequestParam("maTiemChung") int maTiemChung,
+                               @RequestParam("maNguoiDung") int maNguoiDung,
+                               RedirectAttributes redirectAttributes) {
+        try {
+            ChiTietTiemChung chiTietTiemChung = chiTietTiemChungService.findByIds(maTiemChung, maNguoiDung);
+            if (chiTietTiemChung == null) {
+                redirectAttributes.addFlashAttribute("error", "Không tìm thấy bản ghi.");
+                redirectAttributes.addAttribute("maTiemChung", maTiemChung);
+                return "redirect:/admin/tiemchung/chitiet";
+            }
+
+            if (chiTietTiemChung.getTrangThai()) {
+                redirectAttributes.addFlashAttribute("error", "Trạng thái 'Đã tiêm' không thể thay đổi.");
+                redirectAttributes.addAttribute("maTiemChung", maTiemChung);
+                return "redirect:/admin/tiemchung/chitiet";
+            }
+
+            chiTietTiemChungService.saveTiemChung(chiTietTiemChung);
+
+            redirectAttributes.addFlashAttribute("success", "Cập nhật trạng thái thành công!");
+            redirectAttributes.addAttribute("maTiemChung", maTiemChung);
+            return "redirect:/admin/tiemchung/chitiet";
+        }
+        catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Lỗi hệ thống: " + e.getMessage());
+            redirectAttributes.addAttribute("maTiemChung", maTiemChung);
+            return "redirect:/admin/tiemchung/chitiet";
+        }
     }
 
 }

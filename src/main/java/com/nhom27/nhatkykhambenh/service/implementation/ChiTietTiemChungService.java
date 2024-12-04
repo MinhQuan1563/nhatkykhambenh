@@ -2,7 +2,6 @@ package com.nhom27.nhatkykhambenh.service.implementation;
 
 import com.nhom27.nhatkykhambenh.exception.SaveDataException;
 import com.nhom27.nhatkykhambenh.model.ChiTietTiemChung;
-import com.nhom27.nhatkykhambenh.model.TiemChung;
 import com.nhom27.nhatkykhambenh.repository.IChiTietTiemChungRepo;
 import com.nhom27.nhatkykhambenh.service.interfaces.IChiTietTiemChungService;
 import jakarta.persistence.EntityManager;
@@ -14,8 +13,12 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ChiTietTiemChungService implements IChiTietTiemChungService {
@@ -37,7 +40,7 @@ public class ChiTietTiemChungService implements IChiTietTiemChungService {
         Query columnNativeQuery = entityManager.createNativeQuery(columnQuery);
         String columns = (String) columnNativeQuery.getSingleResult();
 
-        String sql = "SELECT * FROM chi_tiet_tiem_chung WHERE trang_thai=1 AND ma_tiem_chung= :maTiemChung AND CONCAT(" + columns + ") LIKE :searchTerm " +
+        String sql = "SELECT * FROM chi_tiet_tiem_chung WHERE ma_tiem_chung= :maTiemChung AND CONCAT(" + columns + ") LIKE :searchTerm " +
                 "LIMIT :limit OFFSET :offset";
         Query nativeQuery = entityManager.createNativeQuery(sql, ChiTietTiemChung.class);
         nativeQuery.setParameter("searchTerm", searchTerm);
@@ -95,6 +98,47 @@ public class ChiTietTiemChungService implements IChiTietTiemChungService {
     @Override
     public List<ChiTietTiemChung> getAllByNguoiDung(Integer maNguoiDung) {
         return chiTietTiemChungRepo.findAllByMaNguoiDung(maNguoiDung);
+    }
+
+    @Override
+    public Map<String, Integer> getVaccinationStats(Integer maTiemChung) {
+        Integer daTiem = chiTietTiemChungRepo.countByMaTiemChungAndTrangThai(maTiemChung, true);
+        Integer chuaTiem = chiTietTiemChungRepo.countByMaTiemChungAndTrangThai(maTiemChung, false);
+
+        Map<String, Integer> stats = new HashMap<>();
+        stats.put("Đã tiêm", daTiem);
+        stats.put("Chưa tiêm", chuaTiem);
+        return stats;
+    }
+
+    @Override
+    public List<ChiTietTiemChung> getAll() {
+        return chiTietTiemChungRepo.findAll();
+    }
+
+    @Override
+    public List<ChiTietTiemChung> filterChiTietTiemChung(String dateFrom, String dateTo, String maGiaDinh) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        LocalDate fromDate = (dateFrom != null && !dateFrom.isEmpty())
+                ? LocalDate.parse(dateFrom, formatter)
+                : null;
+        LocalDateTime fromDateTime = (fromDate != null) ? fromDate.atStartOfDay() : null;
+
+        LocalDate toDate = (dateTo != null && !dateTo.isEmpty())
+                ? LocalDate.parse(dateTo, formatter)
+                : null;
+        LocalDateTime toDateTime = (toDate != null) ? toDate.atStartOfDay() : null;
+
+        if (fromDateTime != null && toDateTime != null && maGiaDinh != null && !maGiaDinh.isEmpty()) {
+            return chiTietTiemChungRepo.findByDateRangeAndGiaDinh(fromDateTime, toDateTime, maGiaDinh);
+        } else if (fromDateTime != null && toDateTime != null) {
+            return chiTietTiemChungRepo.findByDateRange(fromDateTime, toDateTime);
+        } else if (maGiaDinh != null && !maGiaDinh.isEmpty()) {
+            return chiTietTiemChungRepo.findByGiaDinh(maGiaDinh);
+        } else {
+            return chiTietTiemChungRepo.findAll();
+        }
     }
 
 }

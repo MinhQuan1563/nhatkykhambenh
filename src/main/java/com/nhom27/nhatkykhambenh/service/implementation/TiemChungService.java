@@ -3,7 +3,9 @@ package com.nhom27.nhatkykhambenh.service.implementation;
 import com.nhom27.nhatkykhambenh.dto.TiemChungDTO;
 import com.nhom27.nhatkykhambenh.exception.SaveDataException;
 import com.nhom27.nhatkykhambenh.mapper.TiemChungMapper;
+import com.nhom27.nhatkykhambenh.model.ChiTietTiemChung;
 import com.nhom27.nhatkykhambenh.model.TiemChung;
+import com.nhom27.nhatkykhambenh.repository.IChiTietTiemChungRepo;
 import com.nhom27.nhatkykhambenh.repository.ITiemChungRepo;
 import com.nhom27.nhatkykhambenh.service.interfaces.ITiemChungService;
 import jakarta.persistence.EntityManager;
@@ -15,7 +17,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TiemChungService implements ITiemChungService {
@@ -25,6 +29,9 @@ public class TiemChungService implements ITiemChungService {
 
     @Autowired
     private TiemChungMapper tiemChungMapper;
+
+    @Autowired
+    private IChiTietTiemChungRepo chiTietTiemChungRepo;
 
     @PersistenceContext
     private EntityManager entityManager;
