@@ -117,9 +117,9 @@ DataSeeder implements CommandLineRunner {
             List<TaiKhoan> taiKhoanList = List.of(
                 new TaiKhoan(nguoiDungRepo.findAll().get(0).getMaNguoiDung(), passwordEncoder.encode("234"), "234", true, null, nguoiDungRepo.findAll().get(0), new ArrayList<>(List.of(adminRole))),
                 new TaiKhoan(nguoiDungRepo.findAll().get(1).getMaNguoiDung(), passwordEncoder.encode("quan"), "123", true, giaDinhRepo.findAll().get(0), nguoiDungRepo.findAll().get(1), new ArrayList<>(List.of(userRole))),
-                new TaiKhoan(nguoiDungRepo.findAll().get(3).getMaNguoiDung(), passwordEncoder.encode("quan"), "123", true, giaDinhRepo.findAll().get(1), nguoiDungRepo.findAll().get(3), new ArrayList<>(List.of(userRole))),
-                new TaiKhoan(nguoiDungRepo.findAll().get(6).getMaNguoiDung(), passwordEncoder.encode("quan"), "123", true, giaDinhRepo.findAll().get(2), nguoiDungRepo.findAll().get(6), new ArrayList<>(List.of(userRole))),
-                new TaiKhoan(nguoiDungRepo.findAll().get(9).getMaNguoiDung(), passwordEncoder.encode("quan"), "123", true, giaDinhRepo.findAll().get(3), nguoiDungRepo.findAll().get(9), new ArrayList<>(List.of(userRole)))
+                new TaiKhoan(nguoiDungRepo.findAll().get(3).getMaNguoiDung(), passwordEncoder.encode("tai"), "124", true, giaDinhRepo.findAll().get(1), nguoiDungRepo.findAll().get(3), new ArrayList<>(List.of(userRole))),
+                new TaiKhoan(nguoiDungRepo.findAll().get(6).getMaNguoiDung(), passwordEncoder.encode("giau"), "125", true, giaDinhRepo.findAll().get(2), nguoiDungRepo.findAll().get(6), new ArrayList<>(List.of(userRole))),
+                new TaiKhoan(nguoiDungRepo.findAll().get(9).getMaNguoiDung(), passwordEncoder.encode("si"), "126", true, giaDinhRepo.findAll().get(3), nguoiDungRepo.findAll().get(9), new ArrayList<>(List.of(userRole)))
             );
 
             taiKhoanRepo.saveAll(taiKhoanList);
@@ -131,10 +131,10 @@ DataSeeder implements CommandLineRunner {
             List<NguoiDung> nguoiDungList = nguoiDungRepo.findAll();
 
             for(NguoiDung nguoiDung : nguoiDungList) {
-                if(nguoiDung.getMaNguoiDung() == 1
-                        || nguoiDung.getMaNguoiDung() == 3
-                        || nguoiDung.getMaNguoiDung() == 6
-                        || nguoiDung.getMaNguoiDung() == 9) {
+                if(nguoiDung.getMaNguoiDung() == 2
+                        || nguoiDung.getMaNguoiDung() == 4
+                        || nguoiDung.getMaNguoiDung() == 7
+                        || nguoiDung.getMaNguoiDung() == 10) {
                     TongQuan tongQuan = new TongQuan();
                     tongQuan.setDuongHuyet("120");
                     tongQuan.setNhipTim("72");
