@@ -158,3 +158,136 @@ color: #5a5c69;
                 .loading.active {
                     display: flex;
                 }
+
+                .btn-reset {
+                    background-color: gray;
+                    color: white;
+                    border: none;
+                    padding: 10px 15px;
+                    font-size: 16px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                }
+
+                .btn-reset:hover {
+                    background-color: darkgray;
+                }
+
+                .btn-reset:active {
+                    background-color: #808080;
+                }
+
+                .wrapper-container {
+                    position: fixed;
+                    bottom: 20px;
+                    right: 20px;
+                    z-index: 1000;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 20px;
+                }
+
+                .messenger-wrapper {
+                    position: relative;
+                }
+
+                .messenger-button {
+                    display: flex;
+                    align-items: center;
+                    width: 60px;
+                    height: 60px;
+                    justify-content: center;
+                    color: white;
+                    padding: 5px;
+                    border-radius: 50%;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    cursor: pointer;
+                    font-family: Arial, sans-serif;
+                    font-size: 16px;
+                    background-color: white;
+                    position: relative;
+                    animation: shakeAnimation 1s infinite;
+                }
+
+                .messenger-button img {
+                    width: 40px;
+                    margin-right: 0px;
+                }
+
+                @keyframes shakeAnimation {
+                    0% { transform: rotate(0deg); }
+                    10% { transform: rotate(-10deg); }
+                    20% { transform: rotate(10deg); }
+                    30% { transform: rotate(-10deg); }
+                    40% { transform: rotate(10deg); }
+                    50% { transform: rotate(0deg); }
+                    100% { transform: rotate(0deg); }
+                }
+
+                .messenger-button::before,
+                .messenger-button::after {
+                    content: '';
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 50%;
+                    background-color: rgba(255, 0, 0, 0.3);
+                    animation: rippleAnimation 2s infinite;
+                }
+
+                .messenger-button::after {
+                    animation-delay: 1s;
+                }
+
+                .sms-wrapper {
+                    position: relative;
+                }
+
+                .sms-button {
+                    display: flex;
+                    align-items: center;
+                    width: 60px;
+                    height: 60px;
+                    justify-content: center;
+                    color: white;
+                    padding: 5px;
+                    border-radius: 50%;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    cursor: pointer;
+                    font-family: Arial, sans-serif;
+                    font-size: 16px;
+                    background-color: white;
+                    position: relative;
+                    animation: shakeAnimation 1s infinite;
+                }
+
+                .sms-button img {
+                    width: 40px;
+                    margin-right: 0px;
+                }
+
+                .sms-button::before,
+                .sms-button::after {
+                    content: '';
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 50%;
+                    background-color: rgba(0, 132, 255, 0.3);
+                    animation: rippleAnimation 2s infinite;
+                }
+
+                .sms-button::after {
+                    animation-delay: 1s;
+                }
+
+                @keyframes rippleAnimation {
+                    0% {
+                        transform: scale(1);
+                        opacity: 0.4;
+                    }
+                    100% {
+                        transform: scale(2.5);
+                        opacity: 0;
+                    }
+                }

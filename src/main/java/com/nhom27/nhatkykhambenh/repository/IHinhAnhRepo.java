@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface IHinhAnhRepo extends JpaRepository<HinhAnh, Long> {
-    public List<HinhAnh> getHinhAnhsByChiTietKhamBenh(ChiTietKhamBenh chiTietKhamBenh);
+    List<HinhAnh> getHinhAnhsByChiTietKhamBenh(ChiTietKhamBenh chiTietKhamBenh);
 }

@@ -1,16 +1,11 @@
 package com.nhom27.nhatkykhambenh.controller;
 
 import com.nhom27.nhatkykhambenh.dto.DonThuocDTO;
-import com.nhom27.nhatkykhambenh.dto.XetNghiemDTO;
 import com.nhom27.nhatkykhambenh.exception.SaveDataException;
 import com.nhom27.nhatkykhambenh.mapper.DonThuocMapper;
-import com.nhom27.nhatkykhambenh.mapper.XetNghiemMapper;
 import com.nhom27.nhatkykhambenh.model.DonThuoc;
-import com.nhom27.nhatkykhambenh.model.XetNghiem;
-import com.nhom27.nhatkykhambenh.service.implementation.DonThuocService;
 import com.nhom27.nhatkykhambenh.service.interfaces.IChiTietKhamBenhService;
 import com.nhom27.nhatkykhambenh.service.interfaces.IDonThuocService;
-import com.nhom27.nhatkykhambenh.service.interfaces.IXetNghiemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -40,19 +35,16 @@ public class DonThuocController {
     @Autowired
     private IChiTietKhamBenhService chiTietKhamBenhService;
 
-    @GetMapping("/admin/khambenh/chitiet/donthuoc")
+    @GetMapping("/admin/donthuoc")
     public String GetListDonThuoc(Model model,
                                    @RequestParam(defaultValue = "0") int page,
                                    @RequestParam(defaultValue = "5") int size,
-                                   @RequestParam(defaultValue = "") String query,
-                                   @RequestParam Integer maChiTietKhamBenh) {
+                                   @RequestParam(defaultValue = "") String query) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<DonThuoc> donThuocPage = donThuocService.getDSDonThuoc(pageable, query, maChiTietKhamBenh);
+        Page<DonThuoc> donThuocPage = donThuocService.getDSDonThuoc(pageable, query);
         List<DonThuocDTO> donThuocDTOList = donThuocMapper.toDonThuocDtoList(donThuocPage.getContent());
 
-
         model.addAttribute("dsDonThuoc", donThuocDTOList);
-        model.addAttribute("maChiTietKhamBenh", maChiTietKhamBenh);
         model.addAttribute("currentPage", page);
         model.addAttribute("pageSize", size);
         model.addAttribute("totalPages", donThuocPage.getTotalPages());
@@ -67,59 +59,45 @@ public class DonThuocController {
         model.addAttribute("endItem", endItem);
         model.addAttribute("currentCount", endItem - startItem + 1);
 
-        return "admin/khambenh/listDonThuoc";
+        return "admin/donthuoc/listDonThuoc";
     }
 
-    @GetMapping("/admin/khambenh/chitiet/donthuoc/add")
-    public String addDonThuocForm(Model model, @RequestParam Integer maChiTietKhamBenh) {
-        DonThuocDTO donThuocDTO = new DonThuocDTO();
-        donThuocDTO.setMaChiTietKhamBenh(maChiTietKhamBenh);
-        model.addAttribute("donthuoc", donThuocDTO);
-        model.addAttribute("maChiTietKhamBenh2", maChiTietKhamBenh);
+    @GetMapping("/admin/donthuoc/add")
+    public String addDonThuocForm(Model model) {
+        model.addAttribute("donthuoc", new DonThuocDTO());
 
-        return "admin/khambenh/addDonThuoc";
+        return "admin/donthuoc/addDonThuoc";
     }
 
 
-    @GetMapping("/admin/khambenh/chitiet/donthuoc/update")
-    public String updateDonThuocForm(@RequestParam Integer maDonThuoc,
-                                     @RequestParam Integer maChiTietKhamBenh,
-                                     Model model) {
+    @GetMapping("/admin/donthuoc/update")
+    public String updateDonThuocForm(@RequestParam Integer maDonThuoc, Model model) {
         DonThuoc donThuoc = donThuocService.findById(maDonThuoc);
         DonThuocDTO donThuocDTO = donThuocMapper.toDonThuocDTO(donThuoc);
-        donThuocDTO.setMaChiTietKhamBenh(maChiTietKhamBenh);
 
         model.addAttribute("donthuoc", donThuocDTO);
-        model.addAttribute("maChiTietKhamBenh2", maChiTietKhamBenh);
-        return "admin/khambenh/addDonThuoc";
+        return "admin/donthuoc/addDonThuoc";
     }
 
-    @PostMapping("/admin/khambenh/chitiet/donthuoc/save")
+    @PostMapping("/admin/donthuoc/save")
     public String saveDonThuoc(@ModelAttribute("donthuoc") DonThuocDTO donThuocDTO,
                                BindingResult bindingResult,
-                               Model model,
-                               @RequestParam(required = false) Integer maChiTietKhamBenh,
-                               @RequestParam(required = false) Integer maDonThuoc,
-                               RedirectAttributes redirectAttributes) {
+                               Model model) {
         if (bindingResult.hasErrors()) {
-            return "admin/khambenh/addDonThuoc";
+            return "admin/donthuoc/addDonThuoc";
         }
         try {
-            if (maDonThuoc != null) {
-                donThuocDTO.setMaDonThuoc(maDonThuoc);
-            }
             DonThuoc donThuoc = donThuocMapper.toDonThuoc(donThuocDTO);
-            donThuocService.saveDonThuoc(donThuoc,maChiTietKhamBenh);
-            redirectAttributes.addAttribute("maChiTietKhamBenh", maChiTietKhamBenh);
-            return "redirect:/admin/khambenh/chitiet/donthuoc";
+            donThuocService.saveDonThuoc(donThuoc);
+            return "redirect:/admin/donthuoc";
         } catch (SaveDataException e) {
             model.addAttribute("error", e.getMessage());
-            return "admin/khambenh/addDonThuoc";
+            return "admin/donthuoc/addDonThuoc";
         }
     }
 
-    @PostMapping("/admin/khambenh/chitiet/donthuoc/delete")
-    public String deleteDonThuoc(@RequestParam("maDonThuoc") Integer maDonThuoc,@RequestParam("maChiTietKhamBenh") Integer maChiTietKhamBenh,
+    @PostMapping("/admin/donthuoc/delete")
+    public String deleteDonThuoc(@RequestParam("maDonThuoc") Integer maDonThuoc,
                                  RedirectAttributes redirectAttributes) {
         try {
             donThuocService.deleteById(maDonThuoc);
@@ -127,18 +105,15 @@ public class DonThuocController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Lỗi!! Xóa thông tin Đơn Thuốc thất bại");
         }
-        redirectAttributes.addAttribute("maChiTietKhamBenh", maChiTietKhamBenh);
-        return "redirect:/admin/khambenh/chitiet/donthuoc";
+        return "redirect:/admin/donthuoc";
     }
 
-    @PostMapping("/admin/khambenh/chitiet/donthuoc/deleteall")
+    @PostMapping("/admin/donthuoc/deleteall")
     public String deleteAllByIds(@RequestParam(value = "selectedIds", required = false) List<Integer> ids,
-                                 @RequestParam("maChiTietKhamBenh") Integer maChiTietKhamBenh,
                                 RedirectAttributes redirectAttributes) {
         if (ids == null || ids.isEmpty()) {
             redirectAttributes.addFlashAttribute("error", "Không có mục nào được chọn để xóa.");
-            redirectAttributes.addAttribute("maChiTietKhamBenh", maChiTietKhamBenh);  // Thêm maKhamBenh vào redirect
-            return "redirect:/admin/khambenh/chitiet/donthuoc";
+            return "redirect:/admin/donthuoc";
         }
         try {
             donThuocService.deleteAllByIds(ids);
@@ -146,7 +121,6 @@ public class DonThuocController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Có lỗi xảy ra khi xóa các mục đã chọn.");
         }
-        redirectAttributes.addAttribute("maChiTietKhamBenh", maChiTietKhamBenh);
-        return "redirect:/admin/khambenh/chitiet/donthuoc";
+        return "redirect:/admin/donthuoc";
     }
 }

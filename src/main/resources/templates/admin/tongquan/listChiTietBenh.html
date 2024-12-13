@@ -1,0 +1,137 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/admin/dashboard}">
+<head>
+    <title>Thông tin Tiền sử bệnh</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+<div th:fragment="contentAdmin">
+    <!--top--navbar----design--------->
+    <div class="top-navbar">
+        <div class="xp-topbar">
+            <!-- Start XP Row -->
+            <div class="row justify-content-between">
+                <!-- Start XP Col -->
+                <div class="col-2 col-md-1 col-lg-1 order-2 order-md-1 align-self-center">
+                    <div class="xp-menubar">
+                        <span class="material-icons text-white">signal_cellular_alt</span>
+                    </div>
+                </div>
+
+                <!-- Start XP Col -->
+                <div class="col-md-5 col-lg-3 order-3 order-md-2">
+                    <div class="xp-searchbar">
+                        <div class="input-group">
+                            <input id="searchInput" th:value="${query}" type="search" class="form-control" placeholder="Search">
+                            <div class="input-group-append">
+                                <button class="btn" id="searchButton">Tìm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End XP Col -->
+
+            </div>
+        </div>
+    </div>
+
+    <!--------main-content------------->
+    <div class="main-content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-wrapper">
+                    <div class="table-title">
+                        <div class="row">
+                            <div class="col-sm-6 p-0 d-flex justify-content-lg-start justify-content-center">
+                                <h2 class="ml-lg-2">Tiền sử bệnh</h2>
+                            </div>
+                        </div>
+                        <div
+                                th:if="${param.err}"
+                                class="alert alert-danger alert-dismissible"
+                        >
+                            <a
+                                    href="#"
+                                    class="close"
+                                    data-dismiss="alert"
+                                    aria-label="close"
+                            >&times;</a
+                            >
+                            <span th:text="${param.err}"></span>
+                        </div>
+                        <div
+                                th:if="${param.success}"
+                                class="alert alert-success alert-dismissible"
+                        >
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close" >&times;</a>
+                            <span th:text="${param.success}"></span>
+                        </div>
+                    </div>
+
+                    <table class="table table-striped table-hover" >
+                        <thead>
+                        <tr>
+                            <th>
+                                    <span class="custom-checkbox">
+                                        <input type="checkbox" id="selectAll">
+                                        <label for="selectAll"></label>
+                                    </span>
+                            </th>
+                            <th>Mã chi tiết bệnh</th>
+                            <th>Tên bệnh</th>
+                            <th>Trạng thái bệnh</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="chitietbenh : ${dsChiTietBenh}">
+                            <td>
+                                    <span class="custom-checkbox">
+                                        <input type="checkbox" th:id="${chitietbenh.maChiTietBenh}" th:value="${chitietbenh.maChiTietBenh}"
+                                               name="selectedIds">
+                                        <label th:for="'checkbox' + ${chitietbenh.maChiTietBenh}"></label>
+                                    </span>
+                            </td>
+                            <td th:text="'CTB' + ${@stringUtils.padWithZeros(chitietbenh.maChiTietBenh, 3)}" th:style="'color: blue;'"></td>
+                            <td th:text="${chitietbenh.tenBenh}"></td>
+                            <td th:text="${chitietbenh.trangThaiBenhHienTai == true ? 'Đang điều trị' : 'Đã khỏi'}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+                    <!-- Pagination -->
+                    <div class="clearfix">
+                        <div class="hint-text">Hiển thị <b th:text="${currentCount}"></b> trong số <b th:text="${totalItems}"></b> mục</div>
+                        <ul class="pagination">
+                            <li th:if="${currentPage > 0}" th:class="${currentPage == 0 ? 'page-item disabled' : 'page-item'}">
+                                <a th:href="@{/admin/tongquan/chitietbenh(maTongQuan=${maTongQuan}, page=${currentPage - 1}, size=${pageSize}, query=${query})}" class="page-link">Trước</a>
+                            </li>
+                            <li class="page-item" th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
+                                th:classappend="${pageNum == currentPage} ? active">
+                                <a th:href="@{/admin/tongquan/chitietbenh(maTongQuan=${maTongQuan}, page=${pageNum}, size=${pageSize}, query=${query})}"
+                                   class="page-link" th:text="${pageNum + 1}"></a>
+                            </li>
+                            <li th:if="${currentPage < totalPages - 1}" th:class="${currentPage == totalPages - 1 ? 'page-item disabled' : 'page-item'}">
+                                <a th:href="@{/admin/tongquan/chitietbenh(maTongQuan=${maTongQuan}, page=${currentPage + 1}, size=${pageSize}, query=${query})}" class="page-link">Sau</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!---footer---->
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="footer-in">
+                <p class="mb-0">Nhật ký khám chữa bệnh.</p>
+            </div>
+        </div>
+    </footer>
+
+</div>
+</body>
+</html>
+
+<script th:src="@{../../js/admin/tongquan.js}"></script>

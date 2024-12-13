@@ -29,7 +29,7 @@ public class NhacNhoTiemChungService {
     @Autowired
     INguoiDungTiemChung nguoiDungTiemChungRepo;
 
-    @Scheduled(cron = "0 06 9 * * ?")
+    @Scheduled(cron = "0 00 08 * * ?")
     public void sendVaccinationRemider() {
         LocalDateTime startOfTomorrow = LocalDateTime.now().plusDays(1).with(LocalTime.MIN);
         LocalDateTime endOfTomorrow = LocalDateTime.now().plusDays(1).with(LocalTime.MAX);

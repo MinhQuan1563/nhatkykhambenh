@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Data
@@ -24,14 +25,20 @@ public class ChiTietTiemChung {
     private Integer maNguoiDung;
 
     @Id
-    @Column(name = "TenVacXin")
-    private String tenVacXin;
+    @Column(name = "NgayTiem")
+    private LocalDateTime ngayTiem;
+
+    @Column(name = "NguoiTiem")
+    private String nguoiTiem;
+
+    @Column(name = "MuiTiemSo")
+    private String muiTiemSo;
 
     @Column(name = "TrangThai")
     private Boolean trangThai;
 
     public ChiTietTiemChungId getId() {
-        return new ChiTietTiemChungId(maTiemChung, maNguoiDung, tenVacXin);
+        return new ChiTietTiemChungId(maTiemChung, maNguoiDung, ngayTiem);
     }
 
     @ManyToOne
@@ -48,7 +55,7 @@ public class ChiTietTiemChung {
     public static class ChiTietTiemChungId implements Serializable {
         private Integer maTiemChung;
         private Integer maNguoiDung;
-        private String tenVacXin;
+        private LocalDateTime ngayTiem;
 
         @Override
         public boolean equals(Object o) {
@@ -57,12 +64,12 @@ public class ChiTietTiemChung {
             ChiTietTiemChung.ChiTietTiemChungId that = (ChiTietTiemChung.ChiTietTiemChungId) o;
             return Objects.equals(maTiemChung, that.maTiemChung) &&
                     Objects.equals(maNguoiDung, that.maNguoiDung) &&
-                    Objects.equals(tenVacXin, that.tenVacXin);
+                    Objects.equals(ngayTiem, that.ngayTiem);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(maTiemChung, maNguoiDung, tenVacXin);
+            return Objects.hash(maTiemChung, maNguoiDung, ngayTiem);
         }
     }
 }

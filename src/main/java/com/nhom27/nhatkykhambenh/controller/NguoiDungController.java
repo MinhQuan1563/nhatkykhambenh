@@ -4,9 +4,9 @@ import com.nhom27.nhatkykhambenh.dto.NguoiDungDTO;
 import com.nhom27.nhatkykhambenh.mapper.NguoiDungMapper;
 import com.nhom27.nhatkykhambenh.model.NguoiDung;
 import com.nhom27.nhatkykhambenh.model.TaiKhoan;
-import com.nhom27.nhatkykhambenh.service.implementation.NguoiDungService;
 import com.nhom27.nhatkykhambenh.service.interfaces.ICloudinaryService;
 import com.nhom27.nhatkykhambenh.service.interfaces.INguoiDungService;
+import com.nhom27.nhatkykhambenh.service.interfaces.ITaiKhoanService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -32,7 +30,25 @@ public class NguoiDungController {
     private NguoiDungMapper nguoiDungMapper;
 
     @Autowired
+    private ITaiKhoanService taiKhoanService;
+
+    @Autowired
     private ICloudinaryService cloudinaryService;
+
+    @GetMapping()
+    public String home(Model model) {
+        TaiKhoan taiKhoan = taiKhoanService.getCurrentUser();
+
+        List<NguoiDungDTO> dsNguoiDungDTO = nguoiDungMapper.toNguoiDungDtoList(
+                nguoiDungService.getDsNguoiDungByGiaDinh(taiKhoan.getGiaDinh())
+        );
+
+        if(!dsNguoiDungDTO.isEmpty()) {
+            model.addAttribute("dsNguoiDung", dsNguoiDungDTO);
+        }
+
+        return "users/danhsachnguoidung";
+    }
 
     @GetMapping("/users/nguoidung/add")
     public String formThemNguoiThan(Model model) {
@@ -51,14 +67,23 @@ public class NguoiDungController {
     }
 
     @PostMapping("/users/nguoidung/save")
-    public String saveThemNguoiThan(@ModelAttribute("nguoiDung")NguoiDungDTO nguoiDungDTO,
+    public String saveThemNguoiThan(@ModelAttribute("nguoiDung") NguoiDungDTO nguoiDungDTO,
                                     @RequestParam("file") MultipartFile file,
                                     HttpSession session) {
         TaiKhoan taiKhoan = (TaiKhoan) session.getAttribute("taikhoan");
 
         try {
-            String imageUrl = cloudinaryService.uploadImage(file);
-            nguoiDungDTO.setHinhAnh(imageUrl);
+            if (file != null && !file.isEmpty()) {
+                String imageUrl = cloudinaryService.uploadImage(file);
+                nguoiDungDTO.setHinhAnh(imageUrl);
+            }
+            else if (nguoiDungDTO.getMaNguoiDung() != null) {
+                NguoiDung existingNguoiDung = nguoiDungService.getById(nguoiDungDTO.getMaNguoiDung());
+                nguoiDungDTO.setHinhAnh(existingNguoiDung.getHinhAnh());
+            }
+            else if(file == null || file.isEmpty()) {
+                nguoiDungDTO.setHinhAnh(null);
+            }
             nguoiDungService.saveNguoiDung(nguoiDungMapper.toNguoiDung(nguoiDungDTO), taiKhoan);
         }
         catch (Exception e) {

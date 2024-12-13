@@ -4,6 +4,8 @@ import com.nhom27.nhatkykhambenh.dto.CustomOAuth2User;
 import com.nhom27.nhatkykhambenh.enums.MoiQuanHe;
 import com.nhom27.nhatkykhambenh.model.*;
 import com.nhom27.nhatkykhambenh.repository.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -33,6 +35,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     @Autowired
     private IRoleRepo roleRepo;
 
+    @Autowired
+    private HttpServletRequest request;
+
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) {
         OAuth2User oAuth2User = super.loadUser(userRequest);
@@ -40,12 +45,27 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         String email = oAuth2User.getAttribute("email");
         String name = oAuth2User.getAttribute("name");
         String provider = userRequest.getClientRegistration().getRegistrationId(); // Xác định Google/Facebook
-        String providerId = oAuth2User.getAttribute("sub");
+
+        String providerId;
+        if (provider.equalsIgnoreCase("facebook")) {
+            providerId = oAuth2User.getAttribute("id");
+        }
+        else if (provider.equalsIgnoreCase("google")) {
+            providerId = oAuth2User.getAttribute("sub");
+        }
+        else {
+            throw new RuntimeException("Unsupported provider: " + provider);
+        }
+
+        if (providerId == null || providerId.isEmpty()) {
+            throw new RuntimeException("Provider unsupported: " + provider);
+        }
 
         NguoiDung existNguoiDung  = nguoiDungRepo.findByEmail(email);
 
         if(existNguoiDung == null){
             GiaDinh giaDinh = new GiaDinh();
+            giaDinh.setSoLuong(1);
             giaDinhRepo.saveAndFlush(giaDinh);
 
             NguoiDung nguoiDung = new NguoiDung();
@@ -64,24 +84,25 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
             Role defaultRole = roleRepo.findByName("USER");
             taiKhoan.setDanhSachRole(List.of(defaultRole));
-            taiKhoanRepo.save(taiKhoan);
+            taiKhoanRepo.saveAndFlush(taiKhoan);
 
             TongQuan tongQuan = new TongQuan();
             tongQuan.setNguoiDung(nguoiDung);
             tongQuanRepo.save(tongQuan);
 
-            System.out.println("GiaDinh ID: " + giaDinh.getMaGiaDinh());
-            System.out.println("NguoiDung ID: " + nguoiDung.getMaNguoiDung());
-            System.out.println("TaiKhoan ID: " + taiKhoan.getMaNguoiDung());
-
             existNguoiDung = nguoiDung;
         }
 
         NguoiDung finalExistNguoiDung = existNguoiDung;
+
         TaiKhoan taiKhoan = taiKhoanRepo.findById(existNguoiDung.getMaNguoiDung())
                 .orElseThrow(() -> new RuntimeException("Tai khoan not found for user id: " + finalExistNguoiDung.getMaNguoiDung()));
 
         CustomOAuth2User customUser = new CustomOAuth2User(oAuth2User, taiKhoan);
+
+        request.getSession().setAttribute("taikhoan", taiKhoan);
+        request.getSession().setAttribute("nguoidungLogged", finalExistNguoiDung);
+
         return customUser;
     }
 }

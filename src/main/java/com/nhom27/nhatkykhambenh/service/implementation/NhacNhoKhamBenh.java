@@ -17,7 +17,7 @@ public class NhacNhoKhamBenh {
     private ILichHenKhamBenhRepo lichHenKhamBenhRepo;
     @Autowired
     private IEmailService emailService;
-    @Scheduled(cron = "0 05 18 * * ?")
+    @Scheduled(cron = "0 00 08 * * ?")
     public void sendSeeDoctorsRemind(){
         LocalDateTime startOfTomorrow = LocalDateTime.now().plusDays(1).with(LocalTime.MIN);
         LocalDateTime endOfTomorrow = LocalDateTime.now().plusDays(1).with(LocalTime.MAX);

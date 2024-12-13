@@ -10,6 +10,7 @@ import com.nhom27.nhatkykhambenh.model.KhamBenh;
 import com.nhom27.nhatkykhambenh.model.NguoiDung;
 import com.nhom27.nhatkykhambenh.model.TiemChung;
 import com.nhom27.nhatkykhambenh.repository.IKhamBenhRepo;
+import com.nhom27.nhatkykhambenh.repository.INguoiDungRepo;
 import com.nhom27.nhatkykhambenh.service.interfaces.IKhamBenhService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -20,6 +21,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 @Service
 public class KhamBenhService implements IKhamBenhService {
@@ -31,6 +35,9 @@ public class KhamBenhService implements IKhamBenhService {
 
     @Autowired
     private NguoiDungMapper nguoiDungMapper;
+
+    @Autowired
+    private INguoiDungRepo nguoiDungRepo;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -60,6 +67,16 @@ public class KhamBenhService implements IKhamBenhService {
         long totalElements = ((Number) countNativeQuery.getSingleResult()).longValue();
 
         return new PageImpl<>(khamBenhMapper.toKhamBenhDtoList(results), pageable, totalElements);
+    }
+
+    @Override
+    public List<KhamBenh> getAll() {
+        return khamBenhRepo.findAll();
+    }
+
+    @Override
+    public List<KhamBenh> getAllByNguoiDung(NguoiDung nguoiDung) {
+        return khamBenhRepo.findAllByNguoiDung(nguoiDung);
     }
 
     @Override
@@ -96,4 +113,31 @@ public class KhamBenhService implements IKhamBenhService {
         }
         khamBenhRepo.saveAll(khamBenhList);
     }
+
+    @Override
+    public List<KhamBenh> filterKhamBenh(String dateFrom, String dateTo, String maGiaDinh) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        LocalDate fromDate = (dateFrom != null && !dateFrom.isEmpty())
+                ? LocalDate.parse(dateFrom, formatter)
+                : null;
+        LocalDateTime fromDateTime = (fromDate != null) ? fromDate.atStartOfDay() : null;
+
+        LocalDate toDate = (dateTo != null && !dateTo.isEmpty())
+                ? LocalDate.parse(dateTo, formatter)
+                : null;
+        LocalDateTime toDateTime = (toDate != null) ? toDate.atStartOfDay() : null;
+
+        if (fromDateTime != null && toDateTime != null && maGiaDinh != null && !maGiaDinh.isEmpty()) {
+            return khamBenhRepo.findByDateRangeAndGiaDinh(fromDateTime, toDateTime, maGiaDinh);
+        } else if (fromDateTime != null && toDateTime != null) {
+            return khamBenhRepo.findByDateRange(fromDateTime, toDateTime);
+        } else if (maGiaDinh != null && !maGiaDinh.isEmpty()) {
+            return khamBenhRepo.findByGiaDinh(maGiaDinh);
+        } else {
+            return khamBenhRepo.findAll();
+        }
+    }
+
+
 }

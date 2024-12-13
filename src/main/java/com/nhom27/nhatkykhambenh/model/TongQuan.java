@@ -1,10 +1,7 @@
 package com.nhom27.nhatkykhambenh.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,6 +10,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@ToString
 @Table(name = "TongQuan")
 public class TongQuan {
     @Id
@@ -50,6 +48,7 @@ public class TongQuan {
     @EqualsAndHashCode.Exclude
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MaNguoiDung", referencedColumnName = "MaNguoiDung")
+    @ToString.Exclude
     private NguoiDung nguoiDung;
 
     @OneToMany(mappedBy = "tongQuan", fetch = FetchType.LAZY)

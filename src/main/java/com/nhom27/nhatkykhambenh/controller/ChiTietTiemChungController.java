@@ -6,8 +6,10 @@ import com.nhom27.nhatkykhambenh.exception.SaveDataException;
 import com.nhom27.nhatkykhambenh.mapper.ChiTietTiemChungMapper;
 import com.nhom27.nhatkykhambenh.mapper.NguoiDungMapper;
 import com.nhom27.nhatkykhambenh.model.ChiTietTiemChung;
+import com.nhom27.nhatkykhambenh.model.NguoiDung;
 import com.nhom27.nhatkykhambenh.service.interfaces.IChiTietTiemChungService;
 import com.nhom27.nhatkykhambenh.service.interfaces.INguoiDungService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -75,12 +78,6 @@ public class ChiTietTiemChungController {
 
         List<NguoiDungDTO> nguoiDungDTOList = nguoiDungMapper.toNguoiDungDtoList(nguoiDungService.getAllNguoiDung());
 
-        System.out.println("size = " + nguoiDungDTOList.size());
-
-        for(NguoiDungDTO dt: nguoiDungDTOList){
-            System.out.println("name " + dt.getTenNguoiDung());
-        }
-
         model.addAttribute("ctTiemChung", chiTietTiemChungDTO);
         model.addAttribute("dsNguoiDung", nguoiDungDTOList);
 
@@ -88,20 +85,19 @@ public class ChiTietTiemChungController {
     }
 
     @GetMapping("/admin/tiemchung/chitiet/update")
-    public String updateTiemChungForm(Model model, @RequestParam Integer maTiemChung) {
-        ChiTietTiemChungDTO chiTietTiemChungDTO = new ChiTietTiemChungDTO();
-        chiTietTiemChungDTO.setMaTiemChung(maTiemChung);
+    public String updateTiemChungForm(Model model,
+                                      @RequestParam Integer maTiemChung,
+                                      @RequestParam Integer maNguoiDung) {
+        ChiTietTiemChungDTO chiTietTiemChungDTO = chiTietTiemChungMapper.toChiTietTiemChungDTO(
+                chiTietTiemChungService.findByIds(maTiemChung, maNguoiDung)
+        );
 
         List<NguoiDungDTO> nguoiDungDTOList = nguoiDungMapper.toNguoiDungDtoList(nguoiDungService.getAllNguoiDung());
-
-        System.out.println("size = " + nguoiDungDTOList.size());
-
-        for(NguoiDungDTO dt: nguoiDungDTOList){
-            System.out.println("name " + dt.getTenNguoiDung());
-        }
+        NguoiDungDTO nguoiDungDTO = nguoiDungMapper.toNguoiDungDTO(nguoiDungService.getById(maNguoiDung));
 
         model.addAttribute("ctTiemChung", chiTietTiemChungDTO);
         model.addAttribute("dsNguoiDung", nguoiDungDTOList);
+        model.addAttribute("nguoiDung", nguoiDungDTO);
 
         return "admin/tiemchung/addChiTietTiemChung";
     }
@@ -139,6 +135,72 @@ public class ChiTietTiemChungController {
         redirectAttributes.addAttribute("maTiemChung", maTiemChung);
 
         return "redirect:/admin/tiemchung/chitiet";
+    }
+
+    @GetMapping("/users/tiemchung")
+    public String getAllTiemChung(Model model,
+                                  HttpSession session,
+                                  @RequestParam("maNguoiDung") Integer maNguoiDung) {
+        List<String> pageName = new ArrayList<>();
+        pageName.add("Tiêm chủng");
+
+        NguoiDung nguoiDung = nguoiDungService.getById(maNguoiDung);
+        session.setAttribute("nguoidung", nguoiDung);
+
+        List<ChiTietTiemChungDTO> dsChiTietTiemChungDTO = chiTietTiemChungMapper.toChiTietTiemChungDtoList(
+            chiTietTiemChungService.getAllByNguoiDung(maNguoiDung)
+        );
+
+        session.setAttribute("pageName", pageName);
+        model.addAttribute("dsChiTietTiemChung", dsChiTietTiemChungDTO);
+
+        return "users/danhsachtiemchung";
+    }
+
+    @GetMapping("users/tiemchung/chitiet")
+    public String chiTietBenh(Model model,
+                              @RequestParam("maTiemChung") Integer maTiemChung,
+                              HttpSession session) {
+
+        NguoiDung nguoiDung = (NguoiDung) session.getAttribute("nguoidung");
+        ChiTietTiemChungDTO chiTietTiemChungDTO = chiTietTiemChungMapper.toChiTietTiemChungDTO(
+            chiTietTiemChungService.findByIds(maTiemChung, nguoiDung.getMaNguoiDung())
+        );
+
+        model.addAttribute("chiTietTiemChung", chiTietTiemChungDTO);
+
+        return "users/thongtintiemchung";
+    }
+
+    @PostMapping("admin/tiemchung/chitiet/updateTrangThai")
+    public String updateStatus(@RequestParam("maTiemChung") int maTiemChung,
+                               @RequestParam("maNguoiDung") int maNguoiDung,
+                               RedirectAttributes redirectAttributes) {
+        try {
+            ChiTietTiemChung chiTietTiemChung = chiTietTiemChungService.findByIds(maTiemChung, maNguoiDung);
+            if (chiTietTiemChung == null) {
+                redirectAttributes.addFlashAttribute("error", "Không tìm thấy bản ghi.");
+                redirectAttributes.addAttribute("maTiemChung", maTiemChung);
+                return "redirect:/admin/tiemchung/chitiet";
+            }
+
+            if (chiTietTiemChung.getTrangThai()) {
+                redirectAttributes.addFlashAttribute("error", "Trạng thái 'Đã tiêm' không thể thay đổi.");
+                redirectAttributes.addAttribute("maTiemChung", maTiemChung);
+                return "redirect:/admin/tiemchung/chitiet";
+            }
+
+            chiTietTiemChungService.updateTrangThai(chiTietTiemChung);
+
+            redirectAttributes.addFlashAttribute("success", "Cập nhật trạng thái thành công!");
+            redirectAttributes.addAttribute("maTiemChung", maTiemChung);
+            return "redirect:/admin/tiemchung/chitiet";
+        }
+        catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Lỗi hệ thống: " + e.getMessage());
+            redirectAttributes.addAttribute("maTiemChung", maTiemChung);
+            return "redirect:/admin/tiemchung/chitiet";
+        }
     }
 
 }

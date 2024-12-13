@@ -11,9 +11,9 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "TaiKhoan")
+@ToString
 public class TaiKhoan {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MaNguoiDung")
     private Integer maNguoiDung;
 

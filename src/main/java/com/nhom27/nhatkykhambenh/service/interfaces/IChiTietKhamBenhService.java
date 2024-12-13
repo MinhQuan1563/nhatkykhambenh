@@ -1,5 +1,6 @@
 package com.nhom27.nhatkykhambenh.service.interfaces;
 
+import com.nhom27.nhatkykhambenh.dto.ThongTinBenhDTO;
 import com.nhom27.nhatkykhambenh.model.ChiTietKhamBenh;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,8 +16,10 @@ public interface IChiTietKhamBenhService {
 
     void deleteAllByIds(List<Integer> ids);
 
-    Page<ChiTietKhamBenh> getDSChiTietKhamBenh(Pageable pageable,
-                                                  String query,
-                                                  Integer maKhamBenh);
+    Page<ChiTietKhamBenh> getDSChiTietKhamBenh(Pageable pageable, String query, Integer maKhamBenh);
+
+    List<ChiTietKhamBenh> getDSChiTietKhamBenh(Integer maKhamBenh);
+
+    ThongTinBenhDTO getAllThongTinBenh(ChiTietKhamBenh chiTietKhamBenh);
 
 }

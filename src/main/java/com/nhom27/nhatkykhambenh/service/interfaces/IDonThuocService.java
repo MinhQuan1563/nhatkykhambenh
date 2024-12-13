@@ -10,8 +10,7 @@ import java.util.List;
 
 public interface IDonThuocService {
 
-
-    void saveDonThuoc(DonThuoc donThuoc, Integer maChiTietKhamBenh);
+    void saveDonThuoc(DonThuoc donThuoc);
 
     DonThuoc findById(Integer id);
 
@@ -19,7 +18,7 @@ public interface IDonThuocService {
 
     void deleteAllByIds(List<Integer> ids);
 
-    Page<DonThuoc> getDSDonThuoc(Pageable pageable,
-                                   String query,
-                                   Integer maChiTietKhamBenh);
+    Page<DonThuoc> getDSDonThuoc(Pageable pageable, String query);
+
+    List<DonThuoc> getAllDonThuoc();
 }

@@ -1,9 +1,7 @@
 package com.nhom27.nhatkykhambenh.service.implementation;
 
-import com.nhom27.nhatkykhambenh.dto.TiemChungDetailDTO;
 import com.nhom27.nhatkykhambenh.exception.SaveDataException;
 import com.nhom27.nhatkykhambenh.model.ChiTietTiemChung;
-import com.nhom27.nhatkykhambenh.model.TiemChung;
 import com.nhom27.nhatkykhambenh.repository.IChiTietTiemChungRepo;
 import com.nhom27.nhatkykhambenh.service.interfaces.IChiTietTiemChungService;
 import jakarta.persistence.EntityManager;
@@ -15,7 +13,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -38,7 +38,7 @@ public class ChiTietTiemChungService implements IChiTietTiemChungService {
         Query columnNativeQuery = entityManager.createNativeQuery(columnQuery);
         String columns = (String) columnNativeQuery.getSingleResult();
 
-        String sql = "SELECT * FROM chi_tiet_tiem_chung WHERE trang_thai=1 AND ma_tiem_chung= :maTiemChung AND CONCAT(" + columns + ") LIKE :searchTerm " +
+        String sql = "SELECT * FROM chi_tiet_tiem_chung WHERE ma_tiem_chung= :maTiemChung AND CONCAT(" + columns + ") LIKE :searchTerm " +
                 "LIMIT :limit OFFSET :offset";
         Query nativeQuery = entityManager.createNativeQuery(sql, ChiTietTiemChung.class);
         nativeQuery.setParameter("searchTerm", searchTerm);
@@ -58,6 +58,16 @@ public class ChiTietTiemChungService implements IChiTietTiemChungService {
 
     @Override
     public void saveTiemChung(ChiTietTiemChung ctTiemChung) {
+        ctTiemChung.setTrangThai(false);
+        try {
+            chiTietTiemChungRepo.save(ctTiemChung);
+        } catch (Exception e) {
+            throw new SaveDataException("ChiTietTiemChung");
+        }
+    }
+
+    @Override
+    public void updateTrangThai(ChiTietTiemChung ctTiemChung) {
         ctTiemChung.setTrangThai(true);
         try {
             chiTietTiemChungRepo.save(ctTiemChung);
@@ -79,52 +89,38 @@ public class ChiTietTiemChungService implements IChiTietTiemChungService {
     }
 
     @Override
-    public void deleteAllByIds(Integer maTiemChung, List<Integer> maNguoiDung) {
-//        List<ChiTietTiemChung> chiTietTiemChungList = chiTietTiemChungRepo.findAllById(
-//                maNguoiDung.stream()
-//                        .map(maND -> new ChiTietTiemChung.ChiTietTiemChungId(maTiemChung, maND))
-//                        .toList()
-//        );
-//
-//        for (ChiTietTiemChung chiTietTiemChung : chiTietTiemChungList) {
-//            chiTietTiemChung.setTrangThai(false);
-//        }
-//
-//        chiTietTiemChungRepo.saveAll(chiTietTiemChungList);
-    }
-
-    @Override
     public List<ChiTietTiemChung> getAllByNguoiDung(Integer maNguoiDung) {
         return chiTietTiemChungRepo.findAllByMaNguoiDung(maNguoiDung);
     }
 
     @Override
-    public List<TiemChungDetailDTO> getAllTiemChungDetails(Integer maNguoiDung) {
-        List<ChiTietTiemChung> dsCTTiemChung = chiTietTiemChungRepo.findAllByMaNguoiDung(maNguoiDung);
-        List<TiemChungDetailDTO> result = new ArrayList<>();
+    public List<ChiTietTiemChung> getAll() {
+        return chiTietTiemChungRepo.findAll();
+    }
 
-        for(ChiTietTiemChung chitiet : dsCTTiemChung) {
-            TiemChung tiemchung = chitiet.getTiemChung();
+    @Override
+    public List<ChiTietTiemChung> filterChiTietTiemChung(String dateFrom, String dateTo, String maGiaDinh) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-            if(tiemchung != null) {
-                TiemChungDetailDTO detailDTO = getTiemChungDetailDTO(chitiet, tiemchung);
-                result.add(detailDTO);
-            }
+        LocalDate fromDate = (dateFrom != null && !dateFrom.isEmpty())
+                ? LocalDate.parse(dateFrom, formatter)
+                : null;
+        LocalDateTime fromDateTime = (fromDate != null) ? fromDate.atStartOfDay() : null;
+
+        LocalDate toDate = (dateTo != null && !dateTo.isEmpty())
+                ? LocalDate.parse(dateTo, formatter)
+                : null;
+        LocalDateTime toDateTime = (toDate != null) ? toDate.atStartOfDay() : null;
+
+        if (fromDateTime != null && toDateTime != null && maGiaDinh != null && !maGiaDinh.isEmpty()) {
+            return chiTietTiemChungRepo.findByDateRangeAndGiaDinh(fromDateTime, toDateTime, maGiaDinh);
+        } else if (fromDateTime != null && toDateTime != null) {
+            return chiTietTiemChungRepo.findByDateRange(fromDateTime, toDateTime);
+        } else if (maGiaDinh != null && !maGiaDinh.isEmpty()) {
+            return chiTietTiemChungRepo.findByGiaDinh(maGiaDinh);
+        } else {
+            return chiTietTiemChungRepo.findAll();
         }
-
-        return result;
     }
 
-    private static TiemChungDetailDTO getTiemChungDetailDTO(ChiTietTiemChung chitiet, TiemChung tiemchung) {
-        TiemChungDetailDTO detailDTO = new TiemChungDetailDTO();
-        detailDTO.setMaTiemChung(tiemchung.getMaTiemChung());
-        detailDTO.setMaNguoiDung(chitiet.getMaNguoiDung());
-        detailDTO.setNoiTiemChung(tiemchung.getNoiTiemChung());
-        detailDTO.setNgayTiem(tiemchung.getNgayTiem());
-        detailDTO.setNguoiTiem(tiemchung.getNguoiTiem());
-        detailDTO.setSoMuiTiem(tiemchung.getSoMuiTiem());
-        detailDTO.setTenVacXin(chitiet.getTenVacXin());
-
-        return detailDTO;
-    }
 }

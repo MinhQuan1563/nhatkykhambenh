@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đường Huyết Tym Giàu</title>
+    <title>Đường Huyết</title>
 </head>
 <body>
 <div th:fragment="contentUser" class="container">
@@ -10,13 +10,16 @@
     <div class="merged-container">
         <div class="card">
             <div class="card-header">
-                <h4 class="mb-0"><i class="fas fa-notes-medical me-2"></i>Nhập kết quả đường huyết</h4>
-                <input type="hidden" th:value="${loaiChiSo}" name="loaiChiSo" />
+                <h4 class="mb-0">
+                    <i class="fas fa-notes-medical me-2"></i>
+                    <span th:text="'Nhập kết quả ' + ${chiSo.tenChiSo}"></span>
+                </h4>
+<!--                <input type="hidden" th:value="${chiSo.loaiChiSo}" name="loaiChiSo" />-->
             </div>
 
             <div class="card-body">
                 <form th:action="@{/users/chiso/save}" method="post" th:object="${ctchiso}">
-                    <input type="hidden" name="loaiChiSo" th:value="${loaichiso}" />
+                    <input type="hidden" id="loaiChiSo" name="loaiChiSo" th:value="${chiSo.loaiChiSo}" />
                     <div class="mb-4">
                         <label class="form-label">
                             Ngày đo
@@ -36,12 +39,12 @@
 
                     <div class="mb-4">
                         <label class="form-label">
-                            Đường huyết
+                            <span th:text="${chiSo.tenChiSo}"></span>
                             <span class="required-asterisk">*</span>
                         </label>
                         <div class="input-group">
                             <input type="number" class="form-control" th:field="*{ketQuaDo}" placeholder="Nhập nồng độ đường huyết" required>
-                            <span class="input-group-text">mg/dl</span>
+                            <span class="input-group-text" th:text="${chiSo.donVi}"></span>
                         </div>
                     </div>
 

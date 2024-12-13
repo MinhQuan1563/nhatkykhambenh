@@ -74,11 +74,6 @@
                 <div class="row">
                     <small>Bạn chưa có tài khoản? <a th:href="@{/register}">Đăng ký</a></small>
                 </div>
-<!--                <div class="row">-->
-<!--                    <a href="/oauth2/authorization/google">Login with Google</a>-->
-<!--                    <br>-->
-<!--                    <a href="/oauth2/authorization/facebook">Login with Facebook</a>-->
-<!--                </div>-->
 
                 <div class="row social-login mt-3">
                     <div class="col-12 mb-2">
@@ -100,4 +95,17 @@
     </div>
 </div>
 </body>
+<script>
+    const togglePassword = document.querySelector("#togglePassword");
+    const password = document.querySelector("#passwordForm");
+
+    togglePassword.addEventListener("click", function () {
+        const type = password.getAttribute("type") === "password" ? "text" : "password";
+        password.setAttribute("type", type);
+
+        this.classList.toggle('fa-eye');
+        this.classList.toggle('fa-eye-slash');
+    });
+</script>
 </html>
+

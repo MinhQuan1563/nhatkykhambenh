@@ -14,10 +14,15 @@ import lombok.Setter;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DonThuocDTO {
+
     private Integer maDonThuoc;
-    private String bacSiKham;
-//    private String tenThuoc;
+
+    private String tenThuoc;
+
+    private Integer hamLuong;
+
+    private String donViTinh;
+
     private Boolean trangThai;
-//    private KhamBenh khamBenh;
-    private Integer maChiTietKhamBenh;
+
 }

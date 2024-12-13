@@ -2,7 +2,9 @@ package com.nhom27.nhatkykhambenh.controller;
 
 import com.nhom27.nhatkykhambenh.dto.ChiTietChiSoDTO;
 import com.nhom27.nhatkykhambenh.exception.SaveDataException;
+import com.nhom27.nhatkykhambenh.mapper.ChiTietChiSoMapper;
 import com.nhom27.nhatkykhambenh.model.ChiSo;
+import com.nhom27.nhatkykhambenh.model.ChiTietChiSo;
 import com.nhom27.nhatkykhambenh.model.NguoiDung;
 import com.nhom27.nhatkykhambenh.model.TongQuan;
 import com.nhom27.nhatkykhambenh.service.implementation.TongQuanService;
@@ -34,6 +36,8 @@ public class ChiSoController {
 
     @Autowired
     private ITongQuanService tongQuanService;
+    @Autowired
+    private ChiTietChiSoMapper chiTietChiSoMapper;
 
     @GetMapping("users/chiso")
     public String showChiSo() {
@@ -50,16 +54,18 @@ public class ChiSoController {
 
         List<ChiTietChiSoDTO> chiTietChiSoDTOList = null;
         if (chiSo != null && tongQuan != null) {
-            chiTietChiSoDTOList = chiTietChiSoService.getDsChiTietChiSo(chiSo.getMaChiSo(), tongQuan.getMaTongQuan());
+            chiTietChiSoDTOList = chiTietChiSoMapper.toChiTietChiSoDtoList(
+                    chiTietChiSoService.getDsChiTietChiSo(chiSo.getMaChiSo(), tongQuan.getMaTongQuan())
+            );
         }
 
+        assert chiSo != null;
         if(!pageName.contains(chiSo.getTenChiSo())) {
             pageName.add(chiSo.getTenChiSo());
         }
 
         session.setAttribute("pageName", pageName);
         model.addAttribute("dsChiTietChiSo", chiTietChiSoDTOList);
-        assert chiSo != null;
         model.addAttribute("chiSo", chiSo);
 
         return "users/chiso";
@@ -68,15 +74,16 @@ public class ChiSoController {
     @GetMapping("users/chiso/{loaiChiSo}/add")
     public String addCTChiSoForm(@PathVariable String loaiChiSo, Model model, HttpSession session) {
         ChiTietChiSoDTO chiTietChiSoDTO = new ChiTietChiSoDTO();
+        ChiSo chiSo = chiSoService.findByLoaiChiSo(loaiChiSo);
 
         model.addAttribute("ctchiso", chiTietChiSoDTO);
-        model.addAttribute("loaichiso", loaiChiSo);
+        model.addAttribute("chiSo", chiSo);
 
         return "users/themctchiso";
     }
 
     @PostMapping("/users/chiso/save")
-    public String saveCTChiSo(@ModelAttribute("ctchiso") ChiTietChiSoDTO ctchiso,
+    public String saveCTChiSo(@ModelAttribute("ctchiso") ChiTietChiSoDTO ctchisoDTO,
                               @RequestParam("loaiChiSo") String loaiChiSo,
                               BindingResult bindingResult,
                               Model model,
@@ -92,9 +99,10 @@ public class ChiSoController {
         TongQuan tongQuan = tongQuanService.findByNguoiDung(nguoiDung.getMaNguoiDung());
 
         try {
-            ctchiso.setMaChiSo(chiSo.getMaChiSo());
-            ctchiso.setMaTongQuan(tongQuan.getMaTongQuan());
-            chiTietChiSoService.saveCTChiSo(ctchiso);
+            ctchisoDTO.setMaChiSo(chiSo.getMaChiSo());
+            ctchisoDTO.setMaTongQuan(tongQuan.getMaTongQuan());
+            ChiTietChiSo chiTietChiSo = chiTietChiSoMapper.toChiTietChiSo(ctchisoDTO);
+            chiTietChiSoService.saveCTChiSo(chiTietChiSo);
             return "redirect:/users/chiso/" + loaiChiSo;
         } catch (SaveDataException e) {
             model.addAttribute("error", e.getMessage());

@@ -20,18 +20,15 @@ public class DonThuoc {
     @Column(name = "MaDonThuoc")
     private Integer maDonThuoc;
 
-    @Column(name = "BacSiKham")
-    private String bacSiKham;
+    @Column(name = "TenThuoc")
+    private String tenThuoc;
+
+    @Column(name = "HamLuong")
+    private Integer hamLuong;
+
+    @Column(name = "DonViTinh")
+    private String donViTinh;
 
     @Column(name = "TrangThai")
     private Boolean trangThai;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MaChiTietKhamBenh", referencedColumnName = "MaChiTietKhamBenh")
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    private ChiTietKhamBenh chiTietKhamBenh;
-
-    @OneToMany(mappedBy = "donThuoc", fetch = FetchType.LAZY)
-    private Set<ChiTietDonThuoc> danhSachChiTietDonThuoc = new HashSet<>();
 }

@@ -15,7 +15,7 @@
         <h4 class="mb-4">Tổng quan</h4>
         <div class="card-wrapper">
             <div class="row">
-                <a th:href="@{/users/chiso/{loaiChiSo}(loaiChiSo='duongHuyet')}" class="col-md-3 col-sm-6">
+                <a th:href="@{/users/chiso/{loaiChiSo}(loaiChiSo=${dsChiSo[3][0]})}" class="col-md-3 col-sm-6">
                     <div class="health-card">
                         <div class="health-icon">✏️</div>
                         <div class="health-value">
@@ -23,10 +23,10 @@
                             <span class="health-unit">mg/DL</span>
                         </div>
                         <div class="health-title">Đường huyết</div>
-                        <div class="health-date">Đo lúc: 08:56 - 21/09/2024</div>
+                        <div class="health-date" th:text="'Đo lúc: ' + ${dsChiSo[3][1]}"></div>
                     </div>
                 </a>
-                <a th:href="@{/users/chiso/{loaiChiSo}(loaiChiSo='huyetAp')}" class="col-md-3 col-sm-6">
+                <a th:href="@{/users/chiso/{loaiChiSo}(loaiChiSo=${dsChiSo[4][0]})}" class="col-md-3 col-sm-6">
                     <div class="health-card">
                         <div class="health-icon">🩸</div>
                         <div class="health-value">
@@ -34,10 +34,10 @@
                             <span class="health-unit">mmHg</span>
                         </div>
                         <div class="health-title">Huyết áp</div>
-                        <div class="health-date">Đo lúc: 08:56 - 21/09/2024</div>
+                        <div class="health-date" th:text="'Đo lúc: ' + ${dsChiSo[4][1]}"></div>
                     </div>
                 </a>
-                <a th:href="@{/users/chiso/{loaiChiSo}(loaiChiSo='nhipTim')}" class="col-md-3 col-sm-6">
+                <a th:href="@{/users/chiso/{loaiChiSo}(loaiChiSo=${dsChiSo[6][0]})}" class="col-md-3 col-sm-6">
                     <div class="health-card">
                         <div class="health-icon">📈</div>
                         <div class="health-value">
@@ -45,10 +45,10 @@
                             <span class="health-unit">nhịp/phút</span>
                         </div>
                         <div class="health-title">Nhịp tim</div>
-                        <div class="health-date">Đo lúc: 08:56 - 21/09/2024</div>
+                        <div class="health-date" th:text="'Đo lúc: ' + ${dsChiSo[6][1]}"></div>
                     </div>
                 </a>
-                <a th:href="@{/users/chiso/{loaiChiSo}(loaiChiSo='nhomMau')}" class="col-md-3 col-sm-6">
+                <a href="#" class="col-md-3 col-sm-6">
                     <div class="health-card">
                         <div class="health-icon">🩺</div>
                         <div class="health-value">
@@ -56,12 +56,11 @@
                             <span class="health-unit"></span>
                         </div>
                         <div class="health-title">Nhóm Máu</div>
-                        <div class="health-date">Đo lúc: 08:56 - 21/09/2024</div>
                     </div>
                 </a>
             </div>
             <div class="row">
-                <a th:href="@{/users/chiso/{loaiChiSo}(loaiChiSo='nhietDo')}" class="col-md-3 col-sm-6">
+                <a th:href="@{/users/chiso/{loaiChiSo}(loaiChiSo=${dsChiSo[5][0]})}" class="col-md-3 col-sm-6">
                     <div class="health-card">
                         <div class="health-icon">🌡️</div>
                         <div class="health-value">
@@ -69,10 +68,10 @@
                             <span class="health-unit">°C</span>
                         </div>
                         <div class="health-title">Nhiệt độ</div>
-                        <div class="health-date">Đo lúc: 08:56 - 21/09/2024</div>
+                        <div class="health-date" th:text="'Đo lúc: ' + ${dsChiSo[5][1]}"></div>
                     </div>
                 </a>
-                <a th:href="@{/users/chiso/{loaiChiSo}(loaiChiSo='chieuCao')}" class="col-md-3 col-sm-6">
+                <a th:href="@{/users/chiso/{loaiChiSo}(loaiChiSo=${dsChiSo[2][0]})}" class="col-md-3 col-sm-6">
                     <div class="health-card">
                         <div class="health-icon">📏</div>
                         <div class="health-value">
@@ -80,10 +79,10 @@
                             <span class="health-unit">cm</span>
                         </div>
                         <div class="health-title">Chiều cao</div>
-                        <div class="health-date">Đo lúc: 08:56 - 21/09/2024</div>
+                        <div class="health-date" th:text="'Đo lúc: ' + ${dsChiSo[2][1]}"></div>
                     </div>
                 </a>
-                <a th:href="@{/users/chiso/{loaiChiSo}(loaiChiSo='canNang')}" class="col-md-3 col-sm-6">
+                <a th:href="@{/users/chiso/{loaiChiSo}(loaiChiSo=${dsChiSo[0][0]})}" class="col-md-3 col-sm-6">
                     <div class="health-card">
                         <div class="health-icon">⚖️</div>
                         <div class="health-value">
@@ -91,10 +90,10 @@
                             <span class="health-unit">kg</span>
                         </div>
                         <div class="health-title">Cân nặng</div>
-                        <div class="health-date">Đo lúc: 08:56 - 21/09/2024</div>
+                        <div class="health-date" th:text="'Đo lúc: ' + ${dsChiSo[0][1]}"></div>
                     </div>
                 </a>
-                <a th:href="@{/users/chiso/{loaiChiSo}(loaiChiSo='chiSoBMI')}" class="col-md-3 col-sm-6">
+                <a th:href="@{/users/chiso/{loaiChiSo}(loaiChiSo=${dsChiSo[1][0]})}" class="col-md-3 col-sm-6">
                     <div class="health-card">
                         <div class="health-icon">📊</div>
                         <div class="health-value">
@@ -102,7 +101,7 @@
                             <span class="health-unit">kg/m²</span>
                         </div>
                         <div class="health-title">Chỉ số BMI</div>
-                        <div class="health-date">Đo lúc: 08:56 - 21/09/2024</div>
+                        <div class="health-date" th:text="'Đo lúc: ' + ${dsChiSo[1][1]}"></div>
                     </div>
                 </a>
             </div>

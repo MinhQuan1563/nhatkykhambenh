@@ -32,9 +32,6 @@ public class xetNghiemController {
     @Autowired
     private XetNghiemMapper xetNghiemMapper;
 
-    @Autowired
-    private IChiTietKhamBenhService chiTietKhamBenhService;
-
     @GetMapping("/admin/khambenh/chitiet/xetnghiem")
     public String GetListXetNghiem(Model model,
                                    @RequestParam(defaultValue = "0") int page,

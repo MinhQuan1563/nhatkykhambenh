@@ -22,14 +22,11 @@ public class TiemChung {
     @Column(name = "MaTiemChung")
     private Integer maTiemChung;
 
+    @Column(name = "TenVacXin")
+    private String tenVacXin;
+
     @Column(name = "NoiTiemChung")
     private String noiTiemChung;
-
-    @Column(name = "NgayTiem")
-    private LocalDateTime ngayTiem;
-
-    @Column(name = "NguoiTiem", length = 250)
-    private String nguoiTiem;
 
     @Column(name = "SoMuiTiem")
     private Integer soMuiTiem;

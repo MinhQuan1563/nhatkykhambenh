@@ -15,6 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Builder
+@ToString
 @Table(name = "NguoiDung")
 public class NguoiDung {
     @Id
@@ -55,6 +56,7 @@ public class NguoiDung {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MaGiaDinh")
+    @ToString.Exclude
     private GiaDinh giaDinh;
 
     @OneToOne(mappedBy = "nguoiDung", fetch = FetchType.LAZY)

@@ -28,9 +28,16 @@
     <link rel="stylesheet" th:href="@{/vendor/overlay-scroll/OverlayScrollbars.min.css}">
 
     <!-- Required jQuery first, then Bootstrap Bundle JS -->
-    <script th:src="@{/js/user/moment.min.js}" ></script>
     <script th:src="@{/js/user/jquery.min.js}" ></script>
+    <script th:src="@{/js/user/moment.min.js}" ></script>
     <script th:src="@{/js/user/bootstrap.bundle.min.js}" ></script>
+
+    <!-- Vendor Js Files -->
+    <script th:src="@{/vendor/overlay-scroll/jquery.overlayScrollbars.min.js}"></script>
+    <script th:src="@{/vendor/overlay-scroll/custom-scrollbar.js}" ></script>
+
+    <!-- Custom JS files -->
+    <script th:src="@{/js/user/custom.js}"></script>
 </head>
 
 <body>
@@ -53,10 +60,10 @@
 
         <!-- App brand starts -->
         <div class="app-brand ms-3">
-            <a href="home.html" class="d-lg-block d-none">
+            <a th:href="@{/}" class="d-lg-block d-none">
                 <img th:src="@{/image/user/logo.svg}" class="logo" alt="Medicare Admin Template">
             </a>
-            <a href="home.html" class="d-lg-none d-md-block">
+            <a th:href="@{/}" class="d-lg-none d-md-block">
                 <img th:src="@{/image/user/logo-sm.svg}" class="logo" alt="Medicare Admin Template">
             </a>
         </div>
@@ -76,15 +83,18 @@
             <div class="dropdown ms-2">
                 <a id="userSettings" class="dropdown-toggle d-flex align-items-center" href="#!" role="button"
                    data-bs-toggle="dropdown" aria-expanded="false">
-                    <div class="avatar-box">JB<span class="status busy"></span></div>
+                    <div class="avatar-box">
+                        <span th:text="${@stringUtils.getInitials(session.nguoidungLogged.tenNguoiDung)}"></span>
+                        <span class="status busy"></span>
+                    </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end shadow-lg">
                     <div class="px-3 py-2">
-                        <span class="small">Admin</span>
-                        <h6 class="m-0">James Bruton</h6>
+<!--                        <span class="small">Admin</span>-->
+                        <h6 class="m-0" th:text="${session.nguoidungLogged.tenNguoiDung}">Quan</h6>
                     </div>
-                    <div class="mx-3 my-2 d-grid">
-                        <a href="login.html" class="btn btn-danger">Logout</a>
+                    <div th:if="${session.nguoidungLogged}" class="mx-3 my-2 d-grid">
+                        <a th:href="@{/logout}" class="btn btn-danger">Đăng xuất</a>
                     </div>
                 </div>
             </div>
@@ -104,10 +114,16 @@
 
             <!-- Sidebar profile starts -->
             <div class="sidebar-profile">
-                <img th:src="@{/image/user/user6.png}" class="img-shadow img-3x me-3 rounded-5" alt="Hospital Admin Templates">
+                <span class="img-shadow img-3x me-3 rounded-5" th:if="${session.nguoidung.hinhAnh == null or session.nguoidung.hinhAnh.isEmpty()}">
+                    <i class="ri-user-line fs-4 text-primary d-flex justify-content-center" style="margin-top: 6px;"></i>
+                </span>
+
+                <span th:if="${session.nguoidung.hinhAnh != null and !session.nguoidung.hinhAnh.isEmpty()}">
+                    <img th:src="${session.nguoidung.hinhAnh}" class="img-shadow img-3x me-3 rounded-5" alt="User Picture">
+                </span>
                 <div class="m-0">
-                    <h5 class="mb-1 profile-name text-nowrap text-truncate">Nick Gonzalez</h5>
-                    <p class="m-0 small profile-name text-nowrap text-truncate">Dept Admin</p>
+                    <h5 class="mb-1 profile-name text-nowrap text-truncate" th:text="${session.nguoidung.tenNguoiDung}">Nick Gonzalez</h5>
+                    <p class="m-0 small profile-name text-nowrap text-truncate" th:text="${session.nguoidung.moiQuanHe}">Dept Admin</p>
                 </div>
             </div>
             <!-- Sidebar profile ends -->
@@ -138,14 +154,11 @@
                     <li class="treeview">
                         <a href="#!">
                             <i class="ri-heart-pulse-line"></i>
-                            <span class="menu-text">Danh Sách Bệnh</span>
+                            <span class="menu-text">Khám Bệnh</span>
                         </a>
                         <ul class="treeview-menu">
                             <li>
-                                <a th:href="@{/users/danhsachbenh}">Danh Sách Bệnh</a>
-                            </li>
-                            <li>
-                                <a href="patient-dashboard.html">Chi Tiết Bệnh</a>
+                                <a th:href="@{/users/khambenh(maNguoiDung=${session.nguoidung.maNguoiDung})}">Danh Sách Bệnh</a>
                             </li>
                             <li>
                                 <a th:href="@{/users/khambenh/lichhen(maNguoiDung=${session.nguoidung.maNguoiDung})}">Lịch Hẹn Khám</a>
@@ -153,23 +166,23 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="/users/danhsachbenh">
+                        <a th:href="@{/users/tiensubenh(maNguoiDung=${session.nguoidung.maNguoiDung})}">
                             <i class="ri-dossier-line"></i>
-                            <span class="menu-text">Đơn Thuốc</span>
+                            <span class="menu-text">Tiền sử bệnh</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="home.html">
-                            <i class="ri-dossier-line"></i>
-                            <span class="menu-text">Xét Nghiệm</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="home.html">
-                            <i class="ri-dossier-line"></i>
-                            <span class="menu-text">Chuẩn Đoán Hình Ảnh</span>
-                        </a>
-                    </li>
+<!--                    <li>-->
+<!--                        <a href="home.html">-->
+<!--                            <i class="ri-dossier-line"></i>-->
+<!--                            <span class="menu-text">Xét Nghiệm</span>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <a href="home.html">-->
+<!--                            <i class="ri-dossier-line"></i>-->
+<!--                            <span class="menu-text">Chuẩn Đoán Hình Ảnh</span>-->
+<!--                        </a>-->
+<!--                    </li>-->
                 </ul>
             </div>
             <!-- Sidebar menu ends -->

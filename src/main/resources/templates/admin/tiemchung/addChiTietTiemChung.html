@@ -25,22 +25,44 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="tenVacXin">Tên Vắc Xin:</label>
-                                        <input type="text" class="form-control" id="tenVacXin" th:field="*{tenVacXin}" required >
-                                        <span th:if="${#fields.hasErrors('tenVacXin')}" th:errors="*{tenVacXin}" class="text-danger"></span>
+                                        <label for="ngayTiem">Ngày Tiêm:</label>
+                                        <input type="datetime-local" class="form-control" id="ngayTiem" th:field="*{ngayTiem}" required>
+                                        <span th:if="${#fields.hasErrors('ngayTiem')}" th:errors="*{ngayTiem}" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="nguoiTiem">Người Tiêm:</label>
+                                        <input type="text" class="form-control" id="nguoiTiem" th:field="*{nguoiTiem}" required>
+                                        <span th:if="${#fields.hasErrors('nguoiTiem')}" th:errors="*{nguoiTiem}" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="nguoiDung">Người Được Tiêm:</label>
-                                        <select id="nguoiDung" name="maNguoiDung" class="form-select" onchange="updateMaNguoiDung()">
-                                            <option value="" disabled selected>Chọn người tiêm</option>
-                                            <option th:each="nguoiDung : ${dsNguoiDung}"
-                                                    th:value="${nguoiDung.maNguoiDung}"
-                                                    th:text="${nguoiDung.maNguoiDung + ' - ' + nguoiDung.tenNguoiDung}">
-                                            </option>
-                                        </select>
-                                        <span th:if="${#fields.hasErrors('maNguoiDung')}" th:errors="*{maNguoiDung}" class="text-danger"></span>
+
+                                        <div th:if="${nguoiDung != null}">
+                                            <input type="text" id="nguoiDung2" name="nguoiDung2"
+                                                   th:value="${nguoiDung.tenNguoiDung}"
+                                                   class="form-control" readonly />
+                                        </div>
+                                        <div th:unless="${nguoiDung != null}">
+                                            <select id="nguoiDung" name="maNguoiDung" class="form-select" onchange="updateMaNguoiDung()">
+                                                <option value="" disabled selected>Chọn người tiêm</option>
+                                                <option th:each="nguoiDung : ${dsNguoiDung}"
+                                                        th:value="${nguoiDung.maNguoiDung}"
+                                                        th:text="${nguoiDung.maNguoiDung + ' - ' + nguoiDung.tenNguoiDung}">
+                                                </option>
+                                            </select>
+                                            <span th:if="${#fields.hasErrors('maNguoiDung')}" th:errors="*{maNguoiDung}" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="muiTiemSo">Mũi Tiêm Số:</label>
+                                        <input type="number" class="form-control" id="muiTiemSo" th:field="*{muiTiemSo}" required min="1">
+                                        <span th:if="${#fields.hasErrors('muiTiemSo')}" th:errors="*{muiTiemSo}" class="text-danger"></span>
                                     </div>
                                 </div>
                             </div>

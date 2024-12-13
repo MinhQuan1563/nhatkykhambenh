@@ -1,6 +1,9 @@
 package com.nhom27.nhatkykhambenh.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nhom27.nhatkykhambenh.model.ChiSo;
+import com.nhom27.nhatkykhambenh.model.ChiTietChiSo;
+import com.nhom27.nhatkykhambenh.model.TongQuan;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,4 +26,5 @@ public class ChiTietChiSoDTO {
     private Date thoiGianDo;
 
     private String ketQuaDo;
+
 }

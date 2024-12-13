@@ -3,6 +3,7 @@ package com.nhom27.nhatkykhambenh.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,6 +23,9 @@ public class ChiTietKhamBenh {
     @Column(name = "KhoaKham", length = 250)
     private String khoaKham;
 
+    @Column(name = "ThoiGianVaoKham")
+    private LocalDateTime thoiGianVaoKham;
+
     @Column(name = "BacSiKham", length = 250)
     private String bacSiKham;
 
@@ -34,17 +38,15 @@ public class ChiTietKhamBenh {
     @Column(name = "NhomMau", length = 250)
     private String nhomMau;
 
+    @Column(name = "TinhTrang", length = 250)
+    private String tinhTrang;
+
     @Column(name = "TrangThai")
     private Boolean trangThai;
 
     @ManyToOne
     @JoinColumn(name = "MaKhamBenh", nullable = true)
     private KhamBenh khamBenh;
-
-    @OneToOne(mappedBy = "chiTietKhamBenh")
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    private DonThuoc donThuoc;
 
     @OneToMany(mappedBy = "chiTietKhamBenh",cascade = CascadeType.ALL)
     private Set<HinhAnh> danhSachHinhAnh = new HashSet<>();
