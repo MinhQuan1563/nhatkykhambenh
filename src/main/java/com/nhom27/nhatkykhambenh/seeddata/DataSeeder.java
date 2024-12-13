@@ -253,16 +253,16 @@ DataSeeder implements CommandLineRunner {
                     if (nguoiDung.getMaNguoiDung() != 1) { // Bỏ qua người dùng đầu tiên
                         List<ChiTietTiemChung> chiTietTiemChungList = new ArrayList<>();
 
-                        chiTietTiemChungList.add(new ChiTietTiemChung(tiemChungList.get(2).getMaTiemChung(), nguoiDung.getMaNguoiDung(), LocalDateTime.of(2024, 1, 15, 10, 0), "Bác sĩ Nguyễn Văn A", "1", true, tiemChungList.get(2), nguoiDung));
-                        chiTietTiemChungList.add(new ChiTietTiemChung(tiemChungList.get(9).getMaTiemChung(), nguoiDung.getMaNguoiDung(), LocalDateTime.of(2024, 1, 20, 10, 0), "Bác sĩ Lê Thị B", "1", true, tiemChungList.get(9), nguoiDung));
+                        chiTietTiemChungList.add(new ChiTietTiemChung(tiemChungList.get(2).getMaTiemChung(), nguoiDung.getMaNguoiDung(), LocalDateTime.of(2024, 1, 15, 10, 0), "Bác sĩ Nguyễn Văn A", "1", false, tiemChungList.get(2), nguoiDung));
+                        chiTietTiemChungList.add(new ChiTietTiemChung(tiemChungList.get(9).getMaTiemChung(), nguoiDung.getMaNguoiDung(), LocalDateTime.of(2024, 1, 20, 10, 0), "Bác sĩ Lê Thị B", "1", false, tiemChungList.get(9), nguoiDung));
                         chiTietTiemChungList.add(new ChiTietTiemChung(tiemChungList.get(1).getMaTiemChung(), nguoiDung.getMaNguoiDung(), LocalDateTime.of(2024, 2, 1, 10, 0), "Bác sĩ Trần Văn C", "1", false, tiemChungList.get(1), nguoiDung));
-                        chiTietTiemChungList.add(new ChiTietTiemChung(tiemChungList.get(3).getMaTiemChung(), nguoiDung.getMaNguoiDung(), LocalDateTime.of(2024, 2, 5, 10, 0), "Bác sĩ Nguyễn Thị D", "1", true, tiemChungList.get(3), nguoiDung));
-                        chiTietTiemChungList.add(new ChiTietTiemChung(tiemChungList.get(4).getMaTiemChung(), nguoiDung.getMaNguoiDung(), LocalDateTime.of(2024, 3, 10, 10, 0), "Bác sĩ Lê Văn E", "1", true, tiemChungList.get(4), nguoiDung));
-                        chiTietTiemChungList.add(new ChiTietTiemChung(tiemChungList.get(5).getMaTiemChung(), nguoiDung.getMaNguoiDung(), LocalDateTime.of(2024, 3, 20, 10, 0), "Bác sĩ Trần Thị F", "1", true, tiemChungList.get(5), nguoiDung));
+                        chiTietTiemChungList.add(new ChiTietTiemChung(tiemChungList.get(3).getMaTiemChung(), nguoiDung.getMaNguoiDung(), LocalDateTime.of(2024, 2, 5, 10, 0), "Bác sĩ Nguyễn Thị D", "1", false, tiemChungList.get(3), nguoiDung));
+                        chiTietTiemChungList.add(new ChiTietTiemChung(tiemChungList.get(4).getMaTiemChung(), nguoiDung.getMaNguoiDung(), LocalDateTime.of(2024, 3, 10, 10, 0), "Bác sĩ Lê Văn E", "1", false, tiemChungList.get(4), nguoiDung));
+                        chiTietTiemChungList.add(new ChiTietTiemChung(tiemChungList.get(5).getMaTiemChung(), nguoiDung.getMaNguoiDung(), LocalDateTime.of(2024, 3, 20, 10, 0), "Bác sĩ Trần Thị F", "1", false, tiemChungList.get(5), nguoiDung));
                         chiTietTiemChungList.add(new ChiTietTiemChung(tiemChungList.get(6).getMaTiemChung(), nguoiDung.getMaNguoiDung(), LocalDateTime.of(2024, 4, 1, 10, 0), "Bác sĩ Nguyễn Văn G", "1", false, tiemChungList.get(6), nguoiDung));
-                        chiTietTiemChungList.add(new ChiTietTiemChung(tiemChungList.get(7).getMaTiemChung(), nguoiDung.getMaNguoiDung(), LocalDateTime.of(2024, 4, 15, 10, 0), "Bác sĩ Lê Thị H", "2", true, tiemChungList.get(7), nguoiDung));
-                        chiTietTiemChungList.add(new ChiTietTiemChung(tiemChungList.get(10).getMaTiemChung(), nguoiDung.getMaNguoiDung(), LocalDateTime.of(2024, 5, 1, 10, 0), "Bác sĩ Trần Văn I", "1", true, tiemChungList.get(10), nguoiDung));
-                        chiTietTiemChungList.add(new ChiTietTiemChung(tiemChungList.get(10).getMaTiemChung(), nguoiDung.getMaNguoiDung(), LocalDateTime.of(2024, 5, 20, 10, 0), "Bác sĩ Nguyễn Văn J", "2", true, tiemChungList.get(10), nguoiDung));
+                        chiTietTiemChungList.add(new ChiTietTiemChung(tiemChungList.get(7).getMaTiemChung(), nguoiDung.getMaNguoiDung(), LocalDateTime.of(2024, 4, 15, 10, 0), "Bác sĩ Lê Thị H", "2", false, tiemChungList.get(7), nguoiDung));
+                        chiTietTiemChungList.add(new ChiTietTiemChung(tiemChungList.get(10).getMaTiemChung(), nguoiDung.getMaNguoiDung(), LocalDateTime.of(2024, 5, 1, 10, 0), "Bác sĩ Trần Văn I", "1", false, tiemChungList.get(10), nguoiDung));
+                        chiTietTiemChungList.add(new ChiTietTiemChung(tiemChungList.get(10).getMaTiemChung(), nguoiDung.getMaNguoiDung(), LocalDateTime.of(2024, 5, 20, 10, 0), "Bác sĩ Nguyễn Văn J", "2", false, tiemChungList.get(10), nguoiDung));
 
                         chiTietTiemChungRepo.saveAll(chiTietTiemChungList);
                         System.out.println("Saved " + chiTietTiemChungList.size() + " ChiTietTiemChung records for user " + nguoiDung.getMaNguoiDung());

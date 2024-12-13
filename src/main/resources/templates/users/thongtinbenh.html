@@ -27,6 +27,7 @@
 
             <div class="image-container" th:if="${thongTinBenh.dsHinhAnh != null and !#lists.isEmpty(thongTinBenh.dsHinhAnh)}">
                 <img id="mainImage" th:src="${thongTinBenh.dsHinhAnh[0]?.hinhAnh}" alt="Hình ảnh bệnh" class="main-image">
+
                 <div class="thumbnail-navigation">
                     <div class="nav-buttons">
                         <button class="prev" onclick="prevImage()">&lt;</button>
@@ -138,4 +139,33 @@
             updateMainImage(0);
         }
     }
+
+    // let currentIndex = 0;
+    // const thumbnails = document.querySelectorAll('.thumbnail-container img');
+    // const mainImage = document.getElementById('mainImage');
+    //
+    // thumbnails[currentIndex].classList.add('thumbnail-active');
+    //
+    // thumbnails.forEach((thumbnail, index) => {
+    //     thumbnail.addEventListener('click', () => {
+    //         updateMainImage(index);
+    //     });
+    // });
+    //
+    // function updateMainImage(index) {
+    //     thumbnails[currentIndex].classList.remove('thumbnail-active');
+    //     currentIndex = index;
+    //     mainImage.src = thumbnails[index].dataset.src;
+    //     thumbnails[currentIndex].classList.add('thumbnail-active');
+    // }
+    //
+    // function prevImage() {
+    //     const prevIndex = (currentIndex - 1 + thumbnails.length) % thumbnails.length;
+    //     updateMainImage(prevIndex);
+    // }
+    //
+    // function nextImage() {
+    //     const nextIndex = (currentIndex + 1) % thumbnails.length;
+    //     updateMainImage(nextIndex);
+    // }
 </script>
